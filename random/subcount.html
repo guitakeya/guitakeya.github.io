@@ -2008,6 +2008,393 @@ body {
         #765469;
 }
 
+
+
+/* =========================================================
+   MANUAL DASHBOARD PAGES
+========================================================= */
+
+.page-layer {
+    touch-action: pan-y;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 960px;
+    height: 480px;
+    overflow: hidden;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.extra-page {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 960px;
+    height: 480px;
+    padding: 26px;
+    display: block;
+    overflow: hidden;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    transform: translate3d(34px,0,0) scale(.985);
+    transition: opacity .34s ease, transform .42s cubic-bezier(.22,.61,.36,1), visibility 0s linear .42s;
+    will-change: opacity, transform;
+}
+
+.extra-page.active {
+    pointer-events: auto;
+    visibility: visible;
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+    transition: opacity .34s ease, transform .42s cubic-bezier(.22,.61,.36,1), visibility 0s;
+}
+
+.dashboard {
+    transition: opacity .34s ease, transform .42s cubic-bezier(.22,.61,.36,1);
+    will-change: opacity, transform;
+}
+
+.dashboard.page-main-hidden {
+    opacity: 0;
+    transform: translate3d(-34px,0,0) scale(.985);
+    pointer-events: none;
+}
+
+.dashboard.page-main-visible {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+}
+
+.extra-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 15% 15%, var(--glow), transparent 30%),
+        radial-gradient(circle at 88% 85%, var(--glow2), transparent 34%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+    background-size: auto, auto, 180% 180%;
+    animation: pageAtmosphere 14s ease-in-out infinite alternate;
+    z-index: -2;
+}
+
+.extra-page::after {
+    content: "";
+    position: absolute;
+    inset: 18px;
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 28px;
+    background:
+        repeating-linear-gradient(90deg, rgba(255,255,255,.025) 0 1px, transparent 1px 48px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 48px),
+        rgba(10,5,15,.38);
+    background-size: 48px 48px, 48px 48px, auto;
+    box-shadow: 0 18px 60px rgba(0,0,0,.42), inset 0 0 50px rgba(255,255,255,.025);
+    z-index: -1;
+}
+
+
+@keyframes pageAtmosphere {
+    0% { background-position: 0% 0%, 100% 100%, 0% 0%; }
+    100% { background-position: 22% 12%, 78% 88%, 100% 100%; }
+}
+
+.page-pink {
+    --bg1: #170612;
+    --bg2: #3a092b;
+    --glow: rgba(255,55,180,.28);
+    --glow2: rgba(255,140,220,.16);
+    --accent: #ff72c5;
+}
+
+.page-blue {
+    --bg1: #06111c;
+    --bg2: #092d42;
+    --glow: rgba(50,190,255,.24);
+    --glow2: rgba(90,120,255,.16);
+    --accent: #72d9ff;
+}
+
+.page-purple {
+    --bg1: #0c0619;
+    --bg2: #24103e;
+    --glow: rgba(150,80,255,.24);
+    --glow2: rgba(220,80,255,.14);
+    --accent: #c08cff;
+}
+
+.page-yellow {
+    --bg1: #191204;
+    --bg2: #3a2605;
+    --glow: rgba(255,190,45,.25);
+    --glow2: rgba(255,120,35,.13);
+    --accent: #ffd36a;
+}
+
+.page-header {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 12px 28px 0;
+}
+
+.page-kicker {
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.48);
+}
+
+.page-title {
+    margin-top: 4px;
+    font-size: 35px;
+    font-weight: 950;
+    letter-spacing: -1px;
+    color: white;
+    text-shadow: 0 0 25px var(--glow);
+}
+
+.page-content {
+    position: relative;
+    height: 280px;
+    margin: 10px 28px 0;
+}
+
+.stat-card {
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 18px;
+    background: rgba(0,0,0,.22);
+    box-shadow: inset 0 0 30px rgba(255,255,255,.018);
+}
+
+.activity-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    height: 150px;
+}
+
+.activity-card {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.activity-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,.45);
+}
+
+.activity-value {
+    margin-top: 8px;
+    font-size: 31px;
+    font-weight: 950;
+    color: var(--accent);
+}
+
+.activity-note {
+    margin-top: 5px;
+    font-size: 13px;
+    color: rgba(255,255,255,.55);
+}
+
+.activity-wide {
+    margin-top: 16px;
+    height: 150px;
+    padding: 22px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.activity-wide .big {
+    font-size: 27px;
+    font-weight: 900;
+}
+
+.activity-wide .muted {
+    color: rgba(255,255,255,.48);
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.history-layout {
+    display: grid;
+    grid-template-columns: 1fr 235px;
+    gap: 18px;
+    height: 300px;
+}
+
+.graph-card {
+    padding: 14px 16px 10px;
+    min-width: 0;
+}
+
+#historyGraph {
+    display: block;
+    width: 100%;
+    height: 250px;
+}
+
+.graph-side {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.graph-stat {
+    margin-bottom: 18px;
+}
+
+.graph-stat:last-child { margin-bottom: 0; }
+
+.graph-stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,.42);
+}
+
+.graph-stat-value {
+    margin-top: 4px;
+    font-size: 25px;
+    font-weight: 950;
+    color: var(--accent);
+}
+
+.graph-stat-note {
+    font-size: 12px;
+    color: rgba(255,255,255,.45);
+}
+
+.facts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    height: 245px;
+    grid-template-rows: 1fr 1fr;
+}
+
+.fact-card {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.fact-icon {
+    font-size: 26px;
+}
+
+.fact-label {
+    margin-top: 6px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,.42);
+}
+
+.fact-value {
+    margin-top: 4px;
+    font-size: 23px;
+    font-weight: 900;
+    color: var(--accent);
+}
+
+.fact-note {
+    margin-top: 3px;
+    font-size: 12px;
+    line-height: 1.35;
+    color: rgba(255,255,255,.56);
+}
+
+.page-nav {
+    position: absolute;
+    left: 50%;
+    bottom: 12px;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    z-index: 30;
+    pointer-events: auto;
+}
+
+.page-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.25);
+    transition: .2s ease;
+}
+
+.page-dot.active {
+    width: 26px;
+    border-radius: 999px;
+    background: #ff72c5;
+    box-shadow: 0 0 12px rgba(255,90,190,.6);
+}
+
+.page-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 45px;
+    height: 80px;
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 16px;
+    background: rgba(0,0,0,.24);
+    color: rgba(255,255,255,.72);
+    cursor: pointer;
+    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+    font-size: 28px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+}
+
+.page-arrow.left { left: 8px; }
+.page-arrow.right { right: 8px; }
+.page-arrow:hover {
+    background: rgba(255,255,255,.08);
+    box-shadow: 0 0 18px rgba(255,255,255,.08);
+}
+.page-arrow:active {
+    transform: translateY(-50%) scale(.94);
+}
+
+.page-number {
+    position: absolute;
+    right: 46px;
+    bottom: 25px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,.38);
+}
+
+.page-hint {
+    position: absolute;
+    left: 46px;
+    bottom: 25px;
+    font-size: 11px;
+    color: rgba(255,255,255,.34);
+}
+
+@media (max-width: 960px) {
+    html, body { transform-origin: top left; }
+}
+
 </style>
 
 </head>
@@ -2314,6 +2701,140 @@ body {
     </div>
 
 
+</div>
+
+
+
+
+<!-- =======================================================
+     MANUAL PAGE SYSTEM
+======================================================= -->
+<div class="page-layer" id="pageLayer">
+
+    <!-- PAGE 2: CHANNEL ACTIVITY -->
+    <section class="extra-page page-blue" data-page="1">
+        <div class="page-header">
+            <div>
+                <div class="page-kicker">GuiTakeya • Page 2</div>
+                <div class="page-title">Channel Activity</div>
+            </div>
+            <div class="page-kicker">Tracking data</div>
+        </div>
+
+        <div class="page-content">
+            <div class="activity-grid">
+                <div class="stat-card activity-card">
+                    <div class="activity-label">Tracking since</div>
+                    <div class="activity-value" id="trackingSince">—</div>
+                    <div class="activity-note" id="trackingSinceNote">First snapshot</div>
+                </div>
+                <div class="stat-card activity-card">
+                    <div class="activity-label">Snapshots</div>
+                    <div class="activity-value" id="snapshotCount">—</div>
+                    <div class="activity-note">Saved automatically</div>
+                </div>
+                <div class="stat-card activity-card">
+                    <div class="activity-label">Data span</div>
+                    <div class="activity-value" id="trackingSpan">—</div>
+                    <div class="activity-note">From first to latest</div>
+                </div>
+            </div>
+
+            <div class="stat-card activity-wide">
+                <div>
+                    <div class="activity-label">Latest snapshot</div>
+                    <div class="big" id="latestSnapshot">—</div>
+                    <div class="muted">GitHub Actions automatically records channel data twice a day.</div>
+                </div>
+                <div style="font-size:48px">💾</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE 3: HISTORY GRAPH -->
+    <section class="extra-page page-purple" data-page="2">
+        <div class="page-header">
+            <div>
+                <div class="page-kicker">GuiTakeya • Page 3</div>
+                <div class="page-title">Channel History</div>
+            </div>
+            <div class="page-kicker">Since tracking began</div>
+        </div>
+
+        <div class="page-content history-layout">
+            <div class="stat-card graph-card">
+                <canvas id="historyGraph" width="650" height="250"></canvas>
+            </div>
+            <div class="stat-card graph-side">
+                <div class="graph-stat">
+                    <div class="graph-stat-label">Subscribers</div>
+                    <div class="graph-stat-value" id="historySubs">—</div>
+                    <div class="graph-stat-note" id="historySubsChange">—</div>
+                </div>
+                <div class="graph-stat">
+                    <div class="graph-stat-label">Views</div>
+                    <div class="graph-stat-value" id="historyViews">—</div>
+                    <div class="graph-stat-note" id="historyViewsChange">—</div>
+                </div>
+                <div class="graph-stat">
+                    <div class="graph-stat-label">Videos</div>
+                    <div class="graph-stat-value" id="historyVideos">—</div>
+                    <div class="graph-stat-note" id="historyVideosChange">—</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE 4: CHANNEL FACTS -->
+    <section class="extra-page page-yellow" data-page="3">
+        <div class="page-header">
+            <div>
+                <div class="page-kicker">GuiTakeya • Page 4</div>
+                <div class="page-title">Channel Facts</div>
+            </div>
+            <div class="page-kicker">Little things from the data</div>
+        </div>
+
+        <div class="page-content facts-grid">
+            <div class="stat-card fact-card">
+                <div class="fact-icon">📈</div>
+                <div class="fact-label">Subscriber growth</div>
+                <div class="fact-value" id="factSubGrowth">—</div>
+                <div class="fact-note">Change since the first snapshot.</div>
+            </div>
+            <div class="stat-card fact-card">
+                <div class="fact-icon">👀</div>
+                <div class="fact-label">View growth</div>
+                <div class="fact-value" id="factViewGrowth">—</div>
+                <div class="fact-note">Additional views since tracking began.</div>
+            </div>
+            <div class="stat-card fact-card">
+                <div class="fact-icon">🎬</div>
+                <div class="fact-label">Videos added</div>
+                <div class="fact-value" id="factVideoGrowth">—</div>
+                <div class="fact-note">New videos detected by the snapshots.</div>
+            </div>
+            <div class="stat-card fact-card">
+                <div class="fact-icon">🚀</div>
+                <div class="fact-label">Next goal</div>
+                <div class="fact-value" id="factNextGoal">—</div>
+                <div class="fact-note" id="factGoalNote">Keep going!</div>
+            </div>
+        </div>
+    </section>
+
+    <button class="page-arrow left" id="pagePrev" aria-label="Previous page">‹</button>
+    <button class="page-arrow right" id="pageNext" aria-label="Next page">›</button>
+
+    <div class="page-nav" id="pageNav">
+        <div class="page-dot active"></div>
+        <div class="page-dot"></div>
+        <div class="page-dot"></div>
+        <div class="page-dot"></div>
+    </div>
+
+    <div class="page-hint">Swipe or use the arrows</div>
+    <div class="page-number" id="pageNumber">1 / 4</div>
 </div>
 
 
@@ -3324,6 +3845,340 @@ renderSlide();
 
 </script>
 
+
+
+
+<script>
+/* =========================================================
+   MANUAL FOUR-PAGE DASHBOARD
+
+   Page 1 = existing dashboard
+   Page 2 = activity/tracking info
+   Page 3 = historical graph
+   Page 4 = channel facts
+
+   Pages are switched manually. Nothing auto-rotates here.
+========================================================= */
+
+(function () {
+    const pages = Array.from(document.querySelectorAll('.extra-page'));
+    const dots = Array.from(document.querySelectorAll('.page-dot'));
+    const prev = document.getElementById('pagePrev');
+    const next = document.getElementById('pageNext');
+    const pageNumber = document.getElementById('pageNumber');
+    const pageLayer = document.getElementById('pageLayer');
+
+    let pageIndex = 0;
+    let historyData = [];
+
+    function setPage(index, direction = 1) {
+        pageIndex = (index + 4) % 4;
+
+        // Page 1 is the original dashboard. It now participates in
+        // the same transition instead of sitting underneath the
+        // extra pages and flashing between frames.
+        const dashboard = document.querySelector('.dashboard');
+
+        if (dashboard) {
+            dashboard.classList.toggle('page-main-visible', pageIndex === 0);
+            dashboard.classList.toggle('page-main-hidden', pageIndex !== 0);
+        }
+
+        pages.forEach((page, i) => {
+            const shouldShow = i === pageIndex - 1;
+            page.classList.toggle('active', shouldShow);
+            page.classList.remove('page-enter-left', 'page-enter-right');
+
+            if (shouldShow) {
+                page.classList.add(
+                    direction < 0
+                        ? 'page-enter-left'
+                        : 'page-enter-right'
+                );
+            }
+        });
+
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === pageIndex));
+        pageNumber.textContent = `${pageIndex + 1} / 4`;
+
+        if (pageIndex === 2) drawHistoryGraph();
+        updateExtraPages();
+    }
+
+
+    function nextPage() { setPage(pageIndex + 1, 1); }
+    function previousPage() { setPage(pageIndex - 1, -1); }
+
+    prev.addEventListener('click', previousPage);
+    next.addEventListener('click', nextPage);
+
+    // Touch/swipe navigation for Alexa/Silk.
+    let touchStartX = null;
+    let touchStartY = null;
+
+    pageLayer.addEventListener('touchstart', function (event) {
+        if (!event.touches || !event.touches[0]) return;
+        touchStartX = event.touches[0].clientX;
+        touchStartY = event.touches[0].clientY;
+    }, { passive: true });
+
+    pageLayer.addEventListener('touchend', function (event) {
+        if (touchStartX === null || !event.changedTouches || !event.changedTouches[0]) return;
+
+        const dx = event.changedTouches[0].clientX - touchStartX;
+        const dy = event.changedTouches[0].clientY - touchStartY;
+
+        touchStartX = null;
+        touchStartY = null;
+
+        if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+
+        if (dx < 0) nextPage();
+        else previousPage();
+    }, { passive: true });
+
+    // Keyboard is useful while testing on PC.
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'ArrowRight') nextPage();
+        if (event.key === 'ArrowLeft') previousPage();
+    });
+
+    function formatDate(iso) {
+        if (!iso) return '—';
+        const d = new Date(iso);
+        if (Number.isNaN(d.getTime())) return '—';
+        return d.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function formatDateTime(iso) {
+        if (!iso) return '—';
+        const d = new Date(iso);
+        if (Number.isNaN(d.getTime())) return '—';
+        return d.toLocaleString([], {
+            month: 'short', day: 'numeric', year: 'numeric',
+            hour: 'numeric', minute: '2-digit'
+        });
+    }
+
+    function signed(value) {
+        if (value > 0) return '+' + value.toLocaleString();
+        return value.toLocaleString();
+    }
+
+    function updateExtraPages() {
+        if (!historyData || historyData.length === 0) return;
+
+        const first = historyData[0];
+        const last = historyData[historyData.length - 1];
+
+        const subGrowth = Number(last.subscribers || 0) - Number(first.subscribers || 0);
+        const viewGrowth = Number(last.views || 0) - Number(first.views || 0);
+        const videoGrowth = Number(last.videos || 0) - Number(first.videos || 0);
+
+        const firstDate = new Date(first.timestamp);
+        const lastDate = new Date(last.timestamp);
+        const spanMs = Math.max(0, lastDate - firstDate);
+        const spanHours = spanMs / 3600000;
+        const spanDays = Math.floor(spanHours / 24);
+
+        document.getElementById('trackingSince').textContent = formatDate(first.timestamp);
+        document.getElementById('trackingSinceNote').textContent = formatDateTime(first.timestamp);
+        document.getElementById('snapshotCount').textContent = historyData.length.toLocaleString();
+        document.getElementById('trackingSpan').textContent = spanDays > 0 ? `${spanDays}d` : `${Math.max(0, Math.floor(spanHours))}h`;
+        document.getElementById('latestSnapshot').textContent = formatDateTime(last.timestamp);
+
+        document.getElementById('historySubs').textContent = Number(last.subscribers || 0).toLocaleString();
+        document.getElementById('historyViews').textContent = Number(last.views || 0).toLocaleString();
+        document.getElementById('historyVideos').textContent = Number(last.videos || 0).toLocaleString();
+        document.getElementById('historySubsChange').textContent = signed(subGrowth) + ' since start';
+        document.getElementById('historyViewsChange').textContent = signed(viewGrowth) + ' since start';
+        document.getElementById('historyVideosChange').textContent = signed(videoGrowth) + ' since start';
+
+        document.getElementById('factSubGrowth').textContent = signed(subGrowth);
+        document.getElementById('factViewGrowth').textContent = signed(viewGrowth);
+        document.getElementById('factVideoGrowth').textContent = signed(videoGrowth);
+
+        const subs = Number(last.subscribers || 0);
+        let goal = Math.ceil((subs + 1) / 100) * 100;
+        if (subs < 100) goal = 100;
+        document.getElementById('factNextGoal').textContent = goal.toLocaleString();
+        document.getElementById('factGoalNote').textContent = `${(goal - subs).toLocaleString()} more subscribers to go.`;
+    }
+
+    async function loadHistory() {
+        try {
+            const response = await fetch('channel-data.json?history=' + Date.now(), { cache: 'no-store' });
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            const data = await response.json();
+
+            // Use the saved history when available. If the file only has
+            // current data (or history is empty), turn current into a first
+            // snapshot so Page 3 never appears empty.
+            if (Array.isArray(data.history) && data.history.length > 0) {
+                historyData = data.history.filter(item => item && item.timestamp);
+            } else if (data.current) {
+                historyData = [{
+                    timestamp: data.updatedAt || new Date().toISOString(),
+                    subscribers: Number(data.current.subscribers || 0),
+                    views: Number(data.current.views || 0),
+                    videos: Number(data.current.videos || 0)
+                }];
+            } else {
+                historyData = [];
+            }
+
+            updateExtraPages();
+            drawHistoryGraph();
+        } catch (error) {
+            console.error('History page error:', error);
+        }
+    }
+
+    function drawHistoryGraph() {
+        const canvas = document.getElementById('historyGraph');
+        if (!canvas) return;
+
+        const rect = canvas.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const width = Math.max(1, Math.floor(rect.width * dpr));
+        const height = Math.max(1, Math.floor(rect.height * dpr));
+
+        if (canvas.width !== width || canvas.height !== height) {
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        const ctx = canvas.getContext('2d');
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const w = rect.width;
+        const h = rect.height;
+        ctx.clearRect(0, 0, w, h);
+
+        const pad = { left: 42, right: 15, top: 20, bottom: 30 };
+        const gw = w - pad.left - pad.right;
+        const gh = h - pad.top - pad.bottom;
+
+        // Empty/one-point states still look intentional.
+        const points = historyData;
+        const values = points.map(p => Number(p.subscribers || 0));
+        let min = values.length ? Math.min(...values) : 0;
+        let max = values.length ? Math.max(...values) : 100;
+
+        if (min === max) {
+            const margin = Math.max(5, Math.ceil(max * 0.03));
+            min -= margin;
+            max += margin;
+        } else {
+            const margin = Math.max(2, (max - min) * 0.15);
+            min -= margin;
+            max += margin;
+        }
+
+        // Grid.
+        ctx.font = '11px Segoe UI, Arial, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+
+        for (let i = 0; i <= 4; i++) {
+            const y = pad.top + gh * (i / 4);
+            const value = max - (max - min) * (i / 4);
+            ctx.strokeStyle = 'rgba(255,255,255,.09)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(pad.left, y);
+            ctx.lineTo(w - pad.right, y);
+            ctx.stroke();
+            ctx.fillStyle = 'rgba(255,255,255,.35)';
+            ctx.fillText(Math.round(value).toLocaleString(), pad.left - 8, y);
+        }
+
+        if (!points.length) {
+            ctx.textAlign = 'center';
+            ctx.fillStyle = 'rgba(255,255,255,.45)';
+            ctx.font = '16px Segoe UI, Arial, sans-serif';
+            ctx.fillText('Waiting for the first snapshot...', w / 2, h / 2);
+            return;
+        }
+
+        const xFor = i => points.length === 1
+            ? pad.left + gw / 2
+            : pad.left + gw * (i / (points.length - 1));
+        const yFor = value => pad.top + gh - ((value - min) / (max - min)) * gh;
+
+        // Fill.
+        const firstX = xFor(0);
+        const lastX = xFor(points.length - 1);
+        ctx.beginPath();
+        points.forEach((p, i) => {
+            const x = xFor(i);
+            const y = yFor(Number(p.subscribers || 0));
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.lineTo(lastX, pad.top + gh);
+        ctx.lineTo(firstX, pad.top + gh);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(192,140,255,.12)';
+        ctx.fill();
+
+        // Line.
+        ctx.beginPath();
+        points.forEach((p, i) => {
+            const x = xFor(i);
+            const y = yFor(Number(p.subscribers || 0));
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.strokeStyle = '#c08cff';
+        ctx.lineWidth = 3;
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        // Points.
+        points.forEach((p, i) => {
+            const x = xFor(i);
+            const y = yFor(Number(p.subscribers || 0));
+            ctx.beginPath();
+            ctx.arc(x, y, points.length > 20 ? 2.5 : 4, 0, Math.PI * 2);
+            ctx.fillStyle = '#f3ddff';
+            ctx.fill();
+            ctx.strokeStyle = '#c08cff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        });
+
+        // With only one snapshot, make it obvious that tracking has just
+        // started instead of looking like a broken/empty graph.
+        if (points.length === 1) {
+            ctx.font = '700 13px Segoe UI, Arial, sans-serif';
+            ctx.fillStyle = 'rgba(255,255,255,.65)';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            ctx.fillText('First snapshot • tracking started', w / 2, h - 2);
+        }
+
+        // Start/end labels.
+        ctx.font = '10px Segoe UI, Arial, sans-serif';
+        ctx.fillStyle = 'rgba(255,255,255,.32)';
+        ctx.textBaseline = 'top';
+        ctx.textAlign = 'left';
+        ctx.fillText(formatDate(points[0].timestamp), pad.left, h - 19);
+        ctx.textAlign = 'right';
+        ctx.fillText(formatDate(points[points.length - 1].timestamp), w - pad.right, h - 19);
+    }
+
+    window.addEventListener('resize', drawHistoryGraph);
+
+    // Page 1 is the starting screen.
+    setPage(0);
+    loadHistory();
+
+    // Refresh historical JSON without changing the current page.
+    setInterval(loadHistory, 30000);
+})();
+</script>
 
 </body>
 </html>
