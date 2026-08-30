@@ -1,2058 +1,586 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=960, height=480, initial-scale=1.0">
 
-<meta charset="UTF-8">
+    <title>GuiTakeya Live Sub Count</title>
 
-<meta
-    name="viewport"
-    content="width=960, height=480, initial-scale=1.0"
->
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-<title>GuiTakeya Live Dashboard</title>
+        html,
+        body {
+            width: 960px;
+            height: 480px;
 
+            margin: 0;
+            padding: 0;
 
-<style>
+            overflow: hidden;
 
-/* =========================================================
-   GLOBAL
-========================================================= */
+            background: #08030b;
+        }
 
-* {
-    box-sizing: border-box;
-}
+        body {
+            position: relative;
 
-html,
-body {
+            color: white;
 
-    width: 960px;
-    height: 480px;
+            font-family:
+                "Segoe UI",
+                Tahoma,
+                Geneva,
+                Verdana,
+                sans-serif;
 
-    margin: 0;
-    padding: 0;
+            user-select: none;
+        }
 
-    overflow: hidden;
 
-    font-family:
-        "Segoe UI",
-        Tahoma,
-        Arial,
-        sans-serif;
+        /* =====================================================
+           BACKGROUND VIDEO
+        ===================================================== */
 
-    color: white;
+        #backgroundVideo {
+            position: fixed;
 
-    background:
-        #080308;
-}
+            top: 0;
+            left: 0;
 
+            width: 960px;
+            height: 480px;
 
-/* =========================================================
-   BACKGROUND VIEWPORT
+            min-width: 960px;
+            min-height: 480px;
 
-   IMPORTANT:
-   EVERYTHING IN HERE IS CLIPPED TO 960x480.
-   This prevents Alexa/Silk from showing the grid/shapes
-   outside the intended screen.
-========================================================= */
+            max-width: 960px;
+            max-height: 480px;
 
-.background {
+            object-fit: cover;
 
-    position: fixed;
+            z-index: 0;
 
-    left: 0;
-    top: 0;
+            pointer-events: none;
 
-    width: 960px;
-    height: 480px;
+            background: #08030b;
+        }
 
-    overflow: hidden;
 
-    border-radius: 22px;
+        /* Dark overlay so text stays readable */
+        .backgroundOverlay {
+            position: fixed;
 
-    pointer-events: none;
+            top: 0;
+            left: 0;
 
-    z-index: 0;
+            width: 960px;
+            height: 480px;
 
-    clip-path:
-        inset(
-            0
-            round
-            22px
-        );
-}
+            z-index: 1;
 
+            pointer-events: none;
 
-/* =========================================================
-   BACKGROUND GRADIENT
-========================================================= */
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(20, 0, 25, 0.48),
+                    rgba(0, 0, 0, 0.30)
+                );
+        }
 
-.background::before {
 
-    content: "";
+        /* =====================================================
+           MAIN CONTAINER
+        ===================================================== */
 
-    position: absolute;
+        .screen {
+            position: relative;
 
-    left: 0;
-    top: 0;
+            width: 960px;
+            height: 480px;
 
-    width: 960px;
-    height: 480px;
+            overflow: hidden;
 
-    background:
-        radial-gradient(
-            circle at 20% 10%,
-            rgba(255, 0, 150, .18),
-            transparent 32%
-        ),
+            z-index: 2;
+        }
 
-        radial-gradient(
-            circle at 85% 80%,
-            rgba(180, 0, 255, .17),
-            transparent 35%
-        ),
 
-        linear-gradient(
-            135deg,
-            #090309,
-            #160613 50%,
-            #090309
-        );
+        /* =====================================================
+           GLASS BOX
+        ===================================================== */
 
-    pointer-events: none;
-}
+        .glass {
+            background: rgba(20, 10, 25, 0.76);
 
+            border: 1px solid rgba(255, 150, 230, 0.30);
 
-/* =========================================================
-   GLOWING LIGHTS
-========================================================= */
+            border-radius: 20px;
 
-.light {
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.45),
+                inset 0 0 25px rgba(255, 100, 220, 0.035);
+        }
 
-    position: absolute;
 
-    border-radius: 50%;
+        /* =====================================================
+           TOP LEFT BRAND
+        ===================================================== */
 
-    pointer-events: none;
+        .brand {
+            position: absolute;
 
-    will-change: transform;
-}
+            left: 32px;
+            top: 25px;
 
+            width: 330px;
+            height: 90px;
 
-.light.one {
+            display: flex;
 
-    width: 300px;
-    height: 300px;
+            align-items: center;
 
-    left: -70px;
-    top: -70px;
+            gap: 18px;
 
-    background:
-        rgba(255, 0, 150, .22);
+            padding: 12px 18px;
 
-    filter:
-        blur(60px);
+            z-index: 5;
+        }
 
-    animation:
-        lightOne
-        18s
-        ease-in-out
-        infinite;
-}
 
+        .pfp {
+            width: 68px;
+            height: 68px;
 
-.light.two {
+            border-radius: 50%;
 
-    width: 280px;
-    height: 280px;
+            object-fit: cover;
 
-    left: 750px;
-    top: 270px;
+            border: 3px solid rgba(255, 170, 240, 0.75);
 
-    background:
-        rgba(180, 0, 255, .20);
+            box-shadow:
+                0 0 18px rgba(255, 100, 220, 0.45);
+        }
 
-    filter:
-        blur(60px);
 
-    animation:
-        lightTwo
-        22s
-        ease-in-out
-        infinite;
-}
+        .brandText {
+            display: flex;
 
+            flex-direction: column;
 
-.light.three {
+            justify-content: center;
+        }
 
-    width: 220px;
-    height: 220px;
 
-    left: 390px;
-    top: -80px;
+        .channelName {
+            font-size: 28px;
 
-    background:
-        rgba(255, 50, 190, .15);
+            font-weight: 800;
 
-    filter:
-        blur(55px);
+            line-height: 1;
 
-    animation:
-        lightThree
-        25s
-        ease-in-out
-        infinite;
-}
+            letter-spacing: 0.5px;
 
+            text-shadow:
+                0 0 14px rgba(255, 100, 220, 0.45);
+        }
 
-@keyframes lightOne {
 
-    0%,
-    100% {
+        .handle {
+            margin-top: 7px;
 
-        transform:
-            translate3d(
-                0,
-                0,
-                0
-            )
-            scale(1);
-    }
+            font-size: 17px;
 
-    50% {
+            color: rgba(255, 220, 250, 0.68);
+        }
 
-        transform:
-            translate3d(
-                120px,
-                80px,
-                0
-            )
-            scale(1.2);
-    }
-}
 
+        /* =====================================================
+           GREETING
+        ===================================================== */
 
-@keyframes lightTwo {
+        .greeting {
+            position: absolute;
 
-    0%,
-    100% {
+            right: 32px;
+            top: 28px;
 
-        transform:
-            translate3d(
-                0,
-                0,
-                0
-            )
-            scale(1);
-    }
+            font-size: 25px;
 
-    50% {
+            font-weight: 700;
 
-        transform:
-            translate3d(
-                -100px,
-                -70px,
-                0
-            )
-            scale(1.2);
-    }
-}
+            color: #ffd5f5;
 
+            text-align: right;
 
-@keyframes lightThree {
+            text-shadow:
+                0 0 14px rgba(255, 100, 220, 0.45);
 
-    0%,
-    100% {
+            z-index: 5;
+        }
 
-        transform:
-            translate3d(
-                0,
-                0,
-                0
-            );
-    }
 
-    50% {
+        /* =====================================================
+           LIVE INDICATOR
+        ===================================================== */
 
-        transform:
-            translate3d(
-                -70px,
-                100px,
-                0
-            );
-    }
-}
+        .live {
+            position: absolute;
 
+            right: 32px;
+            top: 68px;
 
-/* =========================================================
-   3D GRID
+            display: flex;
 
-   The grid itself can be larger than the viewport, but
-   .background clips it so it can NEVER escape 960x480.
-========================================================= */
+            align-items: center;
 
-.grid {
+            gap: 9px;
 
-    position: absolute;
+            padding: 7px 13px;
 
-    left: -40px;
-    top: 105px;
+            border-radius: 999px;
 
-    width: 1040px;
-    height: 430px;
+            background: rgba(255, 40, 90, 0.13);
 
-    opacity: .085;
+            border: 1px solid rgba(255, 80, 120, 0.32);
 
-    background-image:
+            color: #ff8fae;
 
-        linear-gradient(
-            rgba(255, 80, 190, .28)
-            1px,
-            transparent 1px
-        ),
+            font-size: 14px;
 
-        linear-gradient(
-            90deg,
-            rgba(255, 80, 190, .28)
-            1px,
-            transparent 1px
-        );
+            font-weight: 700;
 
-    background-size:
-        42px 42px;
+            z-index: 5;
+        }
 
-    transform:
-        perspective(350px)
-        rotateX(58deg);
 
-    transform-origin:
-        center center;
+        .liveDot {
+            width: 9px;
+            height: 9px;
 
-    animation:
-        gridMove
-        14s
-        linear
-        infinite;
+            border-radius: 50%;
 
-    will-change:
-        background-position;
-}
+            background: #ff426d;
 
+            box-shadow:
+                0 0 10px rgba(255, 50, 100, 0.9);
 
-@keyframes gridMove {
+            animation: pulse 1.5s infinite;
+        }
 
-    from {
 
-        background-position:
-            0 0;
-    }
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
 
-    to {
+            50% {
+                opacity: 0.35;
+            }
 
-        background-position:
-            0 84px;
-    }
-}
+            100% {
+                opacity: 1;
+            }
+        }
 
 
-/* =========================================================
-   FLOATING SHAPES
-========================================================= */
+        /* =====================================================
+           SUBSCRIBER BOX
+        ===================================================== */
 
-.shape {
+        .subscriberBox {
+            position: absolute;
 
-    position: absolute;
+            left: 32px;
+            top: 135px;
 
-    pointer-events: none;
+            width: 520px;
+            height: 190px;
 
-    border:
-        1px solid
-        rgba(255, 150, 220, .17);
+            padding: 20px 28px;
 
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255, 80, 190, .08),
-            rgba(255, 255, 255, .01)
-        );
+            text-align: center;
 
-    opacity: .55;
+            z-index: 4;
+        }
 
-    will-change:
-        transform;
-}
 
+        .subLabel {
+            font-size: 18px;
 
-.shape.one {
+            font-weight: 700;
 
-    width: 100px;
-    height: 100px;
+            letter-spacing: 3px;
 
-    left: 25px;
-    top: 35px;
+            color: rgba(255, 210, 245, 0.65);
 
-    border-radius:
-        25px;
+            margin-bottom: 2px;
+        }
 
-    animation:
-        shapeOne
-        16s
-        ease-in-out
-        infinite;
-}
 
+        .counter {
+            font-family: monospace;
 
-.shape.two {
+            font-size: 88px;
 
-    width: 75px;
-    height: 75px;
+            font-weight: 900;
 
-    left: 850px;
-    top: 40px;
+            line-height: 1;
 
-    border-radius:
-        50%;
+            letter-spacing: 2px;
 
-    animation:
-        shapeTwo
-        14s
-        ease-in-out
-        infinite;
-}
+            color: #ffffff;
 
+            text-shadow:
+                0 0 20px rgba(255, 100, 220, 0.65),
+                0 0 45px rgba(255, 60, 190, 0.25);
+        }
 
-.shape.three {
 
-    width: 120px;
-    height: 120px;
+        /* =====================================================
+           MILESTONE
+        ===================================================== */
 
-    left: 730px;
-    top: 350px;
+        .milestone {
+            position: absolute;
 
-    border-radius:
-        30px;
+            left: 575px;
+            top: 135px;
 
-    animation:
-        shapeThree
-        20s
-        ease-in-out
-        infinite;
-}
+            width: 353px;
+            height: 190px;
 
+            padding: 20px 24px;
 
-.shape.four {
+            z-index: 4;
+        }
 
-    width: 55px;
-    height: 55px;
 
-    left: 270px;
-    top: 395px;
+        .milestoneTitle {
+            font-size: 15px;
 
-    border-radius:
-        16px;
+            font-weight: 800;
 
-    animation:
-        shapeFour
-        13s
-        ease-in-out
-        infinite;
-}
+            letter-spacing: 2px;
 
+            color: rgba(255, 210, 245, 0.62);
 
-@keyframes shapeOne {
+            margin-bottom: 5px;
+        }
 
-    0%,
-    100% {
 
-        transform:
-            translate3d(
-                0,
-                0,
-                0
-            )
-            rotate(25deg);
-    }
+        .goalText {
+            font-size: 29px;
 
-    50% {
+            font-weight: 800;
 
-        transform:
-            translate3d(
-                50px,
-                40px,
-                0
-            )
-            rotate(110deg);
-    }
-}
+            margin-bottom: 14px;
+        }
 
 
-@keyframes shapeTwo {
+        .progressTrack {
+            width: 100%;
+            height: 15px;
 
-    0%,
-    100% {
+            overflow: hidden;
 
-        transform:
-            translate3d(
-                0,
-                0,
-                0
-            )
-            scale(1);
-    }
+            border-radius: 999px;
 
-    50% {
+            background: rgba(255, 255, 255, 0.10);
 
-        transform:
-            translate3d(
-                -50px,
-                60px,
-                0
-            )
-            scale(1.25);
-    }
-}
+            border: 1px solid rgba(255, 180, 235, 0.16);
+        }
 
 
-@keyframes shapeThree {
+        .progressBar {
+            height: 100%;
 
-    0%,
-    100% {
+            width: 95%;
 
-        transform:
-            translate3d(
-                0,
-                0,
-                0
-            )
-            rotate(40deg);
-    }
+            border-radius: inherit;
 
-    50% {
+            background:
+                linear-gradient(
+                    90deg,
+                    #ff4fba,
+                    #ff91dc,
+                    #ffd1f1
+                );
 
-        transform:
-            translate3d(
-                -60px,
-                -55px,
-                0
-            )
-            rotate(120deg);
-    }
-}
+            box-shadow:
+                0 0 16px rgba(255, 80, 200, 0.55);
 
+            transition: width 0.6s ease;
+        }
 
-@keyframes shapeFour {
 
-    0%,
-    100% {
+        .progressText {
+            margin-top: 10px;
 
-        transform:
-            translate3d(
-                0,
-                0,
-                0
-            )
-            rotate(15deg);
-    }
+            font-size: 16px;
 
-    50% {
+            color: rgba(255, 225, 248, 0.72);
+        }
 
-        transform:
-            translate3d(
-                45px,
-                -45px,
-                0
-            )
-            rotate(110deg);
-    }
-}
 
+        /* =====================================================
+           TIME BOX
+        ===================================================== */
 
-/* =========================================================
-   PARTICLES
-========================================================= */
+        .timeBox {
+            position: absolute;
 
-.particles {
+            left: 32px;
+            bottom: 28px;
 
-    position: absolute;
+            width: 220px;
+            height: 65px;
 
-    left: 0;
-    top: 0;
+            display: flex;
 
-    width: 960px;
-    height: 480px;
+            align-items: center;
 
-    overflow: hidden;
+            justify-content: center;
 
-    pointer-events: none;
-}
+            z-index: 4;
+        }
 
 
-.particle {
+        #clock {
+            font-family: monospace;
 
-    position: absolute;
+            font-size: 30px;
 
-    width: 3px;
-    height: 3px;
+            font-weight: 800;
 
-    border-radius:
-        50%;
+            color: #ffe5f8;
 
-    background:
-        #ff8bd2;
+            text-shadow:
+                0 0 12px rgba(255, 100, 220, 0.45);
+        }
 
-    box-shadow:
-        0 0 8px
-        #ff3cac;
 
-    opacity: .5;
+        /* =====================================================
+           CHANNEL DATA BOX
+        ===================================================== */
 
-    animation:
-        particleFloat
-        var(--duration)
-        linear
-        infinite;
+        .dataBox {
+            position: absolute;
 
-    animation-delay:
-        var(--delay);
-}
+            left: 270px;
+            bottom: 28px;
 
+            width: 658px;
+            height: 65px;
 
-@keyframes particleFloat {
+            display: flex;
 
-    0% {
+            align-items: center;
 
-        transform:
-            translate3d(
-                0,
-                40px,
-                0
-            );
+            justify-content: center;
 
-        opacity: 0;
-    }
+            padding: 10px 25px;
 
-    15% {
+            z-index: 4;
 
-        opacity: .55;
-    }
+            text-align: center;
+        }
 
-    85% {
 
-        opacity: .55;
-    }
+        #channelData {
+            font-size: 21px;
 
-    100% {
+            font-weight: 700;
 
-        transform:
-            translate3d(
-                var(--x),
-                -430px,
-                0
-            );
+            color: rgba(255, 235, 250, 0.88);
 
-        opacity: 0;
-    }
-}
+            text-shadow:
+                0 0 10px rgba(255, 100, 220, 0.25);
+        }
 
 
-/* =========================================================
-   LIGHT TRAILS
-========================================================= */
+        /* =====================================================
+           SMALL UPDATE STATUS
+        ===================================================== */
 
-.trail {
+        #status {
+            position: absolute;
 
-    position: absolute;
+            left: 50%;
 
-    width: 260px;
-    height: 2px;
+            transform: translateX(-50%);
 
-    pointer-events: none;
+            bottom: 5px;
 
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 80, 190, .6),
-            transparent
-        );
+            font-size: 9px;
 
-    opacity: .4;
-}
+            color: rgba(255, 255, 255, 0.28);
 
+            z-index: 5;
+        }
 
-.trail.one {
 
-    left: -260px;
-    top: 110px;
+        /* =====================================================
+           SAFETY
+        ===================================================== */
 
-    transform:
-        rotate(-12deg);
+        img,
+        video,
+        div {
+            max-width: 100%;
+        }
 
-    animation:
-        trailOne
-        12s
-        linear
-        infinite;
-}
-
-
-.trail.two {
-
-    left: -260px;
-    top: 360px;
-
-    transform:
-        rotate(8deg);
-
-    animation:
-        trailTwo
-        14s
-        linear
-        infinite;
-}
-
-
-@keyframes trailOne {
-
-    0% {
-        left: -260px;
-    }
-
-    100% {
-        left: 960px;
-    }
-}
-
-
-@keyframes trailTwo {
-
-    0% {
-        left: -260px;
-    }
-
-    100% {
-        left: 960px;
-    }
-}
-
-
-/* =========================================================
-   MAIN DASHBOARD
-========================================================= */
-
-.dashboard {
-
-    position: absolute;
-
-    left: 20px;
-    top: 20px;
-
-    width: 920px;
-    height: 440px;
-
-    display: grid;
-
-    grid-template-columns:
-        390px
-        1fr;
-
-    gap: 22px;
-
-    padding: 24px;
-
-    border-radius:
-        28px;
-
-    background:
-        rgba(
-            15,
-            6,
-            15,
-            .86
-        );
-
-    border:
-        1px solid
-        rgba(
-            255,
-            100,
-            200,
-            .18
-        );
-
-    box-shadow:
-
-        0 20px 70px
-        rgba(0, 0, 0, .55),
-
-        0 0 60px
-        rgba(255, 0, 160, .08);
-
-    backdrop-filter:
-        blur(12px);
-
-    -webkit-backdrop-filter:
-        blur(12px);
-
-    z-index: 5;
-}
-
-
-/* =========================================================
-   LEFT SIDE
-========================================================= */
-
-.left {
-
-    display: flex;
-
-    flex-direction:
-        column;
-
-    min-height: 0;
-}
-
-
-/* =========================================================
-   PROFILE
-========================================================= */
-
-.profile {
-
-    display: flex;
-
-    align-items:
-        center;
-
-    gap: 16px;
-
-    margin-left: 8px;
-
-    margin-top: -4px;
-
-    margin-bottom: 8px;
-
-    flex-shrink: 0;
-}
-
-
-.pfp-wrapper {
-
-    position: relative;
-
-    flex-shrink: 0;
-}
-
-
-.pfp-glow {
-
-    position: absolute;
-
-    inset: -9px;
-
-    border-radius:
-        50%;
-
-    background:
-        rgba(
-            255,
-            0,
-            160,
-            .22
-        );
-
-    filter:
-        blur(14px);
-
-    animation:
-        pfpPulse
-        3s
-        ease-in-out
-        infinite;
-}
-
-
-@keyframes pfpPulse {
-
-    0%,
-    100% {
-
-        transform:
-            scale(.95);
-
-        opacity:
-            .45;
-    }
-
-    50% {
-
-        transform:
-            scale(1.06);
-
-        opacity:
-            .75;
-    }
-}
-
-
-.pfp {
-
-    position: relative;
-
-    width: 76px;
-    height: 76px;
-
-    object-fit:
-        cover;
-
-    border-radius:
-        50%;
-
-    border:
-        3px solid
-        #ff4db8;
-
-    box-shadow:
-
-        0 0 0 5px
-        rgba(
-            255,
-            0,
-            160,
-            .07
-        ),
-
-        0 0 25px
-        rgba(
-            255,
-            0,
-            160,
-            .4
-        );
-}
-
-
-.profile-info {
-
-    display: flex;
-
-    flex-direction:
-        column;
-}
-
-
-.channel-name {
-
-    font-size:
-        29px;
-
-    line-height:
-        1;
-
-    font-weight:
-        900;
-
-    background:
-        linear-gradient(
-            90deg,
-            white,
-            #ff9ed8
-        );
-
-    -webkit-background-clip:
-        text;
-
-    background-clip:
-        text;
-
-    color:
-        transparent;
-}
-
-
-.handle {
-
-    margin-top:
-        5px;
-
-    color:
-        #b887a6;
-
-    font-size:
-        15px;
-}
-
-
-/* =========================================================
-   SUBSCRIBER BOX
-========================================================= */
-
-.subscriber-box {
-
-    position: relative;
-
-    flex: 1;
-
-    min-height: 0;
-
-    display: flex;
-
-    flex-direction:
-        column;
-
-    justify-content:
-        center;
-
-    padding:
-        15px
-        20px
-        18px;
-
-    border-radius:
-        19px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(
-                255,
-                60,
-                180,
-                .10
-            ),
-            rgba(
-                255,
-                255,
-                255,
-                .018
-            )
-        );
-
-    border:
-        1px solid
-        rgba(
-            255,
-            100,
-            200,
-            .15
-        );
-
-    overflow:
-        hidden;
-}
-
-
-/* =========================================================
-   LIVE INDICATOR
-========================================================= */
-
-.live {
-
-    position: absolute;
-
-    top: 12px;
-    right: 14px;
-
-    display: flex;
-
-    align-items:
-        center;
-
-    gap: 7px;
-
-    padding:
-        5px 10px;
-
-    border-radius:
-        999px;
-
-    background:
-        rgba(
-            255,
-            0,
-            150,
-            .10
-        );
-
-    border:
-        1px solid
-        rgba(
-            255,
-            80,
-            190,
-            .25
-        );
-
-    color:
-        #ff72c5;
-
-    font-size:
-        10px;
-
-    font-weight:
-        900;
-
-    letter-spacing:
-        1.5px;
-}
-
-
-.live-dot {
-
-    width: 8px;
-    height: 8px;
-
-    border-radius:
-        50%;
-
-    background:
-        #ff219f;
-
-    box-shadow:
-        0 0 10px
-        #ff219f;
-
-    animation:
-        pulse
-        1.3s
-        infinite;
-}
-
-
-@keyframes pulse {
-
-    50% {
-
-        opacity:
-            .3;
-
-        transform:
-            scale(.7);
-    }
-}
-
-
-/* =========================================================
-   SUBSCRIBER LABEL
-========================================================= */
-
-.counter-label {
-
-    text-align:
-        center;
-
-    font-size:
-        13px;
-
-    text-transform:
-        uppercase;
-
-    letter-spacing:
-        3px;
-
-    color:
-        #bd8bab;
-
-    margin-bottom:
-        2px;
-}
-
-
-/* =========================================================
-   BIG SUBSCRIBER COUNT
-========================================================= */
-
-.counter {
-
-    width:
-        100%;
-
-    text-align:
-        center;
-
-    font-size:
-        104px;
-
-    line-height:
-        .92;
-
-    font-weight:
-        950;
-
-    letter-spacing:
-        -5px;
-
-    white-space:
-        nowrap;
-
-    background:
-        linear-gradient(
-            180deg,
-            #ffffff,
-            #ffd1ed 55%,
-            #d768aa
-        );
-
-    -webkit-background-clip:
-        text;
-
-    background-clip:
-        text;
-
-    color:
-        transparent;
-
-    transition:
-        transform
-        .2s
-        ease;
-}
-
-
-.counter.bump {
-
-    transform:
-        scale(1.06);
-}
-
-
-/* =========================================================
-   MILESTONE
-========================================================= */
-
-.goal {
-
-    width:
-        100%;
-
-    margin-top:
-        14px;
-}
-
-
-.goal-header {
-
-    display:
-        flex;
-
-    justify-content:
-        space-between;
-
-    align-items:
-        center;
-
-    margin-bottom:
-        7px;
-}
-
-
-.goal-title {
-
-    font-size:
-        12px;
-
-    text-transform:
-        uppercase;
-
-    letter-spacing:
-        1.5px;
-
-    color:
-        #b38aa3;
-}
-
-
-.goal-number {
-
-    font-size:
-        14px;
-
-    font-weight:
-        900;
-
-    color:
-        #ff9ed8;
-}
-
-
-.progress {
-
-    width:
-        100%;
-
-    height:
-        9px;
-
-    overflow:
-        hidden;
-
-    border-radius:
-        999px;
-
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            .07
-        );
-}
-
-
-.progress-bar {
-
-    width:
-        0%;
-
-    height:
-        100%;
-
-    border-radius:
-        inherit;
-
-    background:
-        linear-gradient(
-            90deg,
-            #b00072,
-            #ff1493,
-            #ff76c8
-        );
-
-    box-shadow:
-        0 0 14px
-        rgba(
-            255,
-            20,
-            160,
-            .65
-        );
-
-    transition:
-        width
-        .7s
-        ease;
-}
-
-
-.goal-footer {
-
-    display:
-        flex;
-
-    justify-content:
-        space-between;
-
-    margin-top:
-        7px;
-
-    font-size:
-        10px;
-
-    color:
-        #91657e;
-}
-
-
-/* =========================================================
-   RIGHT SIDE
-========================================================= */
-
-.right {
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    min-width:
-        0;
-}
-
-
-/* =========================================================
-   GREETING
-========================================================= */
-
-.greeting {
-
-    height:
-        37px;
-
-    flex-shrink:
-        0;
-
-    font-size:
-        22px;
-
-    font-weight:
-        850;
-
-    color:
-        #ffc1e8;
-
-    text-shadow:
-        0 0 20px
-        rgba(
-            255,
-            50,
-            180,
-            .3
-        );
-}
-
-
-/* =========================================================
-   CLOCK
-========================================================= */
-
-.clock-box {
-
-    height:
-        78px;
-
-    flex-shrink:
-        0;
-
-    padding:
-        10px 18px;
-
-    border-radius:
-        17px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(
-                255,
-                70,
-                185,
-                .09
-            ),
-            rgba(
-                255,
-                255,
-                255,
-                .012
-            )
-        );
-
-    border:
-        1px solid
-        rgba(
-            255,
-            100,
-            200,
-            .15
-        );
-}
-
-
-.clock-title {
-
-    font-size:
-        10px;
-
-    text-transform:
-        uppercase;
-
-    letter-spacing:
-        2px;
-
-    color:
-        #b184a0;
-}
-
-
-.clock {
-
-    margin-top:
-        1px;
-
-    font-size:
-        37px;
-
-    line-height:
-        1;
-
-    font-weight:
-        900;
-
-    letter-spacing:
-        -1px;
-
-    background:
-        linear-gradient(
-            90deg,
-            white,
-            #ff9ed8
-        );
-
-    -webkit-background-clip:
-        text;
-
-    background-clip:
-        text;
-
-    color:
-        transparent;
-}
-
-
-/* =========================================================
-   CHANNEL DATA
-========================================================= */
-
-.data-box {
-
-    position:
-        relative;
-
-    flex:
-        1;
-
-    min-height:
-        0;
-
-    margin-top:
-        14px;
-
-    padding:
-        20px;
-
-    overflow:
-        hidden;
-
-    border-radius:
-        18px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(
-                255,
-                60,
-                180,
-                .08
-            ),
-            rgba(
-                255,
-                255,
-                255,
-                .012
-            )
-        );
-
-    border:
-        1px solid
-        rgba(
-            255,
-            100,
-            200,
-            .15
-        );
-}
-
-
-.data-title {
-
-    position:
-        absolute;
-
-    top:
-        13px;
-
-    left:
-        20px;
-
-    font-size:
-        11px;
-
-    text-transform:
-        uppercase;
-
-    letter-spacing:
-        2px;
-
-    color:
-        #b1839e;
-}
-
-
-/* =========================================================
-   SLIDES
-========================================================= */
-
-.slide {
-
-    position:
-        absolute;
-
-    left:
-        20px;
-
-    right:
-        20px;
-
-    top:
-        38px;
-
-    bottom:
-        27px;
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    justify-content:
-        center;
-
-    align-items:
-        center;
-
-    opacity:
-        1;
-
-    transform:
-        translateY(0);
-
-    transition:
-        opacity
-        .4s
-        ease,
-
-        transform
-        .4s
-        ease;
-}
-
-
-.slide.fade {
-
-    opacity:
-        0;
-
-    transform:
-        translateY(10px);
-}
-
-
-.slide-title {
-
-    margin-bottom:
-        9px;
-
-    font-size:
-        15px;
-
-    text-transform:
-        uppercase;
-
-    letter-spacing:
-        2px;
-
-    color:
-        #ff8ed0;
-
-    font-weight:
-        800;
-}
-
-
-.big-value {
-
-    font-size:
-        54px;
-
-    line-height:
-        1;
-
-    font-weight:
-        900;
-
-    background:
-        linear-gradient(
-            90deg,
-            white,
-            #ff9ed8
-        );
-
-    -webkit-background-clip:
-        text;
-
-    background-clip:
-        text;
-
-    color:
-        transparent;
-}
-
-
-.small-info {
-
-    margin-top:
-        8px;
-
-    font-size:
-        14px;
-
-    color:
-        #b789a5;
-}
-
-
-/* =========================================================
-   MINI PROGRESS
-========================================================= */
-
-.mini-goal {
-
-    width:
-        280px;
-
-    margin-top:
-        15px;
-}
-
-
-.mini-row {
-
-    display:
-        flex;
-
-    justify-content:
-        space-between;
-
-    margin-bottom:
-        6px;
-
-    font-size:
-        11px;
-
-    color:
-        #ae819d;
-}
-
-
-.mini-progress {
-
-    height:
-        8px;
-
-    overflow:
-        hidden;
-
-    border-radius:
-        999px;
-
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            .07
-        );
-}
-
-
-.mini-bar {
-
-    width:
-        0%;
-
-    height:
-        100%;
-
-    background:
-        linear-gradient(
-            90deg,
-            #b00072,
-            #ff1493,
-            #ff76c8
-        );
-
-    transition:
-        width
-        .7s
-        ease;
-}
-
-
-/* =========================================================
-   MOTIVATIONAL MESSAGE
-========================================================= */
-
-.message-icon {
-
-    width:
-        100%;
-
-    display:
-        flex;
-
-    justify-content:
-        center;
-
-    align-items:
-        center;
-
-    text-align:
-        center;
-
-    font-size:
-        44px;
-
-    line-height:
-        1;
-
-    margin:
-        0 0 12px;
-
-    filter:
-        drop-shadow(
-            0 0 15px
-            rgba(
-                255,
-                50,
-                180,
-                .45
-            )
-        );
-}
-
-
-.message {
-
-    width:
-        100%;
-
-    max-width:
-        450px;
-
-    text-align:
-        center;
-
-    font-size:
-        23px;
-
-    line-height:
-        1.3;
-
-    font-weight:
-        850;
-
-    color:
-        #ffd6ef;
-}
-
-
-.message-sub {
-
-    width:
-        100%;
-
-    text-align:
-        center;
-
-    margin-top:
-        9px;
-
-    font-size:
-        12px;
-
-    color:
-        #a2738e;
-}
-
-
-/* =========================================================
-   SLIDE DOTS
-========================================================= */
-
-.dots {
-
-    position:
-        absolute;
-
-    bottom:
-        9px;
-
-    left:
-        50%;
-
-    transform:
-        translateX(-50%);
-
-    display:
-        flex;
-
-    gap:
-        6px;
-}
-
-
-.dot {
-
-    width:
-        6px;
-
-    height:
-        6px;
-
-    border-radius:
-        50%;
-
-    background:
-        rgba(
-            255,
-            120,
-            210,
-            .25
-        );
-
-    transition:
-        all
-        .3s
-        ease;
-}
-
-
-.dot.active {
-
-    width:
-        19px;
-
-    border-radius:
-        999px;
-
-    background:
-        #ff4db8;
-
-    box-shadow:
-        0 0 9px
-        rgba(
-            255,
-            50,
-            180,
-            .6
-        );
-}
-
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-.status {
-
-    height:
-        14px;
-
-    flex-shrink:
-        0;
-
-    margin-top:
-        5px;
-
-    text-align:
-        right;
-
-    font-size:
-        8px;
-
-    color:
-        #765469;
-}
-
-</style>
-
+    </style>
 </head>
 
 
 <body>
 
+    <!-- =====================================================
+         BACKGROUND VIDEO
+    ====================================================== -->
 
-<!-- =======================================================
-     ANIMATED BACKGROUND
-======================================================= -->
-
-<div class="background">
-
-
-    <div class="light one"></div>
-
-    <div class="light two"></div>
-
-    <div class="light three"></div>
-
-
-    <div class="grid"></div>
+    <video
+        id="backgroundVideo"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+    >
+        <source src="takeya.mp4" type="video/mp4">
+    </video>
 
 
-    <div class="shape one"></div>
-
-    <div class="shape two"></div>
-
-    <div class="shape three"></div>
-
-    <div class="shape four"></div>
+    <div class="backgroundOverlay"></div>
 
 
-    <div class="trail one"></div>
-
-    <div class="trail two"></div>
-
-
-    <div
-        class="particles"
-        id="particles">
-    </div>
+    <!-- Silk compatibility script -->
+    <script src="https://dagammla.gitlab.io/keep-silk-open/keep.js"></script>
 
 
-</div>
+    <main class="screen">
 
 
-<!-- =======================================================
-     MAIN DASHBOARD
-======================================================= -->
+        <!-- =================================================
+             BRAND
+        ================================================== -->
 
-<div class="dashboard">
+        <div class="brand glass">
 
+            <img
+                class="pfp"
+                src="https://yt3.ggpht.com/ttAkTpY31wkOGnatdL3SG8reM98rZ2wVuG950Yno4ZCO9MMH1oyeIpT9ldBO-8KzAws6qeNT=s176-c-k-c0x00ffffff-no-rj"
+                alt="GuiTakeya"
+            >
 
-    <!-- ===================================================
-         LEFT SIDE
-    =================================================== -->
+            <div class="brandText">
 
-    <div class="left">
-
-
-        <!-- PROFILE -->
-
-        <div class="profile">
-
-
-            <div class="pfp-wrapper">
-
-                <div class="pfp-glow"></div>
-
-
-                <img
-                    class="pfp"
-                    src="https://yt3.ggpht.com/ttAkTpY31wkOGnatdL3SG8reM98rZ2wVuG950Yno4ZCO9MMH1oyeIpT9ldBO-8KzAws6qeNT=s176-c-k-c0x00ffffff-no-rj"
-                    alt="GuiTakeya"
-                >
-
-            </div>
-
-
-            <div class="profile-info">
-
-                <div class="channel-name">
+                <div class="channelName">
                     GuiTakeya
                 </div>
-
 
                 <div class="handle">
                     @GuiTakeya
@@ -2060,1157 +588,758 @@ body {
 
             </div>
 
-
         </div>
 
 
-        <!-- SUBSCRIBER BOX -->
-
-        <div class="subscriber-box">
-
-
-            <!-- LIVE INDICATOR -->
-
-            <div class="live">
-
-                <span class="live-dot"></span>
-
-                LIVE
-
-            </div>
-
-
-            <div class="counter-label">
-                Subscribers
-            </div>
-
-
-            <div
-                class="counter"
-                id="subCount">
-                —
-            </div>
-
-
-            <!-- MILESTONE -->
-
-            <div class="goal">
-
-
-                <div class="goal-header">
-
-
-                    <div class="goal-title">
-                        Next milestone
-                    </div>
-
-
-                    <div
-                        class="goal-number"
-                        id="goalText">
-                        100
-                    </div>
-
-
-                </div>
-
-
-                <div class="progress">
-
-                    <div
-                        class="progress-bar"
-                        id="progressBar">
-                    </div>
-
-                </div>
-
-
-                <div class="goal-footer">
-
-                    <span id="goalProgress">
-                        — / 100
-                    </span>
-
-
-                    <span>
-                        Keep going! ♡
-                    </span>
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-
-    </div>
-
-
-    <!-- ===================================================
-         RIGHT SIDE
-    =================================================== -->
-
-    <div class="right">
-
-
-        <!-- GREETING -->
+        <!-- =================================================
+             GREETING
+        ================================================== -->
 
         <div
             class="greeting"
-            id="greeting">
+            id="greeting"
+        >
+            Good Morning, Takeya!
+        </div>
 
-            Hello, Takeya! 💗
+
+        <!-- =================================================
+             LIVE
+        ================================================== -->
+
+        <div class="live">
+
+            <span class="liveDot"></span>
+
+            LIVE
 
         </div>
 
 
-        <!-- CLOCK -->
+        <!-- =================================================
+             SUBSCRIBER COUNT
+        ================================================== -->
 
-        <div class="clock-box">
+        <div class="subscriberBox glass">
 
-
-            <div class="clock-title">
-                Current Time
+            <div class="subLabel">
+                SUBSCRIBERS
             </div>
 
+            <div
+                class="counter"
+                id="subCount"
+            >
+                Loading...
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             MILESTONE
+        ================================================== -->
+
+        <div class="milestone glass">
+
+            <div class="milestoneTitle">
+                NEXT MILESTONE
+            </div>
 
             <div
-                class="clock"
-                id="clock">
+                class="goalText"
+                id="goalText"
+            >
+                100 Subscribers
+            </div>
 
+            <div class="progressTrack">
+
+                <div
+                    class="progressBar"
+                    id="progressBar"
+                ></div>
+
+            </div>
+
+            <div
+                class="progressText"
+                id="progressText"
+            >
+                95 / 100
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CLOCK
+        ================================================== -->
+
+        <div class="timeBox glass">
+
+            <div id="clock">
                 12:00 AM
-
             </div>
-
 
         </div>
 
 
-        <!-- CHANNEL DATA -->
+        <!-- =================================================
+             CHANNEL DATA
+        ================================================== -->
 
-        <div class="data-box">
+        <div class="dataBox glass">
 
-
-            <div class="data-title">
-                Channel Data
+            <div id="channelData">
+                Loading channel data...
             </div>
-
-
-            <div
-                class="slide"
-                id="slide">
-
-
-                <div
-                    class="slide-title"
-                    id="slideTitle">
-
-                    Subscribers
-
-                </div>
-
-
-                <div
-                    class="big-value"
-                    id="bigValue">
-
-                    —
-
-                </div>
-
-
-                <div
-                    class="small-info"
-                    id="smallInfo">
-
-                    Loading...
-
-                </div>
-
-
-                <div
-                    id="extra">
-                </div>
-
-
-            </div>
-
-
-            <div
-                class="dots"
-                id="dots">
-            </div>
-
 
         </div>
 
 
-        <div
-            class="status"
-            id="status">
-
+        <div id="status">
             Connecting...
-
         </div>
 
 
-    </div>
+    </main>
 
 
-</div>
+    <script>
 
+        /* =====================================================
+           BACKGROUND VIDEO
+        ===================================================== */
 
-<!-- =======================================================
-     SILK KEEP-ALIVE
-======================================================= -->
-
-<script src="https://dagammla.gitlab.io/keep-silk-open/keep.js"></script>
-
-
-<script>
-
-/* =========================================================
-   CONFIGURATION
-========================================================= */
-
-const API_URL =
-    "https://api.socialcounts.org/youtube-live-subscriber-count/UChg7UoXV1HEtoUgwu0y871w";
-
-
-/*
-    Update subscriber information every 30 seconds.
-*/
-
-const UPDATE_INTERVAL =
-    20000;
-
-
-/*
-    Change channel-data slide every 6 seconds.
-*/
-
-const SLIDE_INTERVAL =
-    6000;
-
-
-/* =========================================================
-   ELEMENTS
-========================================================= */
-
-const subCount =
-    document.getElementById(
-        "subCount"
-    );
-
-
-const goalText =
-    document.getElementById(
-        "goalText"
-    );
-
-
-const progressBar =
-    document.getElementById(
-        "progressBar"
-    );
-
-
-const goalProgress =
-    document.getElementById(
-        "goalProgress"
-    );
-
-
-const greeting =
-    document.getElementById(
-        "greeting"
-    );
-
-
-const clock =
-    document.getElementById(
-        "clock"
-    );
-
-
-const slide =
-    document.getElementById(
-        "slide"
-    );
-
-
-const slideTitle =
-    document.getElementById(
-        "slideTitle"
-    );
-
-
-const bigValue =
-    document.getElementById(
-        "bigValue"
-    );
-
-
-const smallInfo =
-    document.getElementById(
-        "smallInfo"
-    );
-
-
-const extra =
-    document.getElementById(
-        "extra"
-    );
-
-
-const dots =
-    document.getElementById(
-        "dots"
-    );
-
-
-const status =
-    document.getElementById(
-        "status"
-    );
-
-
-/* =========================================================
-   DATA
-========================================================= */
-
-let subscriberCount = 0;
-
-let viewCount = 0;
-
-let videoCount = 0;
-
-let previousSubscriberCount =
-    null;
-
-let slideIndex = 0;
-
-
-/* =========================================================
-   CREATE PARTICLES
-========================================================= */
-
-const particleContainer =
-    document.getElementById(
-        "particles"
-    );
-
-
-for (
-    let i = 0;
-    i < 28;
-    i++
-) {
-
-    const particle =
-        document.createElement(
-            "div"
-        );
-
-
-    particle.className =
-        "particle";
-
-
-    particle.style.left =
-        Math.random() * 100 + "%";
-
-
-    particle.style.top =
-        (
-            45 +
-            Math.random() * 55
-        ) + "%";
-
-
-    particle.style.setProperty(
-        "--duration",
-        (
-            8 +
-            Math.random() * 12
-        ) + "s"
-    );
-
-
-    particle.style.setProperty(
-        "--delay",
-        (
-            -Math.random() * 15
-        ) + "s"
-    );
-
-
-    particle.style.setProperty(
-        "--x",
-        (
-            (Math.random() - .5) *
-            140
-        ) + "px"
-    );
-
-
-    particleContainer.appendChild(
-        particle
-    );
-
-}
-
-
-/* =========================================================
-   CLOCK
-========================================================= */
-
-function updateClock() {
-
-    const now =
-        new Date();
-
-
-    /*
-       IMPORTANT:
-       No seconds.
-       No date.
-       No weekday.
-
-       Just hour + minute.
-    */
-
-    clock.innerText =
-        now.toLocaleTimeString(
-            [],
-            {
-                hour:
-                    "numeric",
-
-                minute:
-                    "2-digit"
-            }
-        );
-
-
-    const hour =
-        now.getHours();
-
-
-    if (
-        hour >= 5 &&
-        hour < 12
-    ) {
-
-        greeting.innerText =
-            "Good Morning, Takeya! ☀️";
-
-    }
-
-    else if (
-        hour >= 12 &&
-        hour < 18
-    ) {
-
-        greeting.innerText =
-            "Good Afternoon, Takeya! 🌸";
-
-    }
-
-    else {
-
-        greeting.innerText =
-            "Good Night, Takeya! 🌙";
-
-    }
-
-}
-
-
-updateClock();
-
-
-setInterval(
-    updateClock,
-    1000
-);
-
-
-/* =========================================================
-   FETCH SOCIALCOUNTS DATA
-========================================================= */
-
-async function fetchChannelData() {
-
-    try {
-
-
-        const response =
-            await fetch(
-                API_URL,
-                {
-                    cache:
-                        "no-store"
-                }
+        const video =
+            document.getElementById(
+                "backgroundVideo"
             );
 
 
-        if (
-            !response.ok
-        ) {
-
-            throw new Error(
-                "HTTP " +
-                response.status
-            );
-
-        }
+        video.muted = true;
+        video.loop = true;
 
 
-        const data =
-            await response.json();
+        function playBackground() {
 
+            video.play().catch(() => {
 
-        /*
-           SocialCounts has changed its response
-           structure before, so we support multiple
-           possible locations for the values.
-        */
-
-
-        let subscribers;
-
-
-        if (
-            data.subCount !== undefined
-        ) {
-
-            subscribers =
-                data.subCount;
-
-        }
-
-        else if (
-            data.counters &&
-            data.counters.api &&
-            data.counters.api.subscriberCount !== undefined
-        ) {
-
-            subscribers =
-                data.counters.api.subscriberCount;
-
-        }
-
-        else if (
-            data.counters &&
-            data.counters.estimation &&
-            data.counters.estimation.subscriberCount !== undefined
-        ) {
-
-            subscribers =
-                data.counters.estimation.subscriberCount;
-
-        }
-
-
-        if (
-            subscribers === undefined
-        ) {
-
-            throw new Error(
-                "Subscriber count not found"
-            );
-
-        }
-
-
-        subscriberCount =
-            Number(
-                subscribers
-            );
-
-
-        /*
-           Views
-        */
-
-        if (
-            data.counters &&
-            data.counters.api &&
-            data.counters.api.viewCount !== undefined
-        ) {
-
-            viewCount =
-                Number(
-                    data.counters.api.viewCount
+                console.log(
+                    "Background video autoplay was blocked."
                 );
 
-        }
-
-        else if (
-            data.viewCount !== undefined
-        ) {
-
-            viewCount =
-                Number(
-                    data.viewCount
-                );
+            });
 
         }
 
 
-        /*
-           Videos
-        */
-
-        if (
-            data.counters &&
-            data.counters.api &&
-            data.counters.api.videoCount !== undefined
-        ) {
-
-            videoCount =
-                Number(
-                    data.counters.api.videoCount
-                );
-
-        }
-
-        else if (
-            data.videoCount !== undefined
-        ) {
-
-            videoCount =
-                Number(
-                    data.videoCount
-                );
-
-        }
+        playBackground();
 
 
-        updateSubscriber();
-
-
-        status.innerText =
-            "● Live • Updated " +
-            new Date()
-                .toLocaleTimeString(
-                    [],
-                    {
-                        hour:
-                            "numeric",
-
-                        minute:
-                            "2-digit"
-                    }
-                );
-
-
-    }
-
-    catch (error) {
-
-
-        console.error(
-            "SocialCounts error:",
-            error
-        );
-
-
-        status.innerText =
-            "Connection issue • Retrying...";
-
-    }
-
-}
-
-
-/* =========================================================
-   UPDATE SUBSCRIBER DISPLAY
-========================================================= */
-
-function updateSubscriber() {
-
-
-    /*
-       Animate the number if it changed.
-    */
-
-    if (
-        previousSubscriberCount !== null &&
-        previousSubscriberCount !==
-        subscriberCount
-    ) {
-
-        subCount.classList.add(
-            "bump"
-        );
-
-
-        setTimeout(
+        video.addEventListener(
+            "ended",
             () => {
 
-                subCount.classList.remove(
-                    "bump"
-                );
+                video.currentTime = 0;
 
-            },
-            250
-        );
+                playBackground();
 
-    }
-
-
-    previousSubscriberCount =
-        subscriberCount;
-
-
-    subCount.innerText =
-        subscriberCount.toLocaleString();
-
-
-    /*
-       Determine next 100-subscriber milestone.
-    */
-
-    const milestoneBase =
-        Math.floor(
-            subscriberCount / 100
-        ) * 100;
-
-
-    let nextMilestone =
-        milestoneBase + 100;
-
-
-    if (
-        subscriberCount % 100 === 0
-    ) {
-
-        nextMilestone =
-            subscriberCount + 100;
-
-    }
-
-
-    /*
-       Progress from current 100-block.
-    */
-
-    const progress =
-        (
-            (
-                subscriberCount -
-                milestoneBase
-            ) / 100
-        ) * 100;
-
-
-    goalText.innerText =
-        nextMilestone.toLocaleString();
-
-
-    progressBar.style.width =
-        Math.max(
-            0,
-            Math.min(
-                100,
-                progress
-            )
-        ) + "%";
-
-
-    goalProgress.innerText =
-        subscriberCount.toLocaleString() +
-        " / " +
-        nextMilestone.toLocaleString();
-
-}
-
-
-/* =========================================================
-   MOTIVATIONAL MESSAGES
-========================================================= */
-
-const messages = [
-
-    [
-        "💗",
-        "Keep going, Takeya!",
-        "Every subscriber gets you closer."
-    ],
-
-    [
-        "🔥",
-        "You're doing great!",
-        "Don't stop now."
-    ],
-
-    [
-        "🚀",
-        "Next stop: 100K!",
-        "One subscriber at a time."
-    ],
-
-    [
-        "🌸",
-        "Keep creating!",
-        "Your channel is growing."
-    ],
-
-    [
-        "⭐",
-        "You've got this!",
-        "Keep pushing forward."
-    ],
-
-    [
-        "💖",
-        "76 → 100 → 1,000...",
-        "Imagine where this goes."
-    ]
-
-];
-
-
-/* =========================================================
-   CREATE SLIDE DOTS
-========================================================= */
-
-for (
-    let i = 0;
-    i < 4;
-    i++
-) {
-
-
-    const dot =
-        document.createElement(
-            "div"
+            }
         );
 
 
-    dot.className =
-        "dot";
+        /* =====================================================
+           GREETING
+        ===================================================== */
+
+        function updateGreeting() {
+
+            const hour =
+                new Date().getHours();
 
 
-    if (
-        i === 0
-    ) {
-
-        dot.classList.add(
-            "active"
-        );
-
-    }
+            let greeting;
 
 
-    dots.appendChild(
-        dot
-    );
+            if (hour >= 5 && hour < 12) {
 
-}
-
-
-/* =========================================================
-   RENDER SLIDE
-========================================================= */
-
-function renderSlide() {
-
-
-    slide.classList.add(
-        "fade"
-    );
-
-
-    setTimeout(
-        () => {
-
-
-            /* =============================================
-               SLIDE 1 — SUBSCRIBERS
-            ============================================= */
-
-            if (
-                slideIndex === 0
-            ) {
-
-
-                const previous =
-                    Math.floor(
-                        subscriberCount / 100
-                    ) * 100;
-
-
-                const next =
-                    previous + 100;
-
-
-                const progress =
-                    (
-                        (
-                            subscriberCount -
-                            previous
-                        ) / 100
-                    ) * 100;
-
-
-                slideTitle.innerText =
-                    "👥 Subscribers";
-
-
-                bigValue.innerText =
-                    subscriberCount
-                        .toLocaleString();
-
-
-                smallInfo.innerText =
-                    "Next milestone: " +
-                    next.toLocaleString();
-
-
-                extra.innerHTML = `
-
-                    <div class="mini-goal">
-
-                        <div class="mini-row">
-
-                            <span>
-                                Progress
-                            </span>
-
-                            <span>
-                                ${Math.max(
-                                    0,
-                                    Math.min(
-                                        100,
-                                        progress
-                                    )
-                                ).toFixed(0)}%
-                            </span>
-
-                        </div>
-
-
-                        <div class="mini-progress">
-
-                            <div
-                                class="mini-bar"
-                                style="
-                                    width:
-                                    ${Math.max(
-                                        0,
-                                        Math.min(
-                                            100,
-                                            progress
-                                        )
-                                    )}%
-                                "
-                            ></div>
-
-                        </div>
-
-                    </div>
-
-                `;
+                greeting =
+                    "Good Morning, Takeya!";
 
             }
 
+            else if (hour >= 12 && hour < 18) {
 
-            /* =============================================
-               SLIDE 2 — VIEWS
-            ============================================= */
-
-            else if (
-                slideIndex === 1
-            ) {
-
-
-                slideTitle.innerText =
-                    "👀 Total Views";
-
-
-                bigValue.innerText =
-                    viewCount.toLocaleString();
-
-
-                smallInfo.innerText =
-                    "Total channel views";
-
-
-                extra.innerHTML = `
-
-                    <div class="message-sub">
-                        Every view counts. 💗
-                    </div>
-
-                `;
+                greeting =
+                    "Good Afternoon, Takeya!";
 
             }
-
-
-            /* =============================================
-               SLIDE 3 — VIDEOS
-            ============================================= */
-
-            else if (
-                slideIndex === 2
-            ) {
-
-
-                slideTitle.innerText =
-                    "🎬 Videos";
-
-
-                bigValue.innerText =
-                    videoCount.toLocaleString();
-
-
-                smallInfo.innerText =
-                    "Videos uploaded";
-
-
-                extra.innerHTML = `
-
-                    <div class="message-sub">
-                        Keep the uploads coming!
-                    </div>
-
-                `;
-
-            }
-
-
-            /* =============================================
-               SLIDE 4 — MOTIVATION
-            ============================================= */
 
             else {
 
+                greeting =
+                    "Good Evening, Takeya!";
 
-                const message =
-                    messages[
-                        Math.floor(
-                            Math.random() *
-                            messages.length
-                        )
+            }
+
+
+            document.getElementById(
+                "greeting"
+            ).innerText = greeting;
+
+        }
+
+
+        updateGreeting();
+
+
+        /* =====================================================
+           CLOCK
+        ===================================================== */
+
+        function updateClock() {
+
+            const now =
+                new Date();
+
+
+            let hours =
+                now.getHours();
+
+            const minutes =
+                String(
+                    now.getMinutes()
+                ).padStart(2, "0");
+
+
+            const suffix =
+                hours >= 12
+                    ? "PM"
+                    : "AM";
+
+
+            hours =
+                hours % 12 || 12;
+
+
+            document.getElementById(
+                "clock"
+            ).innerText =
+                `${hours}:${minutes} ${suffix}`;
+
+        }
+
+
+        updateClock();
+
+
+        setInterval(
+            updateClock,
+            1000
+        );
+
+
+        setInterval(
+            updateGreeting,
+            60000
+        );
+
+
+        /* =====================================================
+           SUBSCRIBER DATA
+        ===================================================== */
+
+        const API_URL =
+            "https://api.socialcounts.org/youtube-live-subscriber-count/UChg7UoXV1HEtoUgwu0y871w";
+
+
+        async function fetchSubCount() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL,
+                        {
+                            cache: "no-store"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `HTTP ${response.status}`
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                let count;
+
+
+                /*
+                    SocialCounts can return
+                    the subscriber count in
+                    different structures.
+                */
+
+                if (
+                    data.subCount !== undefined
+                ) {
+
+                    count =
+                        Number(
+                            data.subCount
+                        );
+
+                }
+
+                else if (
+                    data.counters &&
+                    data.counters.api &&
+                    data.counters.api.subscriberCount
+                    !== undefined
+                ) {
+
+                    count =
+                        Number(
+                            data.counters
+                                .api
+                                .subscriberCount
+                        );
+
+                }
+
+                else if (
+                    data.counters &&
+                    data.counters.estimation &&
+                    data.counters.estimation
+                        .subscriberCount
+                    !== undefined
+                ) {
+
+                    count =
+                        Number(
+                            data.counters
+                                .estimation
+                                .subscriberCount
+                        );
+
+                }
+
+
+                if (
+                    count === undefined ||
+                    Number.isNaN(count)
+                ) {
+
+                    throw new Error(
+                        "Subscriber count not found."
+                    );
+
+                }
+
+
+                document.getElementById(
+                    "subCount"
+                ).innerText =
+                    count.toLocaleString();
+
+
+                updateMilestone(
+                    count
+                );
+
+
+                document.getElementById(
+                    "status"
+                ).innerText =
+                    "Updated " +
+                    new Date()
+                        .toLocaleTimeString(
+                            [],
+                            {
+                                hour: "numeric",
+                                minute: "2-digit"
+                            }
+                        );
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Error fetching subscriber data:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "status"
+                ).innerText =
+                    "Retrying...";
+
+            }
+
+        }
+
+
+        /* =====================================================
+           MILESTONE
+        ===================================================== */
+
+        function updateMilestone(
+            subscribers
+        ) {
+
+            /*
+                Find the next 100-sub milestone.
+
+                95  → 100
+                100 → 200
+                234 → 300
+                999 → 1000
+            */
+
+            let goal;
+
+
+            if (
+                subscribers < 100
+            ) {
+
+                goal = 100;
+
+            }
+
+            else {
+
+                goal =
+                    Math.ceil(
+                        (subscribers + 1) / 100
+                    ) * 100;
+
+            }
+
+
+            const previousGoal =
+                goal - 100;
+
+
+            const progress =
+                Math.max(
+                    0,
+                    Math.min(
+                        100,
+                        (
+                            (subscribers -
+                                previousGoal)
+                            /
+                            (goal -
+                                previousGoal)
+                        ) * 100
+                    )
+                );
+
+
+            document.getElementById(
+                "goalText"
+            ).innerText =
+                `${goal.toLocaleString()} Subscribers`;
+
+
+            document.getElementById(
+                "progressText"
+            ).innerText =
+                `${subscribers.toLocaleString()} / ${goal.toLocaleString()}`;
+
+
+            document.getElementById(
+                "progressBar"
+            ).style.width =
+                `${progress}%`;
+
+        }
+
+
+        /* =====================================================
+           CHANNEL DATA
+        ===================================================== */
+
+        let cachedChannelData =
+            null;
+
+
+        async function fetchChannelData() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "channel-data.json",
+                        {
+                            cache: "no-store"
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `HTTP ${response.status}`
+                    );
+
+                }
+
+
+                cachedChannelData =
+                    await response.json();
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Could not load channel data:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        /*
+            These are intentionally simple for now.
+            We can replace them with the new
+            multi-page system later.
+        */
+
+        const dataSlides = [
+
+            () => {
+
+                if (
+                    !cachedChannelData ||
+                    !cachedChannelData.current
+                ) {
+
+                    return "Channel data unavailable";
+
+                }
+
+
+                return (
+                    `👀 ${
+                        cachedChannelData
+                            .current
+                            .views
+                            .toLocaleString()
+                    } total views`
+                );
+
+            },
+
+
+            () => {
+
+                if (
+                    !cachedChannelData ||
+                    !cachedChannelData.current
+                ) {
+
+                    return "Channel data unavailable";
+
+                }
+
+
+                return (
+                    `🎬 ${
+                        cachedChannelData
+                            .current
+                            .videos
+                            .toLocaleString()
+                    } videos uploaded`
+                );
+
+            },
+
+
+            () => {
+
+                if (
+                    !cachedChannelData ||
+                    !cachedChannelData.current
+                ) {
+
+                    return "Channel data unavailable";
+
+                }
+
+
+                const history =
+                    cachedChannelData.history || [];
+
+
+                if (
+                    history.length < 2
+                ) {
+
+                    return "📊 History tracking started today";
+
+                }
+
+
+                const first =
+                    history[0];
+
+                const latest =
+                    history[
+                        history.length - 1
                     ];
 
 
-                slideTitle.innerText =
-                    "💌 A Little Message";
+                const growth =
+                    latest.subscribers -
+                    first.subscribers;
 
 
-                bigValue.innerHTML =
-                    "";
+                const sign =
+                    growth >= 0
+                        ? "+"
+                        : "";
 
 
-                smallInfo.innerHTML =
-                    "";
+                return (
+                    `📈 ${
+                        sign
+                    }${
+                        growth
+                    } subscribers since tracking began`
+                );
+
+            },
 
 
-                extra.innerHTML = `
+            () => {
 
-                    <div class="message-icon">
-                        ${message[0]}
-                    </div>
+                const messages = [
 
-                    <div class="message">
-                        ${message[1]}
-                    </div>
+                    "💗 Keep going, Takeya!",
+                    "🚀 You're doing great!",
+                    "🎸 Keep shredding!",
+                    "✨ One step closer to 100K!",
+                    "🔥 Keep cooking!",
+                    "💪 Don't stop now!",
+                    "🌟 The channel is growing!"
 
-                    <div class="message-sub">
-                        ${message[2]}
-                    </div>
+                ];
 
-                `;
+
+                return messages[
+                    Math.floor(
+                        Math.random() *
+                        messages.length
+                    )
+                ];
 
             }
 
+        ];
 
-            /* =============================================
-               UPDATE DOTS
-            ============================================= */
 
-            for (
-                let i = 0;
-                i < dots.children.length;
-                i++
+        let currentSlide =
+            0;
+
+
+        function updateChannelData() {
+
+            const element =
+                document.getElementById(
+                    "channelData"
+                );
+
+
+            if (
+                dataSlides.length === 0
             ) {
 
-                dots.children[i]
-                    .classList
-                    .toggle(
-                        "active",
-                        i === slideIndex
-                    );
+                return;
 
             }
 
 
-            slide.classList.remove(
-                "fade"
-            );
+            element.innerText =
+                dataSlides[
+                    currentSlide
+                ]();
 
 
-        },
+            currentSlide =
+                (
+                    currentSlide + 1
+                ) %
+                dataSlides.length;
 
-        400
-    );
-
-}
-
-
-/* =========================================================
-   ROTATE CHANNEL DATA
-========================================================= */
-
-setInterval(
-    () => {
+        }
 
 
-        slideIndex =
-            (
-                slideIndex + 1
-            ) % 4;
+        /* =====================================================
+           INITIAL LOAD
+        ===================================================== */
+
+        fetchSubCount();
+
+        fetchChannelData();
+
+        updateChannelData();
 
 
-        renderSlide();
+        /* =====================================================
+           30 SECOND SUBSCRIBER REFRESH
+        ===================================================== */
+
+        setInterval(
+            fetchSubCount,
+            30000
+        );
 
 
-    },
-    SLIDE_INTERVAL
-);
+        /* =====================================================
+           CHANNEL DATA REFRESH
+        ===================================================== */
+
+        setInterval(
+            async () => {
+
+                await fetchChannelData();
+
+                updateChannelData();
+
+            },
+            30000
+        );
 
 
-/* =========================================================
-   INITIALIZE
-========================================================= */
+        /* =====================================================
+           CHANGE DATA SLIDE
+        ===================================================== */
 
-fetchChannelData();
+        setInterval(
+            updateChannelData,
+            8000
+        );
 
-
-/*
-   THIS DOES NOT REQUIRE A PAGE REFRESH.
-
-   Every 30 seconds it fetches the latest data
-   from SocialCounts and updates the number
-   directly on the existing page.
-*/
-
-setInterval(
-    fetchChannelData,
-    UPDATE_INTERVAL
-);
-
-
-renderSlide();
-
-</script>
-
+    </script>
 
 </body>
 </html>
