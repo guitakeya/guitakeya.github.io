@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>sub count</title>
+    <title>GuiTakeya — Live Subscriber Count</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -27,6 +28,7 @@
             overflow: hidden;
 
             color: white;
+
             font-family:
                 "Segoe UI",
                 Tahoma,
@@ -37,28 +39,40 @@
             background:
                 radial-gradient(
                     circle at 20% 20%,
-                    rgba(255, 0, 0, 0.20),
+                    rgba(255, 20, 147, 0.25),
                     transparent 35%
                 ),
                 radial-gradient(
                     circle at 80% 80%,
-                    rgba(130, 0, 255, 0.16),
+                    rgba(255, 0, 180, 0.20),
                     transparent 35%
+                ),
+                radial-gradient(
+                    circle at 50% 50%,
+                    rgba(170, 0, 255, 0.12),
+                    transparent 45%
                 ),
                 linear-gradient(
                     135deg,
-                    #050505,
-                    #100707,
-                    #08050d,
-                    #050505
+                    #080308,
+                    #180812,
+                    #100512,
+                    #050305
                 );
 
             background-size: 200% 200%;
 
-            animation: backgroundMove 15s ease infinite;
+            animation:
+                backgroundMove 15s ease infinite;
         }
 
+
+        /* =====================================================
+           ANIMATED BACKGROUND
+        ===================================================== */
+
         @keyframes backgroundMove {
+
             0% {
                 background-position: 0% 50%;
             }
@@ -70,15 +84,14 @@
             100% {
                 background-position: 0% 50%;
             }
+
         }
 
 
-        /* =========================================================
-           BACKGROUND 3D SHAPES
-        ========================================================= */
-
         .background {
+
             position: fixed;
+
             inset: 0;
 
             overflow: hidden;
@@ -86,60 +99,80 @@
             pointer-events: none;
 
             z-index: 0;
+
         }
 
+
+        /* Pink glowing orbs */
+
         .orb {
+
             position: absolute;
 
             border-radius: 50%;
 
-            filter: blur(70px);
+            filter: blur(80px);
 
             opacity: 0.45;
 
             mix-blend-mode: screen;
+
         }
 
+
         .orb.one {
-            width: 320px;
-            height: 320px;
 
-            background: rgba(255, 0, 0, 0.55);
+            width: 350px;
+            height: 350px;
 
-            left: -80px;
-            top: 10%;
+            background:
+                rgba(255, 0, 128, 0.55);
+
+            left: -100px;
+            top: 5%;
 
             animation:
                 orbOne 18s ease-in-out infinite;
+
         }
 
+
         .orb.two {
-            width: 280px;
-            height: 280px;
 
-            background: rgba(110, 0, 255, 0.45);
+            width: 300px;
+            height: 300px;
 
-            right: -70px;
-            bottom: 5%;
+            background:
+                rgba(200, 0, 255, 0.45);
+
+            right: -80px;
+            bottom: 0;
 
             animation:
                 orbTwo 21s ease-in-out infinite;
+
         }
 
+
         .orb.three {
-            width: 220px;
-            height: 220px;
 
-            background: rgba(255, 40, 100, 0.30);
+            width: 240px;
+            height: 240px;
 
-            left: 55%;
-            top: -100px;
+            background:
+                rgba(255, 60, 180, 0.35);
+
+            left: 45%;
+            top: -120px;
 
             animation:
                 orbThree 25s ease-in-out infinite;
+
         }
+
 
         @keyframes orbOne {
+
             0%, 100% {
                 transform:
                     translate3d(0, 0, 0)
@@ -148,12 +181,15 @@
 
             50% {
                 transform:
-                    translate3d(180px, 130px, 0)
-                    scale(1.3);
+                    translate3d(200px, 130px, 0)
+                    scale(1.35);
             }
+
         }
+
 
         @keyframes orbTwo {
+
             0%, 100% {
                 transform:
                     translate3d(0, 0, 0)
@@ -162,12 +198,15 @@
 
             50% {
                 transform:
-                    translate3d(-180px, -100px, 0)
-                    scale(1.25);
+                    translate3d(-180px, -120px, 0)
+                    scale(1.3);
             }
+
         }
 
+
         @keyframes orbThree {
+
             0%, 100% {
                 transform:
                     translate3d(0, 0, 0)
@@ -176,90 +215,118 @@
 
             50% {
                 transform:
-                    translate3d(-100px, 200px, 0)
+                    translate3d(-120px, 200px, 0)
                     rotate(180deg);
             }
+
         }
 
 
-        /* Floating glass shapes */
+        /* =====================================================
+           FLOATING GLASS SHAPES
+        ===================================================== */
 
         .shape {
+
             position: absolute;
 
-            border: 1px solid rgba(255, 255, 255, 0.10);
+            border:
+                1px solid
+                rgba(255, 150, 220, 0.12);
 
             background:
                 linear-gradient(
                     135deg,
-                    rgba(255, 255, 255, 0.08),
+                    rgba(255, 120, 200, 0.08),
                     rgba(255, 255, 255, 0.015)
                 );
 
             backdrop-filter: blur(10px);
 
             box-shadow:
-                inset 0 0 30px rgba(255, 255, 255, 0.025),
-                0 0 50px rgba(255, 0, 0, 0.04);
+                inset 0 0 30px
+                rgba(255, 120, 220, 0.04),
+
+                0 0 60px
+                rgba(255, 0, 170, 0.06);
 
             opacity: 0.55;
+
         }
+
 
         .shape.one {
-            width: 170px;
-            height: 170px;
 
-            left: 5%;
-            top: 12%;
+            width: 180px;
+            height: 180px;
 
-            border-radius: 35px;
-
-            transform: rotate(25deg);
-
-            animation: shapeOne 17s ease-in-out infinite;
-        }
-
-        .shape.two {
-            width: 120px;
-            height: 120px;
-
-            right: 8%;
-            top: 15%;
-
-            border-radius: 50%;
-
-            animation: shapeTwo 13s ease-in-out infinite;
-        }
-
-        .shape.three {
-            width: 200px;
-            height: 200px;
-
-            right: 20%;
-            bottom: -80px;
+            left: 4%;
+            top: 10%;
 
             border-radius: 40px;
 
-            transform: rotate(45deg);
+            transform:
+                rotate(25deg);
 
-            animation: shapeThree 20s ease-in-out infinite;
+            animation:
+                shapeOne 17s ease-in-out infinite;
+
         }
 
-        .shape.four {
-            width: 90px;
-            height: 90px;
 
-            left: 20%;
-            bottom: 10%;
+        .shape.two {
+
+            width: 130px;
+            height: 130px;
+
+            right: 7%;
+            top: 12%;
+
+            border-radius: 50%;
+
+            animation:
+                shapeTwo 13s ease-in-out infinite;
+
+        }
+
+
+        .shape.three {
+
+            width: 210px;
+            height: 210px;
+
+            right: 22%;
+            bottom: -90px;
+
+            border-radius: 45px;
+
+            transform:
+                rotate(45deg);
+
+            animation:
+                shapeThree 20s ease-in-out infinite;
+
+        }
+
+
+        .shape.four {
+
+            width: 100px;
+            height: 100px;
+
+            left: 18%;
+            bottom: 8%;
 
             border-radius: 25px;
 
-            transform: rotate(20deg);
+            animation:
+                shapeFour 15s ease-in-out infinite;
 
-            animation: shapeFour 15s ease-in-out infinite;
         }
 
+
         @keyframes shapeOne {
+
             0%, 100% {
                 transform:
                     translate3d(0, 0, 0)
@@ -268,12 +335,15 @@
 
             50% {
                 transform:
-                    translate3d(100px, 70px, 0)
+                    translate3d(110px, 70px, 0)
                     rotate(145deg);
             }
+
         }
 
+
         @keyframes shapeTwo {
+
             0%, 100% {
                 transform:
                     translate3d(0, 0, 0)
@@ -282,12 +352,15 @@
 
             50% {
                 transform:
-                    translate3d(-100px, 100px, 0)
+                    translate3d(-110px, 110px, 0)
                     scale(1.5);
             }
+
         }
 
+
         @keyframes shapeThree {
+
             0%, 100% {
                 transform:
                     translate3d(0, 0, 0)
@@ -296,12 +369,15 @@
 
             50% {
                 transform:
-                    translate3d(-120px, -120px, 0)
+                    translate3d(-120px, -130px, 0)
                     rotate(180deg);
             }
+
         }
 
+
         @keyframes shapeFour {
+
             0%, 100% {
                 transform:
                     translate3d(0, 0, 0)
@@ -313,443 +389,851 @@
                     translate3d(80px, -80px, 0)
                     rotate(160deg);
             }
+
         }
 
 
-        /* =========================================================
+        /* =====================================================
+           YUKI CHARACTER
+        ===================================================== */
+
+        .character {
+
+            position: fixed;
+
+            z-index: 4;
+
+            right: -20px;
+            bottom: -45px;
+
+            width: min(32vw, 430px);
+
+            max-height: 90vh;
+
+            object-fit: contain;
+
+            pointer-events: none;
+
+            user-select: none;
+
+            filter:
+                drop-shadow(
+                    0 0 25px
+                    rgba(255, 20, 170, 0.45)
+                );
+
+            animation:
+                characterFloat 4s ease-in-out infinite;
+
+            transform-origin:
+                bottom center;
+
+        }
+
+
+        @keyframes characterFloat {
+
+            0%, 100% {
+
+                transform:
+                    translateY(0px)
+                    rotate(0deg);
+
+            }
+
+            50% {
+
+                transform:
+                    translateY(-12px)
+                    rotate(1deg);
+
+            }
+
+        }
+
+
+        /* Pink aura behind character */
+
+        .character-glow {
+
+            position: fixed;
+
+            z-index: 2;
+
+            right: 3%;
+
+            bottom: 8%;
+
+            width: 330px;
+            height: 500px;
+
+            background:
+                radial-gradient(
+                    ellipse,
+                    rgba(255, 20, 180, 0.28),
+                    rgba(255, 0, 140, 0.08),
+                    transparent 70%
+                );
+
+            filter: blur(50px);
+
+            pointer-events: none;
+
+            animation:
+                characterGlow 4s ease-in-out infinite;
+
+        }
+
+
+        @keyframes characterGlow {
+
+            0%, 100% {
+                transform:
+                    scale(0.95);
+
+                opacity:
+                    0.7;
+            }
+
+            50% {
+                transform:
+                    scale(1.08);
+
+                opacity:
+                    1;
+            }
+
+        }
+
+
+        /* =====================================================
            MAIN CARD
-        ========================================================= */
+        ===================================================== */
 
         .container {
+
             position: relative;
 
             z-index: 10;
 
-            width: min(90vw, 620px);
+            width:
+                min(90vw, 620px);
 
-            padding: 45px 40px;
+            padding:
+                45px 40px;
 
-            text-align: center;
+            margin-right:
+                min(15vw, 160px);
+
+            text-align:
+                center;
 
             background:
                 linear-gradient(
                     135deg,
-                    rgba(30, 30, 30, 0.72),
-                    rgba(12, 12, 12, 0.60)
+                    rgba(35, 12, 30, 0.78),
+                    rgba(12, 5, 12, 0.68)
                 );
 
             border:
                 1px solid
-                rgba(255, 255, 255, 0.10);
+                rgba(255, 120, 210, 0.14);
 
-            border-radius: 30px;
+            border-radius:
+                30px;
 
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            backdrop-filter:
+                blur(28px);
+
+            -webkit-backdrop-filter:
+                blur(28px);
 
             box-shadow:
-                0 30px 100px rgba(0, 0, 0, 0.70),
-                inset 0 1px 0 rgba(255, 255, 255, 0.07);
 
-            animation: cardAppear 0.8s ease-out;
+                0 30px 100px
+                rgba(0, 0, 0, 0.70),
+
+                0 0 80px
+                rgba(255, 0, 170, 0.08),
+
+                inset 0 1px 0
+                rgba(255, 180, 230, 0.08);
+
+            animation:
+                cardAppear 0.8s ease-out;
+
         }
 
+
         @keyframes cardAppear {
+
             from {
+
                 opacity: 0;
-                transform: translateY(20px) scale(0.97);
+
+                transform:
+                    translateY(20px)
+                    scale(0.97);
+
             }
 
             to {
+
                 opacity: 1;
-                transform: translateY(0) scale(1);
+
+                transform:
+                    translateY(0)
+                    scale(1);
+
             }
+
         }
 
 
-        /* =========================================================
+        /* =====================================================
            PROFILE
-        ========================================================= */
+        ===================================================== */
 
         .pfp-wrapper {
-            position: relative;
 
-            display: inline-block;
+            position:
+                relative;
 
-            margin-bottom: 18px;
+            display:
+                inline-block;
+
+            margin-bottom:
+                18px;
+
         }
+
 
         .pfp-glow {
-            position: absolute;
 
-            inset: -12px;
+            position:
+                absolute;
 
-            border-radius: 50%;
+            inset:
+                -12px;
 
-            background: rgba(255, 0, 0, 0.30);
+            border-radius:
+                50%;
 
-            filter: blur(20px);
+            background:
+                rgba(255, 0, 160, 0.35);
 
-            animation: pfpGlow 2.5s ease-in-out infinite;
+            filter:
+                blur(22px);
+
+            animation:
+                pfpGlow 2.5s ease-in-out infinite;
+
         }
 
+
         @keyframes pfpGlow {
+
             0%, 100% {
-                opacity: 0.5;
-                transform: scale(0.95);
+
+                opacity:
+                    0.5;
+
+                transform:
+                    scale(0.95);
+
             }
 
             50% {
-                opacity: 0.9;
-                transform: scale(1.08);
+
+                opacity:
+                    0.95;
+
+                transform:
+                    scale(1.08);
+
             }
+
         }
+
 
         .pfp {
-            position: relative;
 
-            width: 105px;
-            height: 105px;
+            position:
+                relative;
 
-            border-radius: 50%;
+            width:
+                105px;
 
-            object-fit: cover;
+            height:
+                105px;
 
-            border: 4px solid #ff2020;
+            border-radius:
+                50%;
+
+            object-fit:
+                cover;
+
+            border:
+                4px solid
+                #ff4db8;
 
             box-shadow:
-                0 0 0 5px rgba(255, 0, 0, 0.10),
-                0 0 35px rgba(255, 0, 0, 0.35);
+
+                0 0 0 5px
+                rgba(255, 0, 170, 0.10),
+
+                0 0 40px
+                rgba(255, 0, 170, 0.40);
+
         }
+
 
         h1 {
-            margin: 0;
 
-            font-size: 2.3rem;
+            margin:
+                0;
 
-            font-weight: 750;
+            font-size:
+                2.3rem;
 
-            letter-spacing: -1px;
-        }
+            font-weight:
+                750;
 
-        .handle {
-            margin-top: 6px;
-
-            color: #999;
-
-            font-size: 1rem;
-        }
-
-
-        /* =========================================================
-           LIVE BADGE
-        ========================================================= */
-
-        .live {
-            display: inline-flex;
-
-            align-items: center;
-
-            gap: 8px;
-
-            margin-top: 22px;
-
-            padding: 7px 14px;
-
-            border-radius: 999px;
+            letter-spacing:
+                -1px;
 
             background:
-                rgba(255, 0, 0, 0.10);
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #ffb6e6
+                );
+
+            -webkit-background-clip:
+                text;
+
+            background-clip:
+                text;
+
+            color:
+                transparent;
+
+        }
+
+
+        .handle {
+
+            margin-top:
+                6px;
+
+            color:
+                #c58aaa;
+
+            font-size:
+                1rem;
+
+        }
+
+
+        /* =====================================================
+           LIVE
+        ===================================================== */
+
+        .live {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            gap:
+                8px;
+
+            margin-top:
+                22px;
+
+            padding:
+                7px 14px;
+
+            border-radius:
+                999px;
+
+            background:
+                rgba(255, 0, 170, 0.10);
 
             border:
                 1px solid
-                rgba(255, 0, 0, 0.25);
+                rgba(255, 70, 190, 0.28);
 
-            color: #ff4b4b;
+            color:
+                #ff70c8;
 
-            font-size: 0.75rem;
+            font-size:
+                0.75rem;
 
-            font-weight: 800;
+            font-weight:
+                800;
 
-            letter-spacing: 1.5px;
+            letter-spacing:
+                1.5px;
+
         }
+
 
         .live-dot {
-            width: 8px;
-            height: 8px;
 
-            border-radius: 50%;
+            width:
+                8px;
 
-            background: #ff0000;
+            height:
+                8px;
+
+            border-radius:
+                50%;
+
+            background:
+                #ff209d;
 
             box-shadow:
-                0 0 10px #ff0000;
+                0 0 12px
+                #ff209d;
 
-            animation: pulse 1.4s infinite;
+            animation:
+                pulse 1.4s infinite;
+
         }
 
+
         @keyframes pulse {
+
             0%, 100% {
-                opacity: 1;
-                transform: scale(1);
+
+                opacity:
+                    1;
+
+                transform:
+                    scale(1);
+
             }
 
             50% {
-                opacity: 0.3;
-                transform: scale(0.7);
+
+                opacity:
+                    0.3;
+
+                transform:
+                    scale(0.7);
+
             }
+
         }
 
 
-        /* =========================================================
-           SUBSCRIBER COUNT
-        ========================================================= */
+        /* =====================================================
+           COUNTER
+        ===================================================== */
 
         .counter {
-            margin: 27px 0 5px;
+
+            margin:
+                27px 0 5px;
 
             font-size:
                 clamp(4rem, 12vw, 6rem);
 
-            line-height: 1;
+            line-height:
+                1;
 
-            font-weight: 800;
+            font-weight:
+                800;
 
-            letter-spacing: -4px;
+            letter-spacing:
+                -4px;
 
             background:
                 linear-gradient(
                     180deg,
                     #ffffff 0%,
-                    #eeeeee 45%,
-                    #999999 100%
+                    #ffd6ef 45%,
+                    #d66aaa 100%
                 );
 
-            -webkit-background-clip: text;
-            background-clip: text;
+            -webkit-background-clip:
+                text;
 
-            color: transparent;
+            background-clip:
+                text;
+
+            color:
+                transparent;
 
             transition:
                 transform 0.25s ease,
                 filter 0.25s ease;
+
         }
 
+
         .counter.bump {
-            transform: scale(1.08);
+
+            transform:
+                scale(1.08);
 
             filter:
                 drop-shadow(
-                    0 0 20px
-                    rgba(255, 0, 0, 0.4)
+                    0 0 25px
+                    rgba(255, 20, 170, 0.55)
                 );
+
         }
+
 
         .label {
-            color: #777;
 
-            font-size: 0.8rem;
+            color:
+                #a86d91;
 
-            text-transform: uppercase;
+            font-size:
+                0.8rem;
 
-            letter-spacing: 4px;
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                4px;
+
         }
 
 
-        /* =========================================================
+        /* =====================================================
            GOAL BOX
-        ========================================================= */
+        ===================================================== */
 
         .goal-box {
-            position: relative;
 
-            margin-top: 32px;
+            position:
+                relative;
 
-            padding: 20px;
+            margin-top:
+                32px;
 
-            text-align: left;
+            padding:
+                20px;
+
+            text-align:
+                left;
 
             background:
                 linear-gradient(
                     135deg,
-                    rgba(255, 255, 255, 0.055),
+                    rgba(255, 80, 190, 0.08),
                     rgba(255, 255, 255, 0.018)
                 );
 
             border:
                 1px solid
-                rgba(255, 255, 255, 0.09);
+                rgba(255, 120, 210, 0.13);
 
-            border-radius: 18px;
+            border-radius:
+                18px;
 
             box-shadow:
-                inset 0 1px 0
-                rgba(255, 255, 255, 0.04),
-                0 10px 30px
-                rgba(0, 0, 0, 0.25);
 
-            overflow: hidden;
+                inset 0 1px 0
+                rgba(255, 180, 230, 0.05),
+
+                0 10px 35px
+                rgba(0, 0, 0, 0.25),
+
+                0 0 30px
+                rgba(255, 0, 170, 0.04);
+
+            overflow:
+                hidden;
+
         }
 
+
         .goal-box::before {
-            content: "";
 
-            position: absolute;
+            content:
+                "";
 
-            left: 0;
-            top: 0;
-            bottom: 0;
+            position:
+                absolute;
 
-            width: 3px;
+            left:
+                0;
+
+            top:
+                0;
+
+            bottom:
+                0;
+
+            width:
+                3px;
 
             background:
                 linear-gradient(
                     180deg,
-                    #ff0000,
-                    #ff5555,
-                    #aa0000
+                    #ff1493,
+                    #ff69c4,
+                    #c00078
                 );
 
             box-shadow:
-                0 0 15px
-                rgba(255, 0, 0, 0.6);
+                0 0 18px
+                rgba(255, 20, 160, 0.7);
+
         }
+
 
         .goal-header {
-            display: flex;
 
-            justify-content: space-between;
+            display:
+                flex;
 
-            align-items: center;
+            justify-content:
+                space-between;
 
-            margin-bottom: 12px;
+            align-items:
+                center;
+
+            margin-bottom:
+                12px;
+
         }
+
 
         .goal-title {
-            font-size: 0.85rem;
 
-            font-weight: 700;
+            font-size:
+                0.85rem;
 
-            color: #aaa;
+            font-weight:
+                700;
 
-            text-transform: uppercase;
+            color:
+                #c28aaa;
 
-            letter-spacing: 1.5px;
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                1.5px;
+
         }
+
 
         .goal-number {
-            font-size: 0.9rem;
 
-            font-weight: 700;
+            font-size:
+                0.9rem;
 
-            color: #fff;
+            font-weight:
+                700;
+
+            color:
+                #ff9ed8;
+
+            text-shadow:
+                0 0 10px
+                rgba(255, 50, 180, 0.35);
+
         }
 
-        .progress {
-            width: 100%;
 
-            height: 9px;
+        .progress {
+
+            width:
+                100%;
+
+            height:
+                9px;
 
             background:
-                rgba(255, 255, 255, 0.07);
+                rgba(255, 255, 255, 0.06);
 
-            border-radius: 999px;
+            border-radius:
+                999px;
 
-            overflow: hidden;
+            overflow:
+                hidden;
 
             box-shadow:
                 inset 0 1px 3px
                 rgba(0, 0, 0, 0.5);
+
         }
 
-        .progress-bar {
-            height: 100%;
 
-            width: 0%;
+        .progress-bar {
+
+            height:
+                100%;
+
+            width:
+                0%;
 
             background:
                 linear-gradient(
                     90deg,
-                    #b50000,
-                    #ff0000,
-                    #ff5555
+                    #c00078,
+                    #ff1493,
+                    #ff72c6
                 );
 
-            border-radius: inherit;
+            border-radius:
+                inherit;
 
             box-shadow:
-                0 0 15px
-                rgba(255, 0, 0, 0.55);
+                0 0 18px
+                rgba(255, 20, 160, 0.65);
 
             transition:
-                width 0.8s cubic-bezier(
+                width 0.8s
+                cubic-bezier(
                     0.22,
                     1,
                     0.36,
                     1
                 );
+
         }
+
 
         .goal-footer {
-            display: flex;
 
-            justify-content: space-between;
+            display:
+                flex;
 
-            margin-top: 9px;
+            justify-content:
+                space-between;
 
-            font-size: 0.75rem;
+            margin-top:
+                9px;
 
-            color: #666;
+            font-size:
+                0.75rem;
+
+            color:
+                #76516a;
+
         }
 
 
-        /* =========================================================
+        /* =====================================================
            STATUS
-        ========================================================= */
+        ===================================================== */
 
         .status {
-            margin-top: 22px;
 
-            color: #555;
+            margin-top:
+                22px;
 
-            font-size: 0.75rem;
+            color:
+                #76566c;
+
+            font-size:
+                0.75rem;
+
         }
 
 
-        /* =========================================================
+        /* =====================================================
            MOBILE
-        ========================================================= */
+        ===================================================== */
+
+        @media (max-width: 850px) {
+
+            .character {
+
+                opacity:
+                    0.25;
+
+                right:
+                    -80px;
+
+                width:
+                    400px;
+
+            }
+
+            .character-glow {
+
+                right:
+                    -50px;
+
+            }
+
+            .container {
+
+                margin-right:
+                    0;
+
+            }
+
+        }
+
 
         @media (max-width: 500px) {
 
             .container {
-                width: 92vw;
+
+                width:
+                    92vw;
 
                 padding:
                     35px 22px;
+
+            }
+
+            .character {
+
+                display:
+                    none;
+
             }
 
             .pfp {
-                width: 85px;
-                height: 85px;
+
+                width:
+                    85px;
+
+                height:
+                    85px;
+
             }
 
             h1 {
-                font-size: 1.9rem;
+
+                font-size:
+                    1.9rem;
+
             }
 
             .counter {
-                letter-spacing: -2px;
+
+                letter-spacing:
+                    -2px;
+
             }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
-    <!-- =========================================================
-         ANIMATED BACKGROUND
-    ========================================================== -->
+
+    <!-- =====================================================
+         BACKGROUND
+    ====================================================== -->
 
     <div class="background">
 
@@ -765,11 +1249,25 @@
     </div>
 
 
-    <!-- =========================================================
-         MAIN CONTENT
-    ========================================================== -->
+    <!-- =====================================================
+         YUKI
+    ====================================================== -->
+
+    <div class="character-glow"></div>
+
+    <img
+        class="character"
+        src="https://static.wikia.nocookie.net/vsbattles/images/5/55/Yuki_Takeya_-_Pre-Timeskip.png/revision/latest?cb=20211202134015"
+        alt=""
+    >
+
+
+    <!-- =====================================================
+         MAIN CARD
+    ====================================================== -->
 
     <div class="container">
+
 
         <div class="pfp-wrapper">
 
@@ -795,8 +1293,11 @@
 
 
         <div class="live">
+
             <span class="live-dot"></span>
+
             LIVE
+
         </div>
 
 
@@ -813,9 +1314,9 @@
         </div>
 
 
-        <!-- =====================================================
+        <!-- =================================================
              GOAL
-        ====================================================== -->
+        ================================================== -->
 
         <div class="goal-box">
 
@@ -852,7 +1353,7 @@
                 </span>
 
                 <span>
-                    Keep going!
+                    Keep going! ♡
                 </span>
 
             </div>
@@ -867,19 +1368,20 @@
             Connecting...
         </div>
 
+
     </div>
 
 
-    <!-- =========================================================
+    <!-- =====================================================
          SILK / KEEP-SILK-OPEN
-    ========================================================== -->
+    ====================================================== -->
 
     <script src="https://dagammla.gitlab.io/keep-silk-open/keep.js"></script>
 
 
-    <!-- =========================================================
+    <!-- =====================================================
          SUBSCRIBER COUNTER
-    ========================================================== -->
+    ====================================================== -->
 
     <script>
 
@@ -888,22 +1390,37 @@
 
 
         const subCount =
-            document.getElementById("subCount");
+            document.getElementById(
+                "subCount"
+            );
+
 
         const status =
-            document.getElementById("status");
+            document.getElementById(
+                "status"
+            );
+
 
         const progressBar =
-            document.getElementById("progressBar");
+            document.getElementById(
+                "progressBar"
+            );
+
 
         const goalText =
-            document.getElementById("goalText");
+            document.getElementById(
+                "goalText"
+            );
+
 
         const currentGoalText =
-            document.getElementById("currentGoalText");
+            document.getElementById(
+                "currentGoalText"
+            );
 
 
-        let previousCount = null;
+        let previousCount =
+            null;
 
 
         async function fetchSubCount() {
@@ -914,7 +1431,8 @@
                     await fetch(
                         API_URL,
                         {
-                            cache: "no-store"
+                            cache:
+                                "no-store"
                         }
                     );
 
@@ -932,22 +1450,14 @@
                     await response.json();
 
 
-                /*
-                 * SocialCounts API structure:
-                 *
-                 * data.counters.api.subscriberCount
-                 *
-                 * If that isn't available,
-                 * use the estimation count.
-                 */
-
                 const count =
                     data?.counters?.api?.subscriberCount ??
                     data?.counters?.estimation?.subscriberCount;
 
 
                 if (
-                    typeof count !== "number"
+                    typeof count !==
+                    "number"
                 ) {
 
                     console.log(
@@ -962,7 +1472,9 @@
                 }
 
 
-                updateCounter(count);
+                updateCounter(
+                    count
+                );
 
 
                 status.innerText =
@@ -971,6 +1483,7 @@
                         .toLocaleTimeString();
 
             }
+
 
             catch (error) {
 
@@ -988,16 +1501,15 @@
         }
 
 
-        function updateCounter(count) {
-
-            /*
-             * Animate the counter
-             * when the number changes.
-             */
+        function updateCounter(
+            count
+        ) {
 
             if (
-                previousCount !== null &&
-                previousCount !== count
+                previousCount !==
+                null &&
+                previousCount !==
+                count
             ) {
 
                 subCount.classList.add(
@@ -1027,19 +1539,10 @@
                 count;
 
 
-            /*
-             * Calculate next
-             * 100-subscriber milestone.
-             *
-             * 76  -> 100
-             * 100 -> 200
-             * 194 -> 200
-             * 237 -> 300
-             */
-
             const goal =
                 Math.ceil(
-                    (count + 1) / 100
+                    (count + 1) /
+                    100
                 ) * 100;
 
 
@@ -1056,7 +1559,10 @@
 
             progress =
                 Math.min(
-                    Math.max(progress, 0),
+                    Math.max(
+                        progress,
+                        0
+                    ),
                     100
                 );
 
@@ -1078,21 +1584,17 @@
 
 
         /*
-         * Fetch immediately when the page loads.
+         * Load immediately.
          */
 
         fetchSubCount();
 
 
         /*
-         * Automatically update every 60 seconds.
+         * Update every 60 seconds.
          *
-         * IMPORTANT:
-         * This does NOT reload the page.
-         *
-         * It simply requests the latest number
-         * from the API and replaces the number
-         * already displayed on the page.
+         * This DOES NOT refresh
+         * the webpage.
          */
 
         setInterval(
@@ -1101,6 +1603,7 @@
         );
 
     </script>
+
 
 </body>
 </html>
