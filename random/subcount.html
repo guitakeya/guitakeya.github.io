@@ -11,57 +11,403 @@
             box-sizing: border-box;
         }
 
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
         body {
             margin: 0;
-            min-height: 100vh;
 
             display: flex;
             justify-content: center;
             align-items: center;
 
-            background:
-                radial-gradient(circle at 50% 0%, #2a1111 0%, transparent 45%),
-                linear-gradient(135deg, #090909, #111111 50%, #080808);
+            overflow: hidden;
 
             color: white;
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            font-family:
+                "Segoe UI",
+                Tahoma,
+                Geneva,
+                Verdana,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 20% 20%,
+                    rgba(255, 0, 0, 0.20),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 80% 80%,
+                    rgba(130, 0, 255, 0.16),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #050505,
+                    #100707,
+                    #08050d,
+                    #050505
+                );
+
+            background-size: 200% 200%;
+
+            animation: backgroundMove 15s ease infinite;
+        }
+
+        @keyframes backgroundMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+
+        /* =========================================================
+           BACKGROUND 3D SHAPES
+        ========================================================= */
+
+        .background {
+            position: fixed;
+            inset: 0;
 
             overflow: hidden;
+
+            pointer-events: none;
+
+            z-index: 0;
         }
 
-        body::before {
-            content: "";
-            position: fixed;
-            width: 500px;
-            height: 500px;
-            background: #ff0000;
-            filter: blur(180px);
-            opacity: 0.08;
+        .orb {
+            position: absolute;
+
             border-radius: 50%;
-            pointer-events: none;
+
+            filter: blur(70px);
+
+            opacity: 0.45;
+
+            mix-blend-mode: screen;
         }
+
+        .orb.one {
+            width: 320px;
+            height: 320px;
+
+            background: rgba(255, 0, 0, 0.55);
+
+            left: -80px;
+            top: 10%;
+
+            animation:
+                orbOne 18s ease-in-out infinite;
+        }
+
+        .orb.two {
+            width: 280px;
+            height: 280px;
+
+            background: rgba(110, 0, 255, 0.45);
+
+            right: -70px;
+            bottom: 5%;
+
+            animation:
+                orbTwo 21s ease-in-out infinite;
+        }
+
+        .orb.three {
+            width: 220px;
+            height: 220px;
+
+            background: rgba(255, 40, 100, 0.30);
+
+            left: 55%;
+            top: -100px;
+
+            animation:
+                orbThree 25s ease-in-out infinite;
+        }
+
+        @keyframes orbOne {
+            0%, 100% {
+                transform:
+                    translate3d(0, 0, 0)
+                    scale(1);
+            }
+
+            50% {
+                transform:
+                    translate3d(180px, 130px, 0)
+                    scale(1.3);
+            }
+        }
+
+        @keyframes orbTwo {
+            0%, 100% {
+                transform:
+                    translate3d(0, 0, 0)
+                    scale(1);
+            }
+
+            50% {
+                transform:
+                    translate3d(-180px, -100px, 0)
+                    scale(1.25);
+            }
+        }
+
+        @keyframes orbThree {
+            0%, 100% {
+                transform:
+                    translate3d(0, 0, 0)
+                    rotate(0deg);
+            }
+
+            50% {
+                transform:
+                    translate3d(-100px, 200px, 0)
+                    rotate(180deg);
+            }
+        }
+
+
+        /* Floating glass shapes */
+
+        .shape {
+            position: absolute;
+
+            border: 1px solid rgba(255, 255, 255, 0.10);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.08),
+                    rgba(255, 255, 255, 0.015)
+                );
+
+            backdrop-filter: blur(10px);
+
+            box-shadow:
+                inset 0 0 30px rgba(255, 255, 255, 0.025),
+                0 0 50px rgba(255, 0, 0, 0.04);
+
+            opacity: 0.55;
+        }
+
+        .shape.one {
+            width: 170px;
+            height: 170px;
+
+            left: 5%;
+            top: 12%;
+
+            border-radius: 35px;
+
+            transform: rotate(25deg);
+
+            animation: shapeOne 17s ease-in-out infinite;
+        }
+
+        .shape.two {
+            width: 120px;
+            height: 120px;
+
+            right: 8%;
+            top: 15%;
+
+            border-radius: 50%;
+
+            animation: shapeTwo 13s ease-in-out infinite;
+        }
+
+        .shape.three {
+            width: 200px;
+            height: 200px;
+
+            right: 20%;
+            bottom: -80px;
+
+            border-radius: 40px;
+
+            transform: rotate(45deg);
+
+            animation: shapeThree 20s ease-in-out infinite;
+        }
+
+        .shape.four {
+            width: 90px;
+            height: 90px;
+
+            left: 20%;
+            bottom: 10%;
+
+            border-radius: 25px;
+
+            transform: rotate(20deg);
+
+            animation: shapeFour 15s ease-in-out infinite;
+        }
+
+        @keyframes shapeOne {
+            0%, 100% {
+                transform:
+                    translate3d(0, 0, 0)
+                    rotate(25deg);
+            }
+
+            50% {
+                transform:
+                    translate3d(100px, 70px, 0)
+                    rotate(145deg);
+            }
+        }
+
+        @keyframes shapeTwo {
+            0%, 100% {
+                transform:
+                    translate3d(0, 0, 0)
+                    scale(1);
+            }
+
+            50% {
+                transform:
+                    translate3d(-100px, 100px, 0)
+                    scale(1.5);
+            }
+        }
+
+        @keyframes shapeThree {
+            0%, 100% {
+                transform:
+                    translate3d(0, 0, 0)
+                    rotate(45deg);
+            }
+
+            50% {
+                transform:
+                    translate3d(-120px, -120px, 0)
+                    rotate(180deg);
+            }
+        }
+
+        @keyframes shapeFour {
+            0%, 100% {
+                transform:
+                    translate3d(0, 0, 0)
+                    rotate(20deg);
+            }
+
+            50% {
+                transform:
+                    translate3d(80px, -80px, 0)
+                    rotate(160deg);
+            }
+        }
+
+
+        /* =========================================================
+           MAIN CARD
+        ========================================================= */
 
         .container {
             position: relative;
 
+            z-index: 10;
+
             width: min(90vw, 620px);
+
             padding: 45px 40px;
 
             text-align: center;
 
-            background: rgba(25, 25, 25, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(30, 30, 30, 0.72),
+                    rgba(12, 12, 12, 0.60)
+                );
 
-            border-radius: 28px;
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.10);
+
+            border-radius: 30px;
+
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
 
             box-shadow:
-                0 25px 80px rgba(0, 0, 0, 0.65),
-                inset 0 1px 0 rgba(255, 255, 255, 0.04);
+                0 30px 100px rgba(0, 0, 0, 0.70),
+                inset 0 1px 0 rgba(255, 255, 255, 0.07);
 
-            backdrop-filter: blur(15px);
+            animation: cardAppear 0.8s ease-out;
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+
+        /* =========================================================
+           PROFILE
+        ========================================================= */
+
+        .pfp-wrapper {
+            position: relative;
+
+            display: inline-block;
+
+            margin-bottom: 18px;
+        }
+
+        .pfp-glow {
+            position: absolute;
+
+            inset: -12px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 0, 0, 0.30);
+
+            filter: blur(20px);
+
+            animation: pfpGlow 2.5s ease-in-out infinite;
+        }
+
+        @keyframes pfpGlow {
+            0%, 100% {
+                opacity: 0.5;
+                transform: scale(0.95);
+            }
+
+            50% {
+                opacity: 0.9;
+                transform: scale(1.08);
+            }
         }
 
         .pfp {
+            position: relative;
+
             width: 105px;
             height: 105px;
 
@@ -69,20 +415,19 @@
 
             object-fit: cover;
 
-            border: 4px solid #ff0000;
+            border: 4px solid #ff2020;
 
             box-shadow:
-                0 0 0 6px rgba(255, 0, 0, 0.12),
+                0 0 0 5px rgba(255, 0, 0, 0.10),
                 0 0 35px rgba(255, 0, 0, 0.35);
-
-            margin-bottom: 18px;
         }
 
         h1 {
             margin: 0;
 
             font-size: 2.3rem;
-            font-weight: 700;
+
+            font-weight: 750;
 
             letter-spacing: -1px;
         }
@@ -92,38 +437,53 @@
 
             color: #999;
 
-            font-size: 1.05rem;
+            font-size: 1rem;
         }
+
+
+        /* =========================================================
+           LIVE BADGE
+        ========================================================= */
 
         .live {
             display: inline-flex;
+
             align-items: center;
-            gap: 7px;
+
+            gap: 8px;
 
             margin-top: 22px;
-            padding: 7px 13px;
+
+            padding: 7px 14px;
 
             border-radius: 999px;
 
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px solid rgba(255, 0, 0, 0.25);
+            background:
+                rgba(255, 0, 0, 0.10);
+
+            border:
+                1px solid
+                rgba(255, 0, 0, 0.25);
 
             color: #ff4b4b;
 
-            font-size: 0.8rem;
-            font-weight: 700;
+            font-size: 0.75rem;
 
-            letter-spacing: 1px;
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
         }
 
         .live-dot {
             width: 8px;
             height: 8px;
 
-            background: #ff0000;
             border-radius: 50%;
 
-            box-shadow: 0 0 10px #ff0000;
+            background: #ff0000;
+
+            box-shadow:
+                0 0 10px #ff0000;
 
             animation: pulse 1.4s infinite;
         }
@@ -135,113 +495,251 @@
             }
 
             50% {
-                opacity: 0.35;
+                opacity: 0.3;
                 transform: scale(0.7);
             }
         }
 
-        .counter {
-            margin: 25px 0 5px;
 
-            font-size: clamp(4rem, 12vw, 6rem);
+        /* =========================================================
+           SUBSCRIBER COUNT
+        ========================================================= */
+
+        .counter {
+            margin: 27px 0 5px;
+
+            font-size:
+                clamp(4rem, 12vw, 6rem);
+
             line-height: 1;
 
             font-weight: 800;
 
-            letter-spacing: -3px;
+            letter-spacing: -4px;
 
-            font-family: "Segoe UI", sans-serif;
-
-            background: linear-gradient(
-                180deg,
-                #ffffff 0%,
-                #eeeeee 45%,
-                #aaaaaa 100%
-            );
+            background:
+                linear-gradient(
+                    180deg,
+                    #ffffff 0%,
+                    #eeeeee 45%,
+                    #999999 100%
+                );
 
             -webkit-background-clip: text;
             background-clip: text;
+
             color: transparent;
 
-            transition: transform 0.2s ease;
+            transition:
+                transform 0.25s ease,
+                filter 0.25s ease;
         }
 
         .counter.bump {
-            transform: scale(1.05);
+            transform: scale(1.08);
+
+            filter:
+                drop-shadow(
+                    0 0 20px
+                    rgba(255, 0, 0, 0.4)
+                );
         }
 
         .label {
-            color: #888;
+            color: #777;
 
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+
             text-transform: uppercase;
 
-            letter-spacing: 3px;
+            letter-spacing: 4px;
         }
 
-        .goal {
+
+        /* =========================================================
+           GOAL BOX
+        ========================================================= */
+
+        .goal-box {
+            position: relative;
+
             margin-top: 32px;
+
+            padding: 20px;
+
             text-align: left;
-        }
 
-        .goal-header {
-            display: flex;
-            justify-content: space-between;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.055),
+                    rgba(255, 255, 255, 0.018)
+                );
 
-            margin-bottom: 9px;
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.09);
 
-            font-size: 0.85rem;
-            color: #999;
-        }
+            border-radius: 18px;
 
-        .progress {
-            width: 100%;
-            height: 8px;
-
-            background: #2b2b2b;
-
-            border-radius: 999px;
+            box-shadow:
+                inset 0 1px 0
+                rgba(255, 255, 255, 0.04),
+                0 10px 30px
+                rgba(0, 0, 0, 0.25);
 
             overflow: hidden;
         }
 
+        .goal-box::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: 3px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ff0000,
+                    #ff5555,
+                    #aa0000
+                );
+
+            box-shadow:
+                0 0 15px
+                rgba(255, 0, 0, 0.6);
+        }
+
+        .goal-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 12px;
+        }
+
+        .goal-title {
+            font-size: 0.85rem;
+
+            font-weight: 700;
+
+            color: #aaa;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+        }
+
+        .goal-number {
+            font-size: 0.9rem;
+
+            font-weight: 700;
+
+            color: #fff;
+        }
+
+        .progress {
+            width: 100%;
+
+            height: 9px;
+
+            background:
+                rgba(255, 255, 255, 0.07);
+
+            border-radius: 999px;
+
+            overflow: hidden;
+
+            box-shadow:
+                inset 0 1px 3px
+                rgba(0, 0, 0, 0.5);
+        }
+
         .progress-bar {
             height: 100%;
+
             width: 0%;
 
-            background: linear-gradient(
-                90deg,
-                #ff0000,
-                #ff4444
-            );
+            background:
+                linear-gradient(
+                    90deg,
+                    #b50000,
+                    #ff0000,
+                    #ff5555
+                );
 
             border-radius: inherit;
 
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.45);
+            box-shadow:
+                0 0 15px
+                rgba(255, 0, 0, 0.55);
 
-            transition: width 0.8s ease;
+            transition:
+                width 0.8s cubic-bezier(
+                    0.22,
+                    1,
+                    0.36,
+                    1
+                );
         }
 
-        .status {
-            margin-top: 25px;
+        .goal-footer {
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-top: 9px;
+
+            font-size: 0.75rem;
 
             color: #666;
-
-            font-size: 0.8rem;
         }
 
+
+        /* =========================================================
+           STATUS
+        ========================================================= */
+
+        .status {
+            margin-top: 22px;
+
+            color: #555;
+
+            font-size: 0.75rem;
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
         @media (max-width: 500px) {
+
             .container {
-                padding: 35px 22px;
+                width: 92vw;
+
+                padding:
+                    35px 22px;
+            }
+
+            .pfp {
+                width: 85px;
+                height: 85px;
             }
 
             h1 {
                 font-size: 1.9rem;
             }
 
-            .pfp {
-                width: 85px;
-                height: 85px;
+            .counter {
+                letter-spacing: -2px;
             }
         }
     </style>
@@ -249,59 +747,145 @@
 
 <body>
 
+    <!-- =========================================================
+         ANIMATED BACKGROUND
+    ========================================================== -->
+
+    <div class="background">
+
+        <div class="orb one"></div>
+        <div class="orb two"></div>
+        <div class="orb three"></div>
+
+        <div class="shape one"></div>
+        <div class="shape two"></div>
+        <div class="shape three"></div>
+        <div class="shape four"></div>
+
+    </div>
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+    ========================================================== -->
+
     <div class="container">
 
-        <img
-            class="pfp"
-            src="https://yt3.ggpht.com/ttAkTpY31wkOGnatdL3SG8reM98rZ2wVuG950Yno4ZCO9MMH1oyeIpT9ldBO-8KzAws6qeNT=s176-c-k-c0x00ffffff-no-rj"
-            alt="GuiTakeya profile picture"
-        >
+        <div class="pfp-wrapper">
 
-        <h1>GuiTakeya</h1>
+            <div class="pfp-glow"></div>
+
+            <img
+                class="pfp"
+                src="https://yt3.ggpht.com/ttAkTpY31wkOGnatdL3SG8reM98rZ2wVuG950Yno4ZCO9MMH1oyeIpT9ldBO-8KzAws6qeNT=s176-c-k-c0x00ffffff-no-rj"
+                alt="GuiTakeya profile picture"
+            >
+
+        </div>
+
+
+        <h1>
+            GuiTakeya
+        </h1>
+
 
         <div class="handle">
             @GuiTakeya
         </div>
+
 
         <div class="live">
             <span class="live-dot"></span>
             LIVE
         </div>
 
-        <div class="counter" id="subCount">
+
+        <div
+            class="counter"
+            id="subCount"
+        >
             —
         </div>
+
 
         <div class="label">
             Subscribers
         </div>
 
-        <div class="goal">
+
+        <!-- =====================================================
+             GOAL
+        ====================================================== -->
+
+        <div class="goal-box">
 
             <div class="goal-header">
-                <span>Next goal</span>
-                <span id="goalText">100</span>
+
+                <div class="goal-title">
+                    Next milestone
+                </div>
+
+                <div
+                    class="goal-number"
+                    id="goalText"
+                >
+                    100
+                </div>
+
             </div>
 
+
             <div class="progress">
+
                 <div
                     class="progress-bar"
                     id="progressBar"
                 ></div>
+
+            </div>
+
+
+            <div class="goal-footer">
+
+                <span id="currentGoalText">
+                    0 / 100
+                </span>
+
+                <span>
+                    Keep going!
+                </span>
+
             </div>
 
         </div>
 
-        <div class="status" id="status">
+
+        <div
+            class="status"
+            id="status"
+        >
             Connecting...
         </div>
 
     </div>
 
+
+    <!-- =========================================================
+         SILK / KEEP-SILK-OPEN
+    ========================================================== -->
+
+    <script src="https://dagammla.gitlab.io/keep-silk-open/keep.js"></script>
+
+
+    <!-- =========================================================
+         SUBSCRIBER COUNTER
+    ========================================================== -->
+
     <script>
 
         const API_URL =
             "https://api.socialcounts.org/youtube-live-subscriber-count/UChg7UoXV1HEtoUgwu0y871w";
+
 
         const subCount =
             document.getElementById("subCount");
@@ -315,6 +899,10 @@
         const goalText =
             document.getElementById("goalText");
 
+        const currentGoalText =
+            document.getElementById("currentGoalText");
+
+
         let previousCount = null;
 
 
@@ -322,92 +910,197 @@
 
             try {
 
-                const response = await fetch(API_URL);
+                const response =
+                    await fetch(
+                        API_URL,
+                        {
+                            cache: "no-store"
+                        }
+                    );
+
 
                 if (!response.ok) {
+
                     throw new Error(
                         `HTTP ${response.status}`
                     );
+
                 }
 
-                const data = await response.json();
+
+                const data =
+                    await response.json();
+
+
+                /*
+                 * SocialCounts API structure:
+                 *
+                 * data.counters.api.subscriberCount
+                 *
+                 * If that isn't available,
+                 * use the estimation count.
+                 */
 
                 const count =
                     data?.counters?.api?.subscriberCount ??
                     data?.counters?.estimation?.subscriberCount;
 
-                if (typeof count !== "number") {
-                    throw new Error(
-                        "Subscriber count not found in API response."
+
+                if (
+                    typeof count !== "number"
+                ) {
+
+                    console.log(
+                        "API response:",
+                        data
                     );
+
+                    throw new Error(
+                        "Subscriber count not found."
+                    );
+
                 }
+
 
                 updateCounter(count);
 
-                status.innerText =
-                    "Last updated: " +
-                    new Date().toLocaleTimeString();
 
-            } catch (error) {
+                status.innerText =
+                    "● Live • Updated " +
+                    new Date()
+                        .toLocaleTimeString();
+
+            }
+
+            catch (error) {
 
                 console.error(
                     "Error fetching subscriber count:",
                     error
                 );
 
+
                 status.innerText =
                     "Unable to update • Retrying...";
 
             }
+
         }
 
 
         function updateCounter(count) {
 
-            const formatted =
-                count.toLocaleString();
+            /*
+             * Animate the counter
+             * when the number changes.
+             */
 
             if (
                 previousCount !== null &&
                 previousCount !== count
             ) {
 
-                subCount.classList.add("bump");
+                subCount.classList.add(
+                    "bump"
+                );
 
-                setTimeout(() => {
-                    subCount.classList.remove("bump");
-                }, 200);
+
+                setTimeout(
+                    () => {
+
+                        subCount.classList.remove(
+                            "bump"
+                        );
+
+                    },
+                    250
+                );
+
             }
 
-            subCount.innerText = formatted;
 
-            previousCount = count;
+            subCount.innerText =
+                count.toLocaleString();
 
+
+            previousCount =
+                count;
+
+
+            /*
+             * Calculate next
+             * 100-subscriber milestone.
+             *
+             * 76  -> 100
+             * 100 -> 200
+             * 194 -> 200
+             * 237 -> 300
+             */
 
             const goal =
-                Math.ceil((count + 1) / 100) * 100;
+                Math.ceil(
+                    (count + 1) / 100
+                ) * 100;
+
 
             const previousGoal =
                 goal - 100;
 
-            const progress =
-                ((count - previousGoal) /
-                (goal - previousGoal)) * 100;
+
+            let progress =
+                (
+                    (count - previousGoal) /
+                    (goal - previousGoal)
+                ) * 100;
+
+
+            progress =
+                Math.min(
+                    Math.max(progress, 0),
+                    100
+                );
+
 
             progressBar.style.width =
-                Math.min(Math.max(progress, 0), 100) + "%";
+                progress + "%";
+
 
             goalText.innerText =
                 goal.toLocaleString();
+
+
+            currentGoalText.innerText =
+                count.toLocaleString() +
+                " / " +
+                goal.toLocaleString();
+
         }
 
 
+        /*
+         * Fetch immediately when the page loads.
+         */
+
         fetchSubCount();
 
-        setInterval(fetchSubCount, 60000);
+
+        /*
+         * Automatically update every 60 seconds.
+         *
+         * IMPORTANT:
+         * This does NOT reload the page.
+         *
+         * It simply requests the latest number
+         * from the API and replaces the number
+         * already displayed on the page.
+         */
+
+        setInterval(
+            fetchSubCount,
+            60000
+        );
 
     </script>
 
 </body>
 </html>
-```
