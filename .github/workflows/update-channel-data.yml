@@ -1,0 +1,211 @@
+name: Update GuiTakeya Channel Data
+
+on:
+  schedule:
+    # Every day at 12:00 AM and 12:00 PM
+    # Mexico City time
+    - cron: "0 0,12 * * *"
+      timezone: "Etc/GMT+6"
+
+  # Allows you to run it manually
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-channel-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch channel data
+        run: |
+          python3 <<'PY'
+
+          import json
+          import urllib.request
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          API_URL = "https://api.socialcounts.org/youtube-live-subscriber-count/UChg7UoXV1HEtoUgwu0y871w"
+
+          JSON_FILE = Path("random/channel-data.json")
+
+          print("Fetching GuiTakeya data...")
+
+          request = urllib.request.Request(
+              API_URL,
+              headers={
+                  "User-Agent": "GitHubActions-GuiTakeya-Updater"
+              }
+          )
+
+          with urllib.request.urlopen(request, timeout=30) as response:
+              data = json.loads(response.read().decode("utf-8"))
+
+          # -----------------------------
+          # Subscribers
+          # -----------------------------
+
+          subscribers = None
+
+          if "subCount" in data:
+              subscribers = int(data["subCount"])
+
+          elif (
+              "counters" in data
+              and "api" in data["counters"]
+              and "subscriberCount" in data["counters"]["api"]
+          ):
+              subscribers = int(
+                  data["counters"]["api"]["subscriberCount"]
+              )
+
+          elif (
+              "counters" in data
+              and "estimation" in data["counters"]
+              and "subscriberCount" in data["counters"]["estimation"]
+          ):
+              subscribers = int(
+                  data["counters"]["estimation"]["subscriberCount"]
+              )
+
+          if subscribers is None:
+              raise Exception(
+                  "Could not find subscriber count."
+              )
+
+          # -----------------------------
+          # Views
+          # -----------------------------
+
+          views = 0
+
+          if (
+              "counters" in data
+              and "api" in data["counters"]
+              and "viewCount" in data["counters"]["api"]
+          ):
+              views = int(
+                  data["counters"]["api"]["viewCount"]
+              )
+
+          elif "viewCount" in data:
+              views = int(data["viewCount"])
+
+          # -----------------------------
+          # Videos
+          # -----------------------------
+
+          videos = 0
+
+          if (
+              "counters" in data
+              and "api" in data["counters"]
+              and "videoCount" in data["counters"]["api"]
+          ):
+              videos = int(
+                  data["counters"]["api"]["videoCount"]
+              )
+
+          elif "videoCount" in data:
+              videos = int(data["videoCount"])
+
+          # -----------------------------
+          # Timestamp
+          # -----------------------------
+
+          timestamp = datetime.now(
+              timezone.utc
+          ).isoformat()
+
+          # -----------------------------
+          # Read existing JSON
+          # -----------------------------
+
+          if JSON_FILE.exists():
+              try:
+                  with open(
+                      JSON_FILE,
+                      "r",
+                      encoding="utf-8"
+                  ) as f:
+                      channel_data = json.load(f)
+
+              except Exception:
+                  channel_data = {}
+          else:
+              channel_data = {}
+
+          channel_data.setdefault(
+              "history",
+              []
+          )
+
+          # -----------------------------
+          # Current data
+          # -----------------------------
+
+          channel_data["channel"] = "GuiTakeya"
+
+          channel_data["updatedAt"] = timestamp
+
+          channel_data["current"] = {
+              "subscribers": subscribers,
+              "views": views,
+              "videos": videos
+          }
+
+          # -----------------------------
+          # Add history snapshot
+          # -----------------------------
+
+          snapshot = {
+              "timestamp": timestamp,
+              "subscribers": subscribers,
+              "views": views,
+              "videos": videos
+          }
+
+          channel_data["history"].append(
+              snapshot
+          )
+
+          # -----------------------------
+          # Save JSON
+          # -----------------------------
+
+          with open(
+              JSON_FILE,
+              "w",
+              encoding="utf-8"
+          ) as f:
+
+              json.dump(
+                  channel_data,
+                  f,
+                  indent=4
+              )
+
+          print("✓ GuiTakeya data updated!")
+          print(f"Subscribers: {subscribers:,}")
+          print(f"Views:       {views:,}")
+          print(f"Videos:      {videos:,}")
+          print(f"Snapshots:   {len(channel_data['history'])}")
+
+          PY
+
+      - name: Commit updated JSON
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add random/channel-data.json
+
+          git diff --cached --quiet || \
+            git commit -m "Update GuiTakeya channel data"
+
+          git push
