@@ -4180,5 +4180,13 @@ renderSlide();
 })();
 </script>
 
+
+<script>
+    // Refresh the page every 5 minutes to help prevent Silk inactivity timeout.
+    // The timer is reset by a full page reload, so it continuously repeats.
+    setTimeout(() => {
+        window.location.reload();
+    }, 5 * 60 * 1000);
+</script>
 </body>
 </html>
