@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 
 <meta
@@ -10,10 +12,11 @@
 
 <title>GuiTakeya Live Dashboard</title>
 
+
 <style>
 
 /* =========================================================
-   BASE
+   GLOBAL
 ========================================================= */
 
 * {
@@ -22,6 +25,7 @@
 
 html,
 body {
+
     width: 960px;
     height: 480px;
 
@@ -39,23 +43,21 @@ body {
     color: white;
 
     background:
-        linear-gradient(
-            135deg,
-            #080308,
-            #160611 45%,
-            #080308
-        );
+        #080308;
 }
 
 
 /* =========================================================
-   BACKGROUND CONTAINER
+   BACKGROUND VIEWPORT
 
-   IMPORTANT FOR ALEXA/SILK:
-   Everything animated stays inside this exact 960x480 box.
+   IMPORTANT:
+   EVERYTHING IN HERE IS CLIPPED TO 960x480.
+   This prevents Alexa/Silk from showing the grid/shapes
+   outside the intended screen.
 ========================================================= */
 
 .background {
+
     position: fixed;
 
     left: 0;
@@ -66,25 +68,79 @@ body {
 
     overflow: hidden;
 
+    border-radius: 22px;
+
     pointer-events: none;
 
     z-index: 0;
+
+    clip-path:
+        inset(
+            0
+            round
+            22px
+        );
 }
 
 
 /* =========================================================
-   BACKGROUND LIGHTS
+   BACKGROUND GRADIENT
+========================================================= */
+
+.background::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 960px;
+    height: 480px;
+
+    background:
+        radial-gradient(
+            circle at 20% 10%,
+            rgba(255, 0, 150, .18),
+            transparent 32%
+        ),
+
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(180, 0, 255, .17),
+            transparent 35%
+        ),
+
+        linear-gradient(
+            135deg,
+            #090309,
+            #160613 50%,
+            #090309
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   GLOWING LIGHTS
 ========================================================= */
 
 .light {
+
     position: absolute;
 
     border-radius: 50%;
 
     pointer-events: none;
+
+    will-change: transform;
 }
 
+
 .light.one {
+
     width: 300px;
     height: 300px;
 
@@ -94,13 +150,19 @@ body {
     background:
         rgba(255, 0, 150, .22);
 
-    filter: blur(60px);
+    filter:
+        blur(60px);
 
     animation:
-        lightOne 18s ease-in-out infinite;
+        lightOne
+        18s
+        ease-in-out
+        infinite;
 }
 
+
 .light.two {
+
     width: 280px;
     height: 280px;
 
@@ -110,13 +172,19 @@ body {
     background:
         rgba(180, 0, 255, .20);
 
-    filter: blur(60px);
+    filter:
+        blur(60px);
 
     animation:
-        lightTwo 22s ease-in-out infinite;
+        lightTwo
+        22s
+        ease-in-out
+        infinite;
 }
 
+
 .light.three {
+
     width: 220px;
     height: 220px;
 
@@ -126,105 +194,161 @@ body {
     background:
         rgba(255, 50, 190, .15);
 
-    filter: blur(55px);
+    filter:
+        blur(55px);
 
     animation:
-        lightThree 25s ease-in-out infinite;
+        lightThree
+        25s
+        ease-in-out
+        infinite;
 }
+
 
 @keyframes lightOne {
 
     0%,
     100% {
+
         transform:
-            translate3d(0, 0, 0)
+            translate3d(
+                0,
+                0,
+                0
+            )
             scale(1);
     }
 
     50% {
+
         transform:
-            translate3d(120px, 80px, 0)
+            translate3d(
+                120px,
+                80px,
+                0
+            )
             scale(1.2);
     }
 }
+
 
 @keyframes lightTwo {
 
     0%,
     100% {
+
         transform:
-            translate3d(0, 0, 0)
+            translate3d(
+                0,
+                0,
+                0
+            )
             scale(1);
     }
 
     50% {
+
         transform:
-            translate3d(-100px, -70px, 0)
+            translate3d(
+                -100px,
+                -70px,
+                0
+            )
             scale(1.2);
     }
 }
+
 
 @keyframes lightThree {
 
     0%,
     100% {
+
         transform:
-            translate3d(0, 0, 0);
+            translate3d(
+                0,
+                0,
+                0
+            );
     }
 
     50% {
+
         transform:
-            translate3d(-70px, 100px, 0);
+            translate3d(
+                -70px,
+                100px,
+                0
+            );
     }
 }
 
 
 /* =========================================================
-   GRID
+   3D GRID
 
-   Kept inside the viewport instead of using inset:-100px.
+   The grid itself can be larger than the viewport, but
+   .background clips it so it can NEVER escape 960x480.
 ========================================================= */
 
 .grid {
+
     position: absolute;
 
     left: -40px;
-    top: 120px;
+    top: 105px;
 
     width: 1040px;
-    height: 500px;
+    height: 430px;
 
-    opacity: .09;
+    opacity: .085;
 
     background-image:
+
         linear-gradient(
-            rgba(255, 80, 190, .25) 1px,
+            rgba(255, 80, 190, .28)
+            1px,
             transparent 1px
         ),
+
         linear-gradient(
             90deg,
-            rgba(255, 80, 190, .25) 1px,
+            rgba(255, 80, 190, .28)
+            1px,
             transparent 1px
         );
 
-    background-size: 42px 42px;
+    background-size:
+        42px 42px;
 
     transform:
         perspective(350px)
         rotateX(58deg);
 
+    transform-origin:
+        center center;
+
     animation:
-        gridMove 14s linear infinite;
+        gridMove
+        14s
+        linear
+        infinite;
+
+    will-change:
+        background-position;
 }
+
 
 @keyframes gridMove {
 
     from {
+
         background-position:
             0 0;
     }
 
     to {
+
         background-position:
             0 84px;
     }
@@ -236,6 +360,7 @@ body {
 ========================================================= */
 
 .shape {
+
     position: absolute;
 
     pointer-events: none;
@@ -252,7 +377,11 @@ body {
         );
 
     opacity: .55;
+
+    will-change:
+        transform;
 }
+
 
 .shape.one {
 
@@ -262,11 +391,16 @@ body {
     left: 25px;
     top: 35px;
 
-    border-radius: 25px;
+    border-radius:
+        25px;
 
     animation:
-        shapeOne 16s ease-in-out infinite;
+        shapeOne
+        16s
+        ease-in-out
+        infinite;
 }
+
 
 .shape.two {
 
@@ -276,11 +410,16 @@ body {
     left: 850px;
     top: 40px;
 
-    border-radius: 50%;
+    border-radius:
+        50%;
 
     animation:
-        shapeTwo 14s ease-in-out infinite;
+        shapeTwo
+        14s
+        ease-in-out
+        infinite;
 }
+
 
 .shape.three {
 
@@ -288,13 +427,18 @@ body {
     height: 120px;
 
     left: 730px;
-    top: 370px;
+    top: 350px;
 
-    border-radius: 30px;
+    border-radius:
+        30px;
 
     animation:
-        shapeThree 20s ease-in-out infinite;
+        shapeThree
+        20s
+        ease-in-out
+        infinite;
 }
+
 
 .shape.four {
 
@@ -302,86 +446,221 @@ body {
     height: 55px;
 
     left: 270px;
-    top: 400px;
+    top: 395px;
 
-    border-radius: 16px;
+    border-radius:
+        16px;
 
     animation:
-        shapeFour 13s ease-in-out infinite;
+        shapeFour
+        13s
+        ease-in-out
+        infinite;
 }
+
 
 @keyframes shapeOne {
 
     0%,
     100% {
+
         transform:
-            translate3d(0, 0, 0)
+            translate3d(
+                0,
+                0,
+                0
+            )
             rotate(25deg);
     }
 
     50% {
+
         transform:
-            translate3d(50px, 40px, 0)
+            translate3d(
+                50px,
+                40px,
+                0
+            )
             rotate(110deg);
     }
 }
+
 
 @keyframes shapeTwo {
 
     0%,
     100% {
+
         transform:
-            translate3d(0, 0, 0)
+            translate3d(
+                0,
+                0,
+                0
+            )
             scale(1);
     }
 
     50% {
+
         transform:
-            translate3d(-50px, 60px, 0)
+            translate3d(
+                -50px,
+                60px,
+                0
+            )
             scale(1.25);
     }
 }
+
 
 @keyframes shapeThree {
 
     0%,
     100% {
+
         transform:
-            translate3d(0, 0, 0)
+            translate3d(
+                0,
+                0,
+                0
+            )
             rotate(40deg);
     }
 
     50% {
+
         transform:
-            translate3d(-60px, -55px, 0)
+            translate3d(
+                -60px,
+                -55px,
+                0
+            )
             rotate(120deg);
     }
 }
+
 
 @keyframes shapeFour {
 
     0%,
     100% {
+
         transform:
-            translate3d(0, 0, 0)
+            translate3d(
+                0,
+                0,
+                0
+            )
             rotate(15deg);
     }
 
     50% {
+
         transform:
-            translate3d(45px, -45px, 0)
+            translate3d(
+                45px,
+                -45px,
+                0
+            )
             rotate(110deg);
     }
 }
 
 
 /* =========================================================
-   LIGHT TRAILS
+   PARTICLES
+========================================================= */
 
-   No negative starting position.
+.particles {
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 960px;
+    height: 480px;
+
+    overflow: hidden;
+
+    pointer-events: none;
+}
+
+
+.particle {
+
+    position: absolute;
+
+    width: 3px;
+    height: 3px;
+
+    border-radius:
+        50%;
+
+    background:
+        #ff8bd2;
+
+    box-shadow:
+        0 0 8px
+        #ff3cac;
+
+    opacity: .5;
+
+    animation:
+        particleFloat
+        var(--duration)
+        linear
+        infinite;
+
+    animation-delay:
+        var(--delay);
+}
+
+
+@keyframes particleFloat {
+
+    0% {
+
+        transform:
+            translate3d(
+                0,
+                40px,
+                0
+            );
+
+        opacity: 0;
+    }
+
+    15% {
+
+        opacity: .55;
+    }
+
+    85% {
+
+        opacity: .55;
+    }
+
+    100% {
+
+        transform:
+            translate3d(
+                var(--x),
+                -430px,
+                0
+            );
+
+        opacity: 0;
+    }
+}
+
+
+/* =========================================================
+   LIGHT TRAILS
 ========================================================= */
 
 .trail {
+
     position: absolute;
 
     width: 260px;
@@ -400,27 +679,38 @@ body {
     opacity: .4;
 }
 
+
 .trail.one {
 
     left: -260px;
     top: 110px;
 
-    transform: rotate(-12deg);
+    transform:
+        rotate(-12deg);
 
     animation:
-        trailOne 12s linear infinite;
+        trailOne
+        12s
+        linear
+        infinite;
 }
+
 
 .trail.two {
 
     left: -260px;
     top: 360px;
 
-    transform: rotate(8deg);
+    transform:
+        rotate(8deg);
 
     animation:
-        trailTwo 14s linear infinite;
+        trailTwo
+        14s
+        linear
+        infinite;
 }
+
 
 @keyframes trailOne {
 
@@ -433,6 +723,7 @@ body {
     }
 }
 
+
 @keyframes trailTwo {
 
     0% {
@@ -441,79 +732,6 @@ body {
 
     100% {
         left: 960px;
-    }
-}
-
-
-/* =========================================================
-   PARTICLES
-========================================================= */
-
-.particles {
-    position: absolute;
-
-    left: 0;
-    top: 0;
-
-    width: 960px;
-    height: 480px;
-
-    overflow: hidden;
-}
-
-.particle {
-
-    position: absolute;
-
-    width: 3px;
-    height: 3px;
-
-    border-radius: 50%;
-
-    background:
-        #ff8bd2;
-
-    box-shadow:
-        0 0 8px #ff3cac;
-
-    opacity: .5;
-
-    animation:
-        particleFloat
-        var(--duration)
-        linear
-        infinite;
-
-    animation-delay:
-        var(--delay);
-}
-
-@keyframes particleFloat {
-
-    0% {
-        transform:
-            translate3d(0, 40px, 0);
-
-        opacity: 0;
-    }
-
-    15% {
-        opacity: .55;
-    }
-
-    85% {
-        opacity: .55;
-    }
-
-    100% {
-        transform:
-            translate3d(
-                var(--x),
-                -430px,
-                0
-            );
-
-        opacity: 0;
     }
 }
 
@@ -542,16 +760,28 @@ body {
 
     padding: 24px;
 
-    border-radius: 28px;
+    border-radius:
+        28px;
 
     background:
-        rgba(15, 6, 15, .86);
+        rgba(
+            15,
+            6,
+            15,
+            .86
+        );
 
     border:
         1px solid
-        rgba(255, 100, 200, .18);
+        rgba(
+            255,
+            100,
+            200,
+            .18
+        );
 
     box-shadow:
+
         0 20px 70px
         rgba(0, 0, 0, .55),
 
@@ -576,7 +806,8 @@ body {
 
     display: flex;
 
-    flex-direction: column;
+    flex-direction:
+        column;
 
     min-height: 0;
 }
@@ -590,7 +821,8 @@ body {
 
     display: flex;
 
-    align-items: center;
+    align-items:
+        center;
 
     gap: 16px;
 
@@ -603,6 +835,7 @@ body {
     flex-shrink: 0;
 }
 
+
 .pfp-wrapper {
 
     position: relative;
@@ -610,38 +843,57 @@ body {
     flex-shrink: 0;
 }
 
+
 .pfp-glow {
 
     position: absolute;
 
     inset: -9px;
 
-    border-radius: 50%;
+    border-radius:
+        50%;
 
     background:
-        rgba(255, 0, 160, .22);
+        rgba(
+            255,
+            0,
+            160,
+            .22
+        );
 
     filter:
         blur(14px);
 
     animation:
         pfpPulse
-        3s ease-in-out infinite;
+        3s
+        ease-in-out
+        infinite;
 }
+
 
 @keyframes pfpPulse {
 
     0%,
     100% {
-        transform: scale(.95);
-        opacity: .45;
+
+        transform:
+            scale(.95);
+
+        opacity:
+            .45;
     }
 
     50% {
-        transform: scale(1.06);
-        opacity: .75;
+
+        transform:
+            scale(1.06);
+
+        opacity:
+            .75;
     }
 }
+
 
 .pfp {
 
@@ -650,36 +902,55 @@ body {
     width: 76px;
     height: 76px;
 
-    object-fit: cover;
+    object-fit:
+        cover;
 
-    border-radius: 50%;
+    border-radius:
+        50%;
 
     border:
         3px solid
         #ff4db8;
 
     box-shadow:
+
         0 0 0 5px
-        rgba(255, 0, 160, .07),
+        rgba(
+            255,
+            0,
+            160,
+            .07
+        ),
 
         0 0 25px
-        rgba(255, 0, 160, .4);
+        rgba(
+            255,
+            0,
+            160,
+            .4
+        );
 }
+
 
 .profile-info {
 
     display: flex;
 
-    flex-direction: column;
+    flex-direction:
+        column;
 }
+
 
 .channel-name {
 
-    font-size: 29px;
+    font-size:
+        29px;
 
-    line-height: 1;
+    line-height:
+        1;
 
-    font-weight: 900;
+    font-weight:
+        900;
 
     background:
         linear-gradient(
@@ -688,27 +959,32 @@ body {
             #ff9ed8
         );
 
-    -webkit-background-clip: text;
-    background-clip: text;
+    -webkit-background-clip:
+        text;
 
-    color: transparent;
+    background-clip:
+        text;
+
+    color:
+        transparent;
 }
+
 
 .handle {
 
-    margin-top: 5px;
+    margin-top:
+        5px;
 
     color:
         #b887a6;
 
-    font-size: 15px;
+    font-size:
+        15px;
 }
 
 
 /* =========================================================
    SUBSCRIBER BOX
-
-   Now uses almost all remaining vertical space.
 ========================================================= */
 
 .subscriber-box {
@@ -721,34 +997,53 @@ body {
 
     display: flex;
 
-    flex-direction: column;
+    flex-direction:
+        column;
 
-    justify-content: center;
+    justify-content:
+        center;
 
     padding:
         15px
         20px
         18px;
 
-    border-radius: 19px;
+    border-radius:
+        19px;
 
     background:
         linear-gradient(
             135deg,
-            rgba(255, 60, 180, .10),
-            rgba(255, 255, 255, .018)
+            rgba(
+                255,
+                60,
+                180,
+                .10
+            ),
+            rgba(
+                255,
+                255,
+                255,
+                .018
+            )
         );
 
     border:
         1px solid
-        rgba(255, 100, 200, .15);
+        rgba(
+            255,
+            100,
+            200,
+            .15
+        );
 
-    overflow: hidden;
+    overflow:
+        hidden;
 }
 
 
 /* =========================================================
-   LIVE
+   LIVE INDICATOR
 ========================================================= */
 
 .live {
@@ -760,38 +1055,55 @@ body {
 
     display: flex;
 
-    align-items: center;
+    align-items:
+        center;
 
     gap: 7px;
 
     padding:
         5px 10px;
 
-    border-radius: 999px;
+    border-radius:
+        999px;
 
     background:
-        rgba(255, 0, 150, .10);
+        rgba(
+            255,
+            0,
+            150,
+            .10
+        );
 
     border:
         1px solid
-        rgba(255, 80, 190, .25);
+        rgba(
+            255,
+            80,
+            190,
+            .25
+        );
 
     color:
         #ff72c5;
 
-    font-size: 10px;
+    font-size:
+        10px;
 
-    font-weight: 900;
+    font-weight:
+        900;
 
-    letter-spacing: 1.5px;
+    letter-spacing:
+        1.5px;
 }
+
 
 .live-dot {
 
     width: 8px;
     height: 8px;
 
-    border-radius: 50%;
+    border-radius:
+        50%;
 
     background:
         #ff219f;
@@ -802,14 +1114,20 @@ body {
 
     animation:
         pulse
-        1.3s infinite;
+        1.3s
+        infinite;
 }
+
 
 @keyframes pulse {
 
     50% {
-        opacity: .3;
-        transform: scale(.7);
+
+        opacity:
+            .3;
+
+        transform:
+            scale(.7);
     }
 }
 
@@ -820,42 +1138,52 @@ body {
 
 .counter-label {
 
-    text-align: center;
+    text-align:
+        center;
 
-    font-size: 13px;
+    font-size:
+        13px;
 
-    text-transform: uppercase;
+    text-transform:
+        uppercase;
 
-    letter-spacing: 3px;
+    letter-spacing:
+        3px;
 
     color:
         #bd8bab;
 
-    margin-bottom: 2px;
+    margin-bottom:
+        2px;
 }
 
 
 /* =========================================================
    BIG SUBSCRIBER COUNT
-
-   This is intentionally huge.
 ========================================================= */
 
 .counter {
 
-    width: 100%;
+    width:
+        100%;
 
-    text-align: center;
+    text-align:
+        center;
 
-    font-size: 104px;
+    font-size:
+        104px;
 
-    line-height: .92;
+    line-height:
+        .92;
 
-    font-weight: 950;
+    font-weight:
+        950;
 
-    letter-spacing: -5px;
+    letter-spacing:
+        -5px;
 
-    white-space: nowrap;
+    white-space:
+        nowrap;
 
     background:
         linear-gradient(
@@ -865,14 +1193,21 @@ body {
             #d768aa
         );
 
-    -webkit-background-clip: text;
-    background-clip: text;
+    -webkit-background-clip:
+        text;
 
-    color: transparent;
+    background-clip:
+        text;
+
+    color:
+        transparent;
 
     transition:
-        transform .2s ease;
+        transform
+        .2s
+        ease;
 }
+
 
 .counter.bump {
 
@@ -887,65 +1222,93 @@ body {
 
 .goal {
 
-    width: 100%;
+    width:
+        100%;
 
-    margin-top: 14px;
+    margin-top:
+        14px;
 }
+
 
 .goal-header {
 
-    display: flex;
+    display:
+        flex;
 
-    justify-content: space-between;
+    justify-content:
+        space-between;
 
-    align-items: center;
+    align-items:
+        center;
 
-    margin-bottom: 7px;
+    margin-bottom:
+        7px;
 }
+
 
 .goal-title {
 
-    font-size: 12px;
+    font-size:
+        12px;
 
-    text-transform: uppercase;
+    text-transform:
+        uppercase;
 
-    letter-spacing: 1.5px;
+    letter-spacing:
+        1.5px;
 
     color:
         #b38aa3;
 }
 
+
 .goal-number {
 
-    font-size: 14px;
+    font-size:
+        14px;
 
-    font-weight: 900;
+    font-weight:
+        900;
 
     color:
         #ff9ed8;
 }
 
+
 .progress {
 
-    width: 100%;
+    width:
+        100%;
 
-    height: 9px;
+    height:
+        9px;
 
-    overflow: hidden;
+    overflow:
+        hidden;
 
-    border-radius: 999px;
+    border-radius:
+        999px;
 
     background:
-        rgba(255, 255, 255, .07);
+        rgba(
+            255,
+            255,
+            255,
+            .07
+        );
 }
+
 
 .progress-bar {
 
-    width: 0%;
+    width:
+        0%;
 
-    height: 100%;
+    height:
+        100%;
 
-    border-radius: inherit;
+    border-radius:
+        inherit;
 
     background:
         linear-gradient(
@@ -957,21 +1320,33 @@ body {
 
     box-shadow:
         0 0 14px
-        rgba(255, 20, 160, .65);
+        rgba(
+            255,
+            20,
+            160,
+            .65
+        );
 
     transition:
-        width .7s ease;
+        width
+        .7s
+        ease;
 }
+
 
 .goal-footer {
 
-    display: flex;
+    display:
+        flex;
 
-    justify-content: space-between;
+    justify-content:
+        space-between;
 
-    margin-top: 7px;
+    margin-top:
+        7px;
 
-    font-size: 10px;
+    font-size:
+        10px;
 
     color:
         #91657e;
@@ -984,11 +1359,14 @@ body {
 
 .right {
 
-    display: flex;
+    display:
+        flex;
 
-    flex-direction: column;
+    flex-direction:
+        column;
 
-    min-width: 0;
+    min-width:
+        0;
 }
 
 
@@ -998,75 +1376,110 @@ body {
 
 .greeting {
 
-    height: 37px;
+    height:
+        37px;
 
-    flex-shrink: 0;
+    flex-shrink:
+        0;
 
-    font-size: 22px;
+    font-size:
+        22px;
 
-    font-weight: 850;
+    font-weight:
+        850;
 
     color:
         #ffc1e8;
 
     text-shadow:
         0 0 20px
-        rgba(255, 50, 180, .3);
+        rgba(
+            255,
+            50,
+            180,
+            .3
+        );
 }
 
 
 /* =========================================================
    CLOCK
-
-   ONLY HOUR + MINUTE
 ========================================================= */
 
 .clock-box {
 
-    height: 78px;
+    height:
+        78px;
 
-    flex-shrink: 0;
+    flex-shrink:
+        0;
 
     padding:
         10px 18px;
 
-    border-radius: 17px;
+    border-radius:
+        17px;
 
     background:
         linear-gradient(
             135deg,
-            rgba(255, 70, 185, .09),
-            rgba(255, 255, 255, .012)
+            rgba(
+                255,
+                70,
+                185,
+                .09
+            ),
+            rgba(
+                255,
+                255,
+                255,
+                .012
+            )
         );
 
     border:
         1px solid
-        rgba(255, 100, 200, .15);
+        rgba(
+            255,
+            100,
+            200,
+            .15
+        );
 }
+
 
 .clock-title {
 
-    font-size: 10px;
+    font-size:
+        10px;
 
-    text-transform: uppercase;
+    text-transform:
+        uppercase;
 
-    letter-spacing: 2px;
+    letter-spacing:
+        2px;
 
     color:
         #b184a0;
 }
 
+
 .clock {
 
-    margin-top: 1px;
+    margin-top:
+        1px;
 
-    font-size: 37px;
+    font-size:
+        37px;
 
-    line-height: 1;
+    line-height:
+        1;
 
-    font-weight: 900;
+    font-weight:
+        900;
 
-    letter-spacing: -1px;
+    letter-spacing:
+        -1px;
 
     background:
         linear-gradient(
@@ -1075,10 +1488,14 @@ body {
             #ff9ed8
         );
 
-    -webkit-background-clip: text;
-    background-clip: text;
+    -webkit-background-clip:
+        text;
 
-    color: transparent;
+    background-clip:
+        text;
+
+    color:
+        transparent;
 }
 
 
@@ -1088,44 +1505,74 @@ body {
 
 .data-box {
 
-    position: relative;
+    position:
+        relative;
 
-    flex: 1;
+    flex:
+        1;
 
-    min-height: 0;
+    min-height:
+        0;
 
-    margin-top: 14px;
+    margin-top:
+        14px;
 
-    padding: 20px;
+    padding:
+        20px;
 
-    overflow: hidden;
+    overflow:
+        hidden;
 
-    border-radius: 18px;
+    border-radius:
+        18px;
 
     background:
         linear-gradient(
             135deg,
-            rgba(255, 60, 180, .08),
-            rgba(255, 255, 255, .012)
+            rgba(
+                255,
+                60,
+                180,
+                .08
+            ),
+            rgba(
+                255,
+                255,
+                255,
+                .012
+            )
         );
 
     border:
         1px solid
-        rgba(255, 100, 200, .15);
+        rgba(
+            255,
+            100,
+            200,
+            .15
+        );
 }
+
 
 .data-title {
 
-    position: absolute;
+    position:
+        absolute;
 
-    top: 13px;
-    left: 20px;
+    top:
+        13px;
 
-    font-size: 11px;
+    left:
+        20px;
 
-    text-transform: uppercase;
+    font-size:
+        11px;
 
-    letter-spacing: 2px;
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        2px;
 
     color:
         #b1839e;
@@ -1138,63 +1585,92 @@ body {
 
 .slide {
 
-    position: absolute;
+    position:
+        absolute;
 
-    left: 20px;
-    right: 20px;
+    left:
+        20px;
 
-    top: 38px;
-    bottom: 27px;
+    right:
+        20px;
 
-    display: flex;
+    top:
+        38px;
 
-    flex-direction: column;
+    bottom:
+        27px;
 
-    justify-content: center;
+    display:
+        flex;
 
-    align-items: center;
+    flex-direction:
+        column;
 
-    opacity: 1;
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    opacity:
+        1;
 
     transform:
         translateY(0);
 
     transition:
-        opacity .4s ease,
-        transform .4s ease;
+        opacity
+        .4s
+        ease,
+
+        transform
+        .4s
+        ease;
 }
+
 
 .slide.fade {
 
-    opacity: 0;
+    opacity:
+        0;
 
     transform:
         translateY(10px);
 }
 
+
 .slide-title {
 
-    margin-bottom: 9px;
+    margin-bottom:
+        9px;
 
-    font-size: 15px;
+    font-size:
+        15px;
 
-    text-transform: uppercase;
+    text-transform:
+        uppercase;
 
-    letter-spacing: 2px;
+    letter-spacing:
+        2px;
 
     color:
         #ff8ed0;
 
-    font-weight: 800;
+    font-weight:
+        800;
 }
+
 
 .big-value {
 
-    font-size: 54px;
+    font-size:
+        54px;
 
-    line-height: 1;
+    line-height:
+        1;
 
-    font-weight: 900;
+    font-weight:
+        900;
 
     background:
         linear-gradient(
@@ -1203,17 +1679,24 @@ body {
             #ff9ed8
         );
 
-    -webkit-background-clip: text;
-    background-clip: text;
+    -webkit-background-clip:
+        text;
 
-    color: transparent;
+    background-clip:
+        text;
+
+    color:
+        transparent;
 }
+
 
 .small-info {
 
-    margin-top: 8px;
+    margin-top:
+        8px;
 
-    font-size: 14px;
+    font-size:
+        14px;
 
     color:
         #b789a5;
@@ -1226,42 +1709,61 @@ body {
 
 .mini-goal {
 
-    width: 280px;
+    width:
+        280px;
 
-    margin-top: 15px;
+    margin-top:
+        15px;
 }
+
 
 .mini-row {
 
-    display: flex;
+    display:
+        flex;
 
-    justify-content: space-between;
+    justify-content:
+        space-between;
 
-    margin-bottom: 6px;
+    margin-bottom:
+        6px;
 
-    font-size: 11px;
+    font-size:
+        11px;
 
     color:
         #ae819d;
 }
 
+
 .mini-progress {
 
-    height: 8px;
+    height:
+        8px;
 
-    overflow: hidden;
+    overflow:
+        hidden;
 
-    border-radius: 999px;
+    border-radius:
+        999px;
 
     background:
-        rgba(255, 255, 255, .07);
+        rgba(
+            255,
+            255,
+            255,
+            .07
+        );
 }
+
 
 .mini-bar {
 
-    width: 0%;
+    width:
+        0%;
 
-    height: 100%;
+    height:
+        100%;
 
     background:
         linear-gradient(
@@ -1272,7 +1774,9 @@ body {
         );
 
     transition:
-        width .7s ease;
+        width
+        .7s
+        ease;
 }
 
 
@@ -1282,19 +1786,26 @@ body {
 
 .message-icon {
 
-    width: 100%;
+    width:
+        100%;
 
-    display: flex;
+    display:
+        flex;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    align-items: center;
+    align-items:
+        center;
 
-    text-align: center;
+    text-align:
+        center;
 
-    font-size: 44px;
+    font-size:
+        44px;
 
-    line-height: 1;
+    line-height:
+        1;
 
     margin:
         0 0 12px;
@@ -1302,37 +1813,54 @@ body {
     filter:
         drop-shadow(
             0 0 15px
-            rgba(255, 50, 180, .45)
+            rgba(
+                255,
+                50,
+                180,
+                .45
+            )
         );
 }
 
+
 .message {
 
-    width: 100%;
+    width:
+        100%;
 
-    max-width: 450px;
+    max-width:
+        450px;
 
-    text-align: center;
+    text-align:
+        center;
 
-    font-size: 23px;
+    font-size:
+        23px;
 
-    line-height: 1.3;
+    line-height:
+        1.3;
 
-    font-weight: 850;
+    font-weight:
+        850;
 
     color:
         #ffd6ef;
 }
 
+
 .message-sub {
 
-    width: 100%;
+    width:
+        100%;
 
-    text-align: center;
+    text-align:
+        center;
 
-    margin-top: 9px;
+    margin-top:
+        9px;
 
-    font-size: 12px;
+    font-size:
+        12px;
 
     color:
         #a2738e;
@@ -1340,50 +1868,76 @@ body {
 
 
 /* =========================================================
-   DOTS
+   SLIDE DOTS
 ========================================================= */
 
 .dots {
 
-    position: absolute;
+    position:
+        absolute;
 
-    bottom: 9px;
-    left: 50%;
+    bottom:
+        9px;
+
+    left:
+        50%;
 
     transform:
         translateX(-50%);
 
-    display: flex;
+    display:
+        flex;
 
-    gap: 6px;
+    gap:
+        6px;
 }
+
 
 .dot {
 
-    width: 6px;
-    height: 6px;
+    width:
+        6px;
 
-    border-radius: 50%;
+    height:
+        6px;
+
+    border-radius:
+        50%;
 
     background:
-        rgba(255, 120, 210, .25);
+        rgba(
+            255,
+            120,
+            210,
+            .25
+        );
 
     transition:
-        all .3s ease;
+        all
+        .3s
+        ease;
 }
+
 
 .dot.active {
 
-    width: 19px;
+    width:
+        19px;
 
-    border-radius: 999px;
+    border-radius:
+        999px;
 
     background:
         #ff4db8;
 
     box-shadow:
         0 0 9px
-        rgba(255, 50, 180, .6);
+        rgba(
+            255,
+            50,
+            180,
+            .6
+        );
 }
 
 
@@ -1393,21 +1947,27 @@ body {
 
 .status {
 
-    height: 14px;
+    height:
+        14px;
 
-    flex-shrink: 0;
+    flex-shrink:
+        0;
 
-    margin-top: 5px;
+    margin-top:
+        5px;
 
-    text-align: right;
+    text-align:
+        right;
 
-    font-size: 8px;
+    font-size:
+        8px;
 
     color:
         #765469;
 }
 
 </style>
+
 </head>
 
 
@@ -1415,42 +1975,54 @@ body {
 
 
 <!-- =======================================================
-     BACKGROUND
+     ANIMATED BACKGROUND
 ======================================================= -->
 
 <div class="background">
 
+
     <div class="light one"></div>
+
     <div class="light two"></div>
+
     <div class="light three"></div>
+
 
     <div class="grid"></div>
 
+
     <div class="shape one"></div>
+
     <div class="shape two"></div>
+
     <div class="shape three"></div>
+
     <div class="shape four"></div>
 
+
     <div class="trail one"></div>
+
     <div class="trail two"></div>
+
 
     <div
         class="particles"
         id="particles">
     </div>
 
+
 </div>
 
 
 <!-- =======================================================
-     DASHBOARD
+     MAIN DASHBOARD
 ======================================================= -->
 
 <div class="dashboard">
 
 
     <!-- ===================================================
-         LEFT
+         LEFT SIDE
     =================================================== -->
 
     <div class="left">
@@ -1460,9 +2032,11 @@ body {
 
         <div class="profile">
 
+
             <div class="pfp-wrapper">
 
                 <div class="pfp-glow"></div>
+
 
                 <img
                     class="pfp"
@@ -1479,21 +2053,23 @@ body {
                     GuiTakeya
                 </div>
 
+
                 <div class="handle">
                     @GuiTakeya
                 </div>
 
             </div>
 
+
         </div>
 
 
-        <!-- SUBSCRIBER -->
+        <!-- SUBSCRIBER BOX -->
 
         <div class="subscriber-box">
 
 
-            <!-- LIVE -->
+            <!-- LIVE INDICATOR -->
 
             <div class="live">
 
@@ -1516,19 +2092,25 @@ body {
             </div>
 
 
+            <!-- MILESTONE -->
+
             <div class="goal">
 
+
                 <div class="goal-header">
+
 
                     <div class="goal-title">
                         Next milestone
                     </div>
+
 
                     <div
                         class="goal-number"
                         id="goalText">
                         100
                     </div>
+
 
                 </div>
 
@@ -1549,21 +2131,25 @@ body {
                         — / 100
                     </span>
 
+
                     <span>
                         Keep going! ♡
                     </span>
 
                 </div>
 
+
             </div>
 
+
         </div>
+
 
     </div>
 
 
     <!-- ===================================================
-         RIGHT
+         RIGHT SIDE
     =================================================== -->
 
     <div class="right">
@@ -1574,7 +2160,9 @@ body {
         <div
             class="greeting"
             id="greeting">
+
             Hello, Takeya! 💗
+
         </div>
 
 
@@ -1582,15 +2170,20 @@ body {
 
         <div class="clock-box">
 
+
             <div class="clock-title">
                 Current Time
             </div>
 
+
             <div
                 class="clock"
                 id="clock">
+
                 12:00 AM
+
             </div>
+
 
         </div>
 
@@ -1598,6 +2191,7 @@ body {
         <!-- CHANNEL DATA -->
 
         <div class="data-box">
+
 
             <div class="data-title">
                 Channel Data
@@ -1608,25 +2202,38 @@ body {
                 class="slide"
                 id="slide">
 
+
                 <div
                     class="slide-title"
                     id="slideTitle">
+
                     Subscribers
+
                 </div>
+
 
                 <div
                     class="big-value"
                     id="bigValue">
+
                     —
+
                 </div>
+
 
                 <div
                     class="small-info"
                     id="smallInfo">
+
                     Loading...
+
                 </div>
 
-                <div id="extra"></div>
+
+                <div
+                    id="extra">
+                </div>
+
 
             </div>
 
@@ -1636,16 +2243,21 @@ body {
                 id="dots">
             </div>
 
+
         </div>
 
 
         <div
             class="status"
             id="status">
+
             Connecting...
+
         </div>
 
+
     </div>
+
 
 </div>
 
@@ -1660,14 +2272,24 @@ body {
 <script>
 
 /* =========================================================
-   CONFIG
+   CONFIGURATION
 ========================================================= */
 
 const API_URL =
     "https://api.socialcounts.org/youtube-live-subscriber-count/UChg7UoXV1HEtoUgwu0y871w";
 
+
+/*
+    Update subscriber information every 30 seconds.
+*/
+
 const UPDATE_INTERVAL =
-    30000;
+    20000;
+
+
+/*
+    Change channel-data slide every 6 seconds.
+*/
 
 const SLIDE_INTERVAL =
     6000;
@@ -1678,43 +2300,81 @@ const SLIDE_INTERVAL =
 ========================================================= */
 
 const subCount =
-    document.getElementById("subCount");
+    document.getElementById(
+        "subCount"
+    );
+
 
 const goalText =
-    document.getElementById("goalText");
+    document.getElementById(
+        "goalText"
+    );
+
 
 const progressBar =
-    document.getElementById("progressBar");
+    document.getElementById(
+        "progressBar"
+    );
+
 
 const goalProgress =
-    document.getElementById("goalProgress");
+    document.getElementById(
+        "goalProgress"
+    );
+
 
 const greeting =
-    document.getElementById("greeting");
+    document.getElementById(
+        "greeting"
+    );
+
 
 const clock =
-    document.getElementById("clock");
+    document.getElementById(
+        "clock"
+    );
+
 
 const slide =
-    document.getElementById("slide");
+    document.getElementById(
+        "slide"
+    );
+
 
 const slideTitle =
-    document.getElementById("slideTitle");
+    document.getElementById(
+        "slideTitle"
+    );
+
 
 const bigValue =
-    document.getElementById("bigValue");
+    document.getElementById(
+        "bigValue"
+    );
+
 
 const smallInfo =
-    document.getElementById("smallInfo");
+    document.getElementById(
+        "smallInfo"
+    );
+
 
 const extra =
-    document.getElementById("extra");
+    document.getElementById(
+        "extra"
+    );
+
 
 const dots =
-    document.getElementById("dots");
+    document.getElementById(
+        "dots"
+    );
+
 
 const status =
-    document.getElementById("status");
+    document.getElementById(
+        "status"
+    );
 
 
 /* =========================================================
@@ -1722,22 +2382,26 @@ const status =
 ========================================================= */
 
 let subscriberCount = 0;
+
 let viewCount = 0;
+
 let videoCount = 0;
 
-let previousSubscriberCount = null;
+let previousSubscriberCount =
+    null;
 
 let slideIndex = 0;
 
 
 /* =========================================================
-   PARTICLES
-
-   Generated inside the actual 960x480 viewport.
+   CREATE PARTICLES
 ========================================================= */
 
 const particleContainer =
-    document.getElementById("particles");
+    document.getElementById(
+        "particles"
+    );
+
 
 for (
     let i = 0;
@@ -1746,42 +2410,61 @@ for (
 ) {
 
     const particle =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     particle.className =
         "particle";
 
+
     particle.style.left =
         Math.random() * 100 + "%";
 
+
     particle.style.top =
-        (45 + Math.random() * 55) + "%";
+        (
+            45 +
+            Math.random() * 55
+        ) + "%";
+
 
     particle.style.setProperty(
         "--duration",
-        (8 + Math.random() * 12) + "s"
+        (
+            8 +
+            Math.random() * 12
+        ) + "s"
     );
+
 
     particle.style.setProperty(
         "--delay",
-        (-Math.random() * 15) + "s"
+        (
+            -Math.random() * 15
+        ) + "s"
     );
+
 
     particle.style.setProperty(
         "--x",
-        ((Math.random() - .5) * 140) + "px"
+        (
+            (Math.random() - .5) *
+            140
+        ) + "px"
     );
+
 
     particleContainer.appendChild(
         particle
     );
+
 }
 
 
 /* =========================================================
    CLOCK
-
-   ONLY HOUR + MINUTE.
 ========================================================= */
 
 function updateClock() {
@@ -1790,12 +2473,24 @@ function updateClock() {
         new Date();
 
 
+    /*
+       IMPORTANT:
+       No seconds.
+       No date.
+       No weekday.
+
+       Just hour + minute.
+    */
+
     clock.innerText =
         now.toLocaleTimeString(
             [],
             {
-                hour: "numeric",
-                minute: "2-digit"
+                hour:
+                    "numeric",
+
+                minute:
+                    "2-digit"
             }
         );
 
@@ -1828,11 +2523,14 @@ function updateClock() {
 
         greeting.innerText =
             "Good Night, Takeya! 🌙";
+
     }
+
 }
 
 
 updateClock();
+
 
 setInterval(
     updateClock,
@@ -1841,28 +2539,33 @@ setInterval(
 
 
 /* =========================================================
-   FETCH CHANNEL DATA
+   FETCH SOCIALCOUNTS DATA
 ========================================================= */
 
 async function fetchChannelData() {
 
     try {
 
+
         const response =
             await fetch(
                 API_URL,
                 {
-                    cache: "no-store"
+                    cache:
+                        "no-store"
                 }
             );
 
 
-        if (!response.ok) {
+        if (
+            !response.ok
+        ) {
 
             throw new Error(
                 "HTTP " +
                 response.status
             );
+
         }
 
 
@@ -1870,35 +2573,121 @@ async function fetchChannelData() {
             await response.json();
 
 
-        const stats =
-            data?.counters?.api ??
-            data?.counters?.estimation;
+        /*
+           SocialCounts has changed its response
+           structure before, so we support multiple
+           possible locations for the values.
+        */
 
 
-        if (!stats) {
+        let subscribers;
+
+
+        if (
+            data.subCount !== undefined
+        ) {
+
+            subscribers =
+                data.subCount;
+
+        }
+
+        else if (
+            data.counters &&
+            data.counters.api &&
+            data.counters.api.subscriberCount !== undefined
+        ) {
+
+            subscribers =
+                data.counters.api.subscriberCount;
+
+        }
+
+        else if (
+            data.counters &&
+            data.counters.estimation &&
+            data.counters.estimation.subscriberCount !== undefined
+        ) {
+
+            subscribers =
+                data.counters.estimation.subscriberCount;
+
+        }
+
+
+        if (
+            subscribers === undefined
+        ) {
 
             throw new Error(
-                "SocialCounts data missing"
+                "Subscriber count not found"
             );
+
         }
 
 
         subscriberCount =
             Number(
-                stats.subscriberCount
+                subscribers
             );
 
 
-        viewCount =
-            Number(
-                stats.viewCount
-            );
+        /*
+           Views
+        */
+
+        if (
+            data.counters &&
+            data.counters.api &&
+            data.counters.api.viewCount !== undefined
+        ) {
+
+            viewCount =
+                Number(
+                    data.counters.api.viewCount
+                );
+
+        }
+
+        else if (
+            data.viewCount !== undefined
+        ) {
+
+            viewCount =
+                Number(
+                    data.viewCount
+                );
+
+        }
 
 
-        videoCount =
-            Number(
-                stats.videoCount
-            );
+        /*
+           Videos
+        */
+
+        if (
+            data.counters &&
+            data.counters.api &&
+            data.counters.api.videoCount !== undefined
+        ) {
+
+            videoCount =
+                Number(
+                    data.counters.api.videoCount
+                );
+
+        }
+
+        else if (
+            data.videoCount !== undefined
+        ) {
+
+            videoCount =
+                Number(
+                    data.videoCount
+                );
+
+        }
 
 
         updateSubscriber();
@@ -1910,8 +2699,11 @@ async function fetchChannelData() {
                 .toLocaleTimeString(
                     [],
                     {
-                        hour: "numeric",
-                        minute: "2-digit"
+                        hour:
+                            "numeric",
+
+                        minute:
+                            "2-digit"
                     }
                 );
 
@@ -1919,6 +2711,7 @@ async function fetchChannelData() {
     }
 
     catch (error) {
+
 
         console.error(
             "SocialCounts error:",
@@ -1928,15 +2721,22 @@ async function fetchChannelData() {
 
         status.innerText =
             "Connection issue • Retrying...";
+
     }
+
 }
 
 
 /* =========================================================
-   SUBSCRIBER DISPLAY
+   UPDATE SUBSCRIBER DISPLAY
 ========================================================= */
 
 function updateSubscriber() {
+
+
+    /*
+       Animate the number if it changed.
+    */
 
     if (
         previousSubscriberCount !== null &&
@@ -1959,6 +2759,7 @@ function updateSubscriber() {
             },
             250
         );
+
     }
 
 
@@ -1969,6 +2770,10 @@ function updateSubscriber() {
     subCount.innerText =
         subscriberCount.toLocaleString();
 
+
+    /*
+       Determine next 100-subscriber milestone.
+    */
 
     const milestoneBase =
         Math.floor(
@@ -1986,8 +2791,13 @@ function updateSubscriber() {
 
         nextMilestone =
             subscriberCount + 100;
+
     }
 
+
+    /*
+       Progress from current 100-block.
+    */
 
     const progress =
         (
@@ -2016,6 +2826,7 @@ function updateSubscriber() {
         subscriberCount.toLocaleString() +
         " / " +
         nextMilestone.toLocaleString();
+
 }
 
 
@@ -2065,7 +2876,7 @@ const messages = [
 
 
 /* =========================================================
-   DOTS
+   CREATE SLIDE DOTS
 ========================================================= */
 
 for (
@@ -2074,32 +2885,41 @@ for (
     i++
 ) {
 
+
     const dot =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     dot.className =
         "dot";
 
 
-    if (i === 0) {
+    if (
+        i === 0
+    ) {
 
         dot.classList.add(
             "active"
         );
+
     }
 
 
     dots.appendChild(
         dot
     );
+
 }
 
 
 /* =========================================================
-   SLIDES
+   RENDER SLIDE
 ========================================================= */
 
 function renderSlide() {
+
 
     slide.classList.add(
         "fade"
@@ -2110,13 +2930,14 @@ function renderSlide() {
         () => {
 
 
-            /* ---------------------------------------------
-               SUBSCRIBERS
-            --------------------------------------------- */
+            /* =============================================
+               SLIDE 1 — SUBSCRIBERS
+            ============================================= */
 
             if (
                 slideIndex === 0
             ) {
+
 
                 const previous =
                     Math.floor(
@@ -2195,16 +3016,18 @@ function renderSlide() {
                     </div>
 
                 `;
+
             }
 
 
-            /* ---------------------------------------------
-               VIEWS
-            --------------------------------------------- */
+            /* =============================================
+               SLIDE 2 — VIEWS
+            ============================================= */
 
             else if (
                 slideIndex === 1
             ) {
+
 
                 slideTitle.innerText =
                     "👀 Total Views";
@@ -2225,16 +3048,18 @@ function renderSlide() {
                     </div>
 
                 `;
+
             }
 
 
-            /* ---------------------------------------------
-               VIDEOS
-            --------------------------------------------- */
+            /* =============================================
+               SLIDE 3 — VIDEOS
+            ============================================= */
 
             else if (
                 slideIndex === 2
             ) {
+
 
                 slideTitle.innerText =
                     "🎬 Videos";
@@ -2255,14 +3080,16 @@ function renderSlide() {
                     </div>
 
                 `;
+
             }
 
 
-            /* ---------------------------------------------
-               MESSAGE
-            --------------------------------------------- */
+            /* =============================================
+               SLIDE 4 — MOTIVATION
+            ============================================= */
 
             else {
+
 
                 const message =
                     messages[
@@ -2300,12 +3127,13 @@ function renderSlide() {
                     </div>
 
                 `;
+
             }
 
 
-            /* ---------------------------------------------
-               DOTS
-            --------------------------------------------- */
+            /* =============================================
+               UPDATE DOTS
+            ============================================= */
 
             for (
                 let i = 0;
@@ -2319,6 +3147,7 @@ function renderSlide() {
                         "active",
                         i === slideIndex
                     );
+
             }
 
 
@@ -2326,47 +3155,62 @@ function renderSlide() {
                 "fade"
             );
 
+
         },
 
         400
     );
+
 }
 
 
 /* =========================================================
-   ROTATE SLIDES
+   ROTATE CHANNEL DATA
 ========================================================= */
 
 setInterval(
     () => {
+
 
         slideIndex =
             (
                 slideIndex + 1
             ) % 4;
 
+
         renderSlide();
 
-    },
 
+    },
     SLIDE_INTERVAL
 );
 
 
 /* =========================================================
-   START
+   INITIALIZE
 ========================================================= */
 
 fetchChannelData();
+
+
+/*
+   THIS DOES NOT REQUIRE A PAGE REFRESH.
+
+   Every 30 seconds it fetches the latest data
+   from SocialCounts and updates the number
+   directly on the existing page.
+*/
 
 setInterval(
     fetchChannelData,
     UPDATE_INTERVAL
 );
 
+
 renderSlide();
 
 </script>
+
 
 </body>
 </html>
