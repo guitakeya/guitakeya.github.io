@@ -2,122 +2,208 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=960, height=480, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=960, height=480, initial-scale=1.0"
+>
+
 <title>GuiTakeya Live Dashboard</title>
 
 <style>
+
+/* =========================================================
+   BASE
+========================================================= */
+
 * {
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     width: 960px;
     height: 480px;
+
     margin: 0;
+    padding: 0;
+
     overflow: hidden;
-}
 
-body {
-    position: relative;
-    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    font-family:
+        "Segoe UI",
+        Tahoma,
+        Arial,
+        sans-serif;
+
     color: white;
+
     background:
-        radial-gradient(circle at 15% 20%, rgba(255, 0, 150, .25), transparent 30%),
-        radial-gradient(circle at 85% 75%, rgba(180, 0, 255, .23), transparent 32%),
-        linear-gradient(135deg, #080309, #170713 45%, #090309);
+        linear-gradient(
+            135deg,
+            #080308,
+            #160611 45%,
+            #080308
+        );
 }
 
-/* =========================
-   BACKGROUND
-========================= */
+
+/* =========================================================
+   BACKGROUND CONTAINER
+
+   IMPORTANT FOR ALEXA/SILK:
+   Everything animated stays inside this exact 960x480 box.
+========================================================= */
 
 .background {
     position: fixed;
-    inset: 0;
+
+    left: 0;
+    top: 0;
+
+    width: 960px;
+    height: 480px;
+
     overflow: hidden;
+
     pointer-events: none;
+
     z-index: 0;
 }
 
+
+/* =========================================================
+   BACKGROUND LIGHTS
+========================================================= */
+
 .light {
     position: absolute;
+
     border-radius: 50%;
+
+    pointer-events: none;
 }
 
 .light.one {
-    width: 330px;
-    height: 330px;
-    left: -100px;
-    top: -90px;
-    background: rgba(255, 0, 150, .25);
-    filter: blur(70px);
-    animation: lightOne 18s ease-in-out infinite;
+    width: 300px;
+    height: 300px;
+
+    left: -70px;
+    top: -70px;
+
+    background:
+        rgba(255, 0, 150, .22);
+
+    filter: blur(60px);
+
+    animation:
+        lightOne 18s ease-in-out infinite;
 }
 
 .light.two {
-    width: 300px;
-    height: 300px;
-    right: -80px;
-    bottom: -80px;
-    background: rgba(180, 0, 255, .24);
-    filter: blur(65px);
-    animation: lightTwo 22s ease-in-out infinite;
+    width: 280px;
+    height: 280px;
+
+    left: 750px;
+    top: 270px;
+
+    background:
+        rgba(180, 0, 255, .20);
+
+    filter: blur(60px);
+
+    animation:
+        lightTwo 22s ease-in-out infinite;
 }
 
 .light.three {
     width: 220px;
     height: 220px;
-    left: 40%;
-    top: -120px;
-    background: rgba(255, 60, 190, .17);
-    filter: blur(60px);
-    animation: lightThree 25s ease-in-out infinite;
+
+    left: 390px;
+    top: -80px;
+
+    background:
+        rgba(255, 50, 190, .15);
+
+    filter: blur(55px);
+
+    animation:
+        lightThree 25s ease-in-out infinite;
 }
 
 @keyframes lightOne {
-    0%,100% {
-        transform: translate(0,0) scale(1);
+
+    0%,
+    100% {
+        transform:
+            translate3d(0, 0, 0)
+            scale(1);
     }
+
     50% {
-        transform: translate(190px,100px) scale(1.35);
+        transform:
+            translate3d(120px, 80px, 0)
+            scale(1.2);
     }
 }
 
 @keyframes lightTwo {
-    0%,100% {
-        transform: translate(0,0) scale(1);
+
+    0%,
+    100% {
+        transform:
+            translate3d(0, 0, 0)
+            scale(1);
     }
+
     50% {
-        transform: translate(-180px,-110px) scale(1.3);
+        transform:
+            translate3d(-100px, -70px, 0)
+            scale(1.2);
     }
 }
 
 @keyframes lightThree {
-    0%,100% {
-        transform: translate(0,0);
+
+    0%,
+    100% {
+        transform:
+            translate3d(0, 0, 0);
     }
+
     50% {
-        transform: translate(-90px,160px);
+        transform:
+            translate3d(-70px, 100px, 0);
     }
 }
 
-/* =========================
+
+/* =========================================================
    GRID
-========================= */
+
+   Kept inside the viewport instead of using inset:-100px.
+========================================================= */
 
 .grid {
     position: absolute;
-    inset: -100px;
-    opacity: .11;
+
+    left: -40px;
+    top: 120px;
+
+    width: 1040px;
+    height: 500px;
+
+    opacity: .09;
 
     background-image:
         linear-gradient(
-            rgba(255,80,190,.25) 1px,
+            rgba(255, 80, 190, .25) 1px,
             transparent 1px
         ),
         linear-gradient(
             90deg,
-            rgba(255,80,190,.25) 1px,
+            rgba(255, 80, 190, .25) 1px,
             transparent 1px
         );
 
@@ -125,176 +211,258 @@ body {
 
     transform:
         perspective(350px)
-        rotateX(58deg)
-        translateY(120px);
+        rotateX(58deg);
 
-    animation: gridMove 14s linear infinite;
+    animation:
+        gridMove 14s linear infinite;
 }
 
 @keyframes gridMove {
+
     from {
-        background-position: 0 0;
+        background-position:
+            0 0;
     }
+
     to {
-        background-position: 0 84px;
+        background-position:
+            0 84px;
     }
 }
 
-/* =========================
+
+/* =========================================================
    FLOATING SHAPES
-========================= */
+========================================================= */
 
 .shape {
     position: absolute;
 
-    border: 1px solid rgba(255,150,220,.20);
+    pointer-events: none;
+
+    border:
+        1px solid
+        rgba(255, 150, 220, .17);
 
     background:
         linear-gradient(
             135deg,
-            rgba(255,80,190,.10),
-            rgba(255,255,255,.015)
+            rgba(255, 80, 190, .08),
+            rgba(255, 255, 255, .01)
         );
 
-    opacity: .6;
+    opacity: .55;
 }
 
 .shape.one {
-    width: 120px;
-    height: 120px;
+
+    width: 100px;
+    height: 100px;
+
     left: 25px;
     top: 35px;
-    border-radius: 28px;
-    transform: rotate(25deg);
-    animation: shapeOne 16s ease-in-out infinite;
+
+    border-radius: 25px;
+
+    animation:
+        shapeOne 16s ease-in-out infinite;
 }
 
 .shape.two {
-    width: 85px;
-    height: 85px;
-    right: 35px;
-    top: 55px;
+
+    width: 75px;
+    height: 75px;
+
+    left: 850px;
+    top: 40px;
+
     border-radius: 50%;
-    animation: shapeTwo 14s ease-in-out infinite;
+
+    animation:
+        shapeTwo 14s ease-in-out infinite;
 }
 
 .shape.three {
-    width: 145px;
-    height: 145px;
-    right: 210px;
-    bottom: -75px;
-    border-radius: 35px;
-    transform: rotate(40deg);
-    animation: shapeThree 20s ease-in-out infinite;
+
+    width: 120px;
+    height: 120px;
+
+    left: 730px;
+    top: 370px;
+
+    border-radius: 30px;
+
+    animation:
+        shapeThree 20s ease-in-out infinite;
 }
 
 .shape.four {
-    width: 65px;
-    height: 65px;
-    left: 250px;
-    bottom: 20px;
-    border-radius: 18px;
-    animation: shapeFour 13s ease-in-out infinite;
+
+    width: 55px;
+    height: 55px;
+
+    left: 270px;
+    top: 400px;
+
+    border-radius: 16px;
+
+    animation:
+        shapeFour 13s ease-in-out infinite;
 }
 
 @keyframes shapeOne {
-    0%,100% {
-        transform: translate(0,0) rotate(25deg);
+
+    0%,
+    100% {
+        transform:
+            translate3d(0, 0, 0)
+            rotate(25deg);
     }
+
     50% {
-        transform: translate(70px,55px) rotate(130deg);
+        transform:
+            translate3d(50px, 40px, 0)
+            rotate(110deg);
     }
 }
 
 @keyframes shapeTwo {
-    0%,100% {
-        transform: translate(0,0) scale(1);
+
+    0%,
+    100% {
+        transform:
+            translate3d(0, 0, 0)
+            scale(1);
     }
+
     50% {
-        transform: translate(-65px,80px) scale(1.35);
+        transform:
+            translate3d(-50px, 60px, 0)
+            scale(1.25);
     }
 }
 
 @keyframes shapeThree {
-    0%,100% {
-        transform: translate(0,0) rotate(40deg);
+
+    0%,
+    100% {
+        transform:
+            translate3d(0, 0, 0)
+            rotate(40deg);
     }
+
     50% {
-        transform: translate(-90px,-80px) rotate(130deg);
+        transform:
+            translate3d(-60px, -55px, 0)
+            rotate(120deg);
     }
 }
 
 @keyframes shapeFour {
-    0%,100% {
-        transform: translate(0,0) rotate(15deg);
+
+    0%,
+    100% {
+        transform:
+            translate3d(0, 0, 0)
+            rotate(15deg);
     }
+
     50% {
-        transform: translate(55px,-55px) rotate(120deg);
+        transform:
+            translate3d(45px, -45px, 0)
+            rotate(110deg);
     }
 }
 
-/* =========================
+
+/* =========================================================
    LIGHT TRAILS
-========================= */
+
+   No negative starting position.
+========================================================= */
 
 .trail {
     position: absolute;
+
+    width: 260px;
     height: 2px;
-    width: 300px;
+
+    pointer-events: none;
 
     background:
         linear-gradient(
             90deg,
             transparent,
-            rgba(255,80,190,.75),
+            rgba(255, 80, 190, .6),
             transparent
         );
 
-    opacity: .5;
+    opacity: .4;
 }
 
 .trail.one {
-    top: 100px;
-    left: -320px;
+
+    left: -260px;
+    top: 110px;
+
     transform: rotate(-12deg);
-    animation: trailOne 11s linear infinite;
+
+    animation:
+        trailOne 12s linear infinite;
 }
 
 .trail.two {
-    bottom: 100px;
-    left: -350px;
+
+    left: -260px;
+    top: 360px;
+
     transform: rotate(8deg);
-    animation: trailTwo 14s linear infinite;
+
+    animation:
+        trailTwo 14s linear infinite;
 }
 
 @keyframes trailOne {
-    from {
-        left: -350px;
+
+    0% {
+        left: -260px;
     }
-    to {
-        left: 1000px;
+
+    100% {
+        left: 960px;
     }
 }
 
 @keyframes trailTwo {
-    from {
-        left: -400px;
+
+    0% {
+        left: -260px;
     }
-    to {
-        left: 1050px;
+
+    100% {
+        left: 960px;
     }
 }
 
-/* =========================
+
+/* =========================================================
    PARTICLES
-========================= */
+========================================================= */
 
 .particles {
     position: absolute;
-    inset: 0;
+
+    left: 0;
+    top: 0;
+
+    width: 960px;
+    height: 480px;
+
+    overflow: hidden;
 }
 
 .particle {
+
     position: absolute;
 
     width: 3px;
@@ -302,10 +470,13 @@ body {
 
     border-radius: 50%;
 
-    background: #ff8bd2;
+    background:
+        #ff8bd2;
 
     box-shadow:
         0 0 8px #ff3cac;
+
+    opacity: .5;
 
     animation:
         particleFloat
@@ -315,40 +486,44 @@ body {
 
     animation-delay:
         var(--delay);
-
-    opacity: .55;
 }
 
 @keyframes particleFloat {
+
     0% {
-        transform: translate3d(0,40px,0);
+        transform:
+            translate3d(0, 40px, 0);
+
         opacity: 0;
     }
 
     15% {
-        opacity: .65;
+        opacity: .55;
     }
 
     85% {
-        opacity: .65;
+        opacity: .55;
     }
 
     100% {
         transform:
             translate3d(
                 var(--x),
-                -500px,
+                -430px,
                 0
             );
+
         opacity: 0;
     }
 }
 
-/* =========================
+
+/* =========================================================
    MAIN DASHBOARD
-========================= */
+========================================================= */
 
 .dashboard {
+
     position: absolute;
 
     left: 20px;
@@ -360,7 +535,8 @@ body {
     display: grid;
 
     grid-template-columns:
-        390px 1fr;
+        390px
+        1fr;
 
     gap: 22px;
 
@@ -369,104 +545,141 @@ body {
     border-radius: 28px;
 
     background:
-        rgba(15,6,15,.84);
+        rgba(15, 6, 15, .86);
 
     border:
         1px solid
-        rgba(255,100,200,.18);
+        rgba(255, 100, 200, .18);
 
     box-shadow:
-        0 20px 70px rgba(0,0,0,.55),
-        0 0 60px rgba(255,0,160,.08);
+        0 20px 70px
+        rgba(0, 0, 0, .55),
 
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+        0 0 60px
+        rgba(255, 0, 160, .08);
+
+    backdrop-filter:
+        blur(12px);
+
+    -webkit-backdrop-filter:
+        blur(12px);
 
     z-index: 5;
 }
 
-/* =========================
+
+/* =========================================================
    LEFT SIDE
-========================= */
+========================================================= */
 
 .left {
+
     display: flex;
+
     flex-direction: column;
-    justify-content: center;
+
+    min-height: 0;
 }
 
-/* New horizontal profile layout */
+
+/* =========================================================
+   PROFILE
+========================================================= */
 
 .profile {
-    display: flex;
-    align-items: center;
-    gap: 18px;
 
-    margin-bottom: 17px;
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    margin-left: 8px;
+
+    margin-top: -4px;
+
+    margin-bottom: 8px;
+
+    flex-shrink: 0;
 }
 
 .pfp-wrapper {
+
     position: relative;
+
     flex-shrink: 0;
 }
 
 .pfp-glow {
+
     position: absolute;
-    inset: -10px;
+
+    inset: -9px;
 
     border-radius: 50%;
 
     background:
-        rgba(255,0,160,.25);
+        rgba(255, 0, 160, .22);
 
-    filter: blur(16px);
+    filter:
+        blur(14px);
 
     animation:
         pfpPulse
-        3s ease-in-out
-        infinite;
+        3s ease-in-out infinite;
 }
 
 @keyframes pfpPulse {
-    0%,100% {
-        transform: scale(.94);
+
+    0%,
+    100% {
+        transform: scale(.95);
         opacity: .45;
     }
 
     50% {
-        transform: scale(1.07);
-        opacity: .8;
+        transform: scale(1.06);
+        opacity: .75;
     }
 }
 
 .pfp {
+
     position: relative;
 
-    width: 92px;
-    height: 92px;
+    width: 76px;
+    height: 76px;
 
     object-fit: cover;
 
     border-radius: 50%;
 
     border:
-        3px solid #ff4db8;
+        3px solid
+        #ff4db8;
 
     box-shadow:
-        0 0 0 6px rgba(255,0,160,.08),
-        0 0 30px rgba(255,0,160,.45);
+        0 0 0 5px
+        rgba(255, 0, 160, .07),
+
+        0 0 25px
+        rgba(255, 0, 160, .4);
 }
 
 .profile-info {
+
     display: flex;
+
     flex-direction: column;
 }
 
 .channel-name {
-    font-size: 30px;
-    line-height: 1.05;
 
-    font-weight: 850;
+    font-size: 29px;
+
+    line-height: 1;
+
+    font-weight: 900;
 
     background:
         linear-gradient(
@@ -482,66 +695,173 @@ body {
 }
 
 .handle {
+
     margin-top: 5px;
 
-    color: #b887a6;
+    color:
+        #b887a6;
 
-    font-size: 16px;
+    font-size: 15px;
 }
 
-/* =========================
+
+/* =========================================================
    SUBSCRIBER BOX
-========================= */
+
+   Now uses almost all remaining vertical space.
+========================================================= */
 
 .subscriber-box {
-    width: 100%;
 
-    padding: 17px 18px;
+    position: relative;
 
-    border-radius: 18px;
+    flex: 1;
+
+    min-height: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    padding:
+        15px
+        20px
+        18px;
+
+    border-radius: 19px;
 
     background:
         linear-gradient(
             135deg,
-            rgba(255,60,180,.10),
-            rgba(255,255,255,.018)
+            rgba(255, 60, 180, .10),
+            rgba(255, 255, 255, .018)
         );
 
     border:
         1px solid
-        rgba(255,100,200,.15);
+        rgba(255, 100, 200, .15);
+
+    overflow: hidden;
 }
 
+
+/* =========================================================
+   LIVE
+========================================================= */
+
+.live {
+
+    position: absolute;
+
+    top: 12px;
+    right: 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding:
+        5px 10px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255, 0, 150, .10);
+
+    border:
+        1px solid
+        rgba(255, 80, 190, .25);
+
+    color:
+        #ff72c5;
+
+    font-size: 10px;
+
+    font-weight: 900;
+
+    letter-spacing: 1.5px;
+}
+
+.live-dot {
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background:
+        #ff219f;
+
+    box-shadow:
+        0 0 10px
+        #ff219f;
+
+    animation:
+        pulse
+        1.3s infinite;
+}
+
+@keyframes pulse {
+
+    50% {
+        opacity: .3;
+        transform: scale(.7);
+    }
+}
+
+
+/* =========================================================
+   SUBSCRIBER LABEL
+========================================================= */
+
 .counter-label {
+
     text-align: center;
 
-    font-size: 12px;
+    font-size: 13px;
 
     text-transform: uppercase;
 
     letter-spacing: 3px;
 
-    color: #bd8bab;
+    color:
+        #bd8bab;
+
+    margin-bottom: 2px;
 }
 
+
+/* =========================================================
+   BIG SUBSCRIBER COUNT
+
+   This is intentionally huge.
+========================================================= */
+
 .counter {
+
+    width: 100%;
+
     text-align: center;
 
-    margin: 5px 0 7px;
+    font-size: 104px;
 
-    font-size: 64px;
+    line-height: .92;
 
-    line-height: .95;
+    font-weight: 950;
 
-    font-weight: 900;
+    letter-spacing: -5px;
 
-    letter-spacing: -3px;
+    white-space: nowrap;
 
     background:
         linear-gradient(
             180deg,
-            white,
-            #ffd1ed,
+            #ffffff,
+            #ffd1ed 55%,
             #d768aa
         );
 
@@ -555,109 +875,74 @@ body {
 }
 
 .counter.bump {
-    transform: scale(1.07);
+
+    transform:
+        scale(1.06);
 }
 
-/* =========================
-   LIVE
-========================= */
 
-.live {
-    width: fit-content;
-
-    margin: 0 auto 13px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 7px;
-
-    padding: 5px 12px;
-
-    border-radius: 999px;
-
-    background:
-        rgba(255,0,150,.10);
-
-    border:
-        1px solid
-        rgba(255,80,190,.25);
-
-    color: #ff72c5;
-
-    font-size: 10px;
-
-    font-weight: 850;
-
-    letter-spacing: 1.5px;
-}
-
-.live-dot {
-    width: 8px;
-    height: 8px;
-
-    border-radius: 50%;
-
-    background: #ff219f;
-
-    box-shadow:
-        0 0 10px #ff219f;
-
-    animation:
-        pulse 1.3s infinite;
-}
-
-@keyframes pulse {
-    50% {
-        opacity: .3;
-        transform: scale(.7);
-    }
-}
-
-/* =========================
+/* =========================================================
    MILESTONE
-========================= */
+========================================================= */
+
+.goal {
+
+    width: 100%;
+
+    margin-top: 14px;
+}
 
 .goal-header {
+
     display: flex;
+
     justify-content: space-between;
+
+    align-items: center;
 
     margin-bottom: 7px;
 }
 
 .goal-title {
+
     font-size: 12px;
 
     text-transform: uppercase;
 
     letter-spacing: 1.5px;
 
-    color: #b38aa3;
+    color:
+        #b38aa3;
 }
 
 .goal-number {
-    font-size: 13px;
 
-    font-weight: 850;
+    font-size: 14px;
 
-    color: #ff9ed8;
+    font-weight: 900;
+
+    color:
+        #ff9ed8;
 }
 
 .progress {
+
     width: 100%;
-    height: 8px;
+
+    height: 9px;
 
     overflow: hidden;
 
     border-radius: 999px;
 
     background:
-        rgba(255,255,255,.07);
+        rgba(255, 255, 255, .07);
 }
 
 .progress-bar {
+
     width: 0%;
+
     height: 100%;
 
     border-radius: inherit;
@@ -671,84 +956,115 @@ body {
         );
 
     box-shadow:
-        0 0 12px rgba(255,20,160,.65);
+        0 0 14px
+        rgba(255, 20, 160, .65);
 
     transition:
         width .7s ease;
 }
 
 .goal-footer {
+
     display: flex;
+
     justify-content: space-between;
 
     margin-top: 7px;
 
     font-size: 10px;
 
-    color: #91657e;
+    color:
+        #91657e;
 }
 
-/* =========================
+
+/* =========================================================
    RIGHT SIDE
-========================= */
+========================================================= */
 
 .right {
+
     display: flex;
+
     flex-direction: column;
 
     min-width: 0;
 }
 
+
+/* =========================================================
+   GREETING
+========================================================= */
+
 .greeting {
+
     height: 37px;
 
-    font-size: 21px;
-    font-weight: 800;
+    flex-shrink: 0;
 
-    color: #ffc1e8;
+    font-size: 22px;
+
+    font-weight: 850;
+
+    color:
+        #ffc1e8;
 
     text-shadow:
         0 0 20px
-        rgba(255,50,180,.30);
+        rgba(255, 50, 180, .3);
 }
 
-.clock-box {
-    height: 86px;
 
-    padding: 13px 18px;
+/* =========================================================
+   CLOCK
+
+   ONLY HOUR + MINUTE
+========================================================= */
+
+.clock-box {
+
+    height: 78px;
+
+    flex-shrink: 0;
+
+    padding:
+        10px 18px;
 
     border-radius: 17px;
 
     background:
         linear-gradient(
             135deg,
-            rgba(255,70,185,.09),
-            rgba(255,255,255,.012)
+            rgba(255, 70, 185, .09),
+            rgba(255, 255, 255, .012)
         );
 
     border:
         1px solid
-        rgba(255,100,200,.15);
+        rgba(255, 100, 200, .15);
 }
 
 .clock-title {
+
     font-size: 10px;
 
     text-transform: uppercase;
 
     letter-spacing: 2px;
 
-    color: #b184a0;
+    color:
+        #b184a0;
 }
 
 .clock {
-    margin-top: 2px;
 
-    font-size: 34px;
+    margin-top: 1px;
+
+    font-size: 37px;
 
     line-height: 1;
 
-    font-weight: 850;
+    font-weight: 900;
 
     letter-spacing: -1px;
 
@@ -765,22 +1081,18 @@ body {
     color: transparent;
 }
 
-.date {
-    margin-top: 5px;
 
-    font-size: 11px;
-
-    color: #8c627b;
-}
-
-/* =========================
+/* =========================================================
    CHANNEL DATA
-========================= */
+========================================================= */
 
 .data-box {
+
     position: relative;
 
     flex: 1;
+
+    min-height: 0;
 
     margin-top: 14px;
 
@@ -793,16 +1105,17 @@ body {
     background:
         linear-gradient(
             135deg,
-            rgba(255,60,180,.08),
-            rgba(255,255,255,.012)
+            rgba(255, 60, 180, .08),
+            rgba(255, 255, 255, .012)
         );
 
     border:
         1px solid
-        rgba(255,100,200,.15);
+        rgba(255, 100, 200, .15);
 }
 
 .data-title {
+
     position: absolute;
 
     top: 13px;
@@ -814,13 +1127,24 @@ body {
 
     letter-spacing: 2px;
 
-    color: #b1839e;
+    color:
+        #b1839e;
 }
 
+
+/* =========================================================
+   SLIDES
+========================================================= */
+
 .slide {
+
     position: absolute;
 
-    inset: 38px 20px 27px;
+    left: 20px;
+    right: 20px;
+
+    top: 38px;
+    bottom: 27px;
 
     display: flex;
 
@@ -832,7 +1156,8 @@ body {
 
     opacity: 1;
 
-    transform: translateY(0);
+    transform:
+        translateY(0);
 
     transition:
         opacity .4s ease,
@@ -840,6 +1165,7 @@ body {
 }
 
 .slide.fade {
+
     opacity: 0;
 
     transform:
@@ -847,6 +1173,7 @@ body {
 }
 
 .slide-title {
+
     margin-bottom: 9px;
 
     font-size: 15px;
@@ -855,13 +1182,15 @@ body {
 
     letter-spacing: 2px;
 
-    color: #ff8ed0;
+    color:
+        #ff8ed0;
 
     font-weight: 800;
 }
 
 .big-value {
-    font-size: 52px;
+
+    font-size: 54px;
 
     line-height: 1;
 
@@ -881,30 +1210,43 @@ body {
 }
 
 .small-info {
+
     margin-top: 8px;
 
     font-size: 14px;
 
-    color: #b789a5;
+    color:
+        #b789a5;
 }
 
+
+/* =========================================================
+   MINI PROGRESS
+========================================================= */
+
 .mini-goal {
+
     width: 280px;
+
     margin-top: 15px;
 }
 
 .mini-row {
+
     display: flex;
+
     justify-content: space-between;
 
     margin-bottom: 6px;
 
     font-size: 11px;
 
-    color: #ae819d;
+    color:
+        #ae819d;
 }
 
 .mini-progress {
+
     height: 8px;
 
     overflow: hidden;
@@ -912,11 +1254,13 @@ body {
     border-radius: 999px;
 
     background:
-        rgba(255,255,255,.07);
+        rgba(255, 255, 255, .07);
 }
 
 .mini-bar {
+
     width: 0%;
+
     height: 100%;
 
     background:
@@ -931,55 +1275,79 @@ body {
         width .7s ease;
 }
 
-/* =========================
-   MESSAGE
-========================= */
+
+/* =========================================================
+   MOTIVATIONAL MESSAGE
+========================================================= */
 
 .message-icon {
-    font-size: 42px;
 
-    margin-bottom: 10px;
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    font-size: 44px;
+
+    line-height: 1;
+
+    margin:
+        0 0 12px;
 
     filter:
         drop-shadow(
             0 0 15px
-            rgba(255,50,180,.45)
+            rgba(255, 50, 180, .45)
         );
 }
 
 .message {
+
+    width: 100%;
+
     max-width: 450px;
 
     text-align: center;
 
-    font-size: 22px;
+    font-size: 23px;
 
     line-height: 1.3;
 
-    font-weight: 800;
+    font-weight: 850;
 
-    color: #ffd6ef;
+    color:
+        #ffd6ef;
 }
 
 .message-sub {
-    margin-top: 9px;
+
+    width: 100%;
 
     text-align: center;
 
+    margin-top: 9px;
+
     font-size: 12px;
 
-    color: #a2738e;
+    color:
+        #a2738e;
 }
 
-/* =========================
+
+/* =========================================================
    DOTS
-========================= */
+========================================================= */
 
 .dots {
+
     position: absolute;
 
     bottom: 9px;
-
     left: 50%;
 
     transform:
@@ -991,36 +1359,43 @@ body {
 }
 
 .dot {
+
     width: 6px;
     height: 6px;
 
     border-radius: 50%;
 
     background:
-        rgba(255,120,210,.25);
+        rgba(255, 120, 210, .25);
 
     transition:
         all .3s ease;
 }
 
 .dot.active {
+
     width: 19px;
 
     border-radius: 999px;
 
-    background: #ff4db8;
+    background:
+        #ff4db8;
 
     box-shadow:
         0 0 9px
-        rgba(255,50,180,.6);
+        rgba(255, 50, 180, .6);
 }
 
-/* =========================
+
+/* =========================================================
    STATUS
-========================= */
+========================================================= */
 
 .status {
+
     height: 14px;
+
+    flex-shrink: 0;
 
     margin-top: 5px;
 
@@ -1028,12 +1403,20 @@ body {
 
     font-size: 8px;
 
-    color: #765469;
+    color:
+        #765469;
 }
+
 </style>
 </head>
 
+
 <body>
+
+
+<!-- =======================================================
+     BACKGROUND
+======================================================= -->
 
 <div class="background">
 
@@ -1053,17 +1436,27 @@ body {
 
     <div
         class="particles"
-        id="particles"
-    ></div>
+        id="particles">
+    </div>
 
 </div>
 
 
+<!-- =======================================================
+     DASHBOARD
+======================================================= -->
+
 <div class="dashboard">
 
-    <!-- LEFT -->
+
+    <!-- ===================================================
+         LEFT
+    =================================================== -->
 
     <div class="left">
+
+
+        <!-- PROFILE -->
 
         <div class="profile">
 
@@ -1078,6 +1471,7 @@ body {
                 >
 
             </div>
+
 
             <div class="profile-info">
 
@@ -1094,18 +1488,12 @@ body {
         </div>
 
 
+        <!-- SUBSCRIBER -->
+
         <div class="subscriber-box">
 
-            <div class="counter-label">
-                Subscribers
-            </div>
 
-            <div
-                class="counter"
-                id="subCount"
-            >
-                —
-            </div>
+            <!-- LIVE -->
 
             <div class="live">
 
@@ -1116,41 +1504,56 @@ body {
             </div>
 
 
-            <div class="goal-header">
-
-                <div class="goal-title">
-                    Next milestone
-                </div>
-
-                <div
-                    class="goal-number"
-                    id="goalText"
-                >
-                    100
-                </div>
-
+            <div class="counter-label">
+                Subscribers
             </div>
 
 
-            <div class="progress">
-
-                <div
-                    class="progress-bar"
-                    id="progressBar"
-                ></div>
-
+            <div
+                class="counter"
+                id="subCount">
+                —
             </div>
 
 
-            <div class="goal-footer">
+            <div class="goal">
 
-                <span id="goalProgress">
-                    — / 100
-                </span>
+                <div class="goal-header">
 
-                <span>
-                    Keep going! ♡
-                </span>
+                    <div class="goal-title">
+                        Next milestone
+                    </div>
+
+                    <div
+                        class="goal-number"
+                        id="goalText">
+                        100
+                    </div>
+
+                </div>
+
+
+                <div class="progress">
+
+                    <div
+                        class="progress-bar"
+                        id="progressBar">
+                    </div>
+
+                </div>
+
+
+                <div class="goal-footer">
+
+                    <span id="goalProgress">
+                        — / 100
+                    </span>
+
+                    <span>
+                        Keep going! ♡
+                    </span>
+
+                </div>
 
             </div>
 
@@ -1159,17 +1562,23 @@ body {
     </div>
 
 
-    <!-- RIGHT -->
+    <!-- ===================================================
+         RIGHT
+    =================================================== -->
 
     <div class="right">
 
+
+        <!-- GREETING -->
+
         <div
             class="greeting"
-            id="greeting"
-        >
+            id="greeting">
             Hello, Takeya! 💗
         </div>
 
+
+        <!-- CLOCK -->
 
         <div class="clock-box">
 
@@ -1179,20 +1588,14 @@ body {
 
             <div
                 class="clock"
-                id="clock"
-            >
-                12:00:00 AM
-            </div>
-
-            <div
-                class="date"
-                id="date"
-            >
-                Loading...
+                id="clock">
+                12:00 AM
             </div>
 
         </div>
 
+
+        <!-- CHANNEL DATA -->
 
         <div class="data-box">
 
@@ -1200,29 +1603,26 @@ body {
                 Channel Data
             </div>
 
+
             <div
                 class="slide"
-                id="slide"
-            >
+                id="slide">
 
                 <div
                     class="slide-title"
-                    id="slideTitle"
-                >
+                    id="slideTitle">
                     Subscribers
                 </div>
 
                 <div
                     class="big-value"
-                    id="bigValue"
-                >
+                    id="bigValue">
                     —
                 </div>
 
                 <div
                     class="small-info"
-                    id="smallInfo"
-                >
+                    id="smallInfo">
                     Loading...
                 </div>
 
@@ -1233,16 +1633,15 @@ body {
 
             <div
                 class="dots"
-                id="dots"
-            ></div>
+                id="dots">
+            </div>
 
         </div>
 
 
         <div
             class="status"
-            id="status"
-        >
+            id="status">
             Connecting...
         </div>
 
@@ -1251,19 +1650,32 @@ body {
 </div>
 
 
-<!-- SILK KEEP-ALIVE SCRIPT -->
+<!-- =======================================================
+     SILK KEEP-ALIVE
+======================================================= -->
 
 <script src="https://dagammla.gitlab.io/keep-silk-open/keep.js"></script>
 
 
 <script>
 
+/* =========================================================
+   CONFIG
+========================================================= */
+
 const API_URL =
     "https://api.socialcounts.org/youtube-live-subscriber-count/UChg7UoXV1HEtoUgwu0y871w";
 
-const UPDATE_INTERVAL = 30000;
-const SLIDE_INTERVAL = 6000;
+const UPDATE_INTERVAL =
+    30000;
 
+const SLIDE_INTERVAL =
+    6000;
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
 
 const subCount =
     document.getElementById("subCount");
@@ -1282,9 +1694,6 @@ const greeting =
 
 const clock =
     document.getElementById("clock");
-
-const date =
-    document.getElementById("date");
 
 const slide =
     document.getElementById("slide");
@@ -1308,6 +1717,10 @@ const status =
     document.getElementById("status");
 
 
+/* =========================================================
+   DATA
+========================================================= */
+
 let subscriberCount = 0;
 let viewCount = 0;
 let videoCount = 0;
@@ -1317,14 +1730,20 @@ let previousSubscriberCount = null;
 let slideIndex = 0;
 
 
-/* =========================
+/* =========================================================
    PARTICLES
-========================= */
+
+   Generated inside the actual 960x480 viewport.
+========================================================= */
 
 const particleContainer =
     document.getElementById("particles");
 
-for (let i = 0; i < 28; i++) {
+for (
+    let i = 0;
+    i < 28;
+    i++
+) {
 
     const particle =
         document.createElement("div");
@@ -1336,7 +1755,7 @@ for (let i = 0; i < 28; i++) {
         Math.random() * 100 + "%";
 
     particle.style.top =
-        (40 + Math.random() * 60) + "%";
+        (45 + Math.random() * 55) + "%";
 
     particle.style.setProperty(
         "--duration",
@@ -1350,7 +1769,7 @@ for (let i = 0; i < 28; i++) {
 
     particle.style.setProperty(
         "--x",
-        ((Math.random() - .5) * 180) + "px"
+        ((Math.random() - .5) * 140) + "px"
     );
 
     particleContainer.appendChild(
@@ -1359,55 +1778,59 @@ for (let i = 0; i < 28; i++) {
 }
 
 
-/* =========================
+/* =========================================================
    CLOCK
-========================= */
+
+   ONLY HOUR + MINUTE.
+========================================================= */
 
 function updateClock() {
 
     const now =
         new Date();
 
+
     clock.innerText =
         now.toLocaleTimeString(
             [],
             {
                 hour: "numeric",
-                minute: "2-digit",
-                second: "2-digit"
+                minute: "2-digit"
             }
         );
 
-    date.innerText =
-        now.toLocaleDateString(
-            [],
-            {
-                weekday: "long",
-                month: "long",
-                day: "numeric",
-                year: "numeric"
-            }
-        );
 
     const hour =
         now.getHours();
 
-    if (hour >= 5 && hour < 12) {
+
+    if (
+        hour >= 5 &&
+        hour < 12
+    ) {
 
         greeting.innerText =
             "Good Morning, Takeya! ☀️";
 
-    } else if (hour >= 12 && hour < 18) {
+    }
+
+    else if (
+        hour >= 12 &&
+        hour < 18
+    ) {
 
         greeting.innerText =
             "Good Afternoon, Takeya! 🌸";
 
-    } else {
+    }
+
+    else {
 
         greeting.innerText =
             "Good Night, Takeya! 🌙";
     }
 }
+
 
 updateClock();
 
@@ -1417,9 +1840,9 @@ setInterval(
 );
 
 
-/* =========================
+/* =========================================================
    FETCH CHANNEL DATA
-========================= */
+========================================================= */
 
 async function fetchChannelData() {
 
@@ -1433,12 +1856,15 @@ async function fetchChannelData() {
                 }
             );
 
+
         if (!response.ok) {
 
             throw new Error(
-                "HTTP " + response.status
+                "HTTP " +
+                response.status
             );
         }
+
 
         const data =
             await response.json();
@@ -1462,10 +1888,12 @@ async function fetchChannelData() {
                 stats.subscriberCount
             );
 
+
         viewCount =
             Number(
                 stats.viewCount
             );
+
 
         videoCount =
             Number(
@@ -1479,15 +1907,24 @@ async function fetchChannelData() {
         status.innerText =
             "● Live • Updated " +
             new Date()
-                .toLocaleTimeString();
+                .toLocaleTimeString(
+                    [],
+                    {
+                        hour: "numeric",
+                        minute: "2-digit"
+                    }
+                );
 
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error(
             "SocialCounts error:",
             error
         );
+
 
         status.innerText =
             "Connection issue • Retrying...";
@@ -1495,20 +1932,22 @@ async function fetchChannelData() {
 }
 
 
-/* =========================
-   SUBSCRIBER
-========================= */
+/* =========================================================
+   SUBSCRIBER DISPLAY
+========================================================= */
 
 function updateSubscriber() {
 
     if (
         previousSubscriberCount !== null &&
-        previousSubscriberCount !== subscriberCount
+        previousSubscriberCount !==
+        subscriberCount
     ) {
 
         subCount.classList.add(
             "bump"
         );
+
 
         setTimeout(
             () => {
@@ -1531,14 +1970,14 @@ function updateSubscriber() {
         subscriberCount.toLocaleString();
 
 
-    const previousMilestone =
+    const milestoneBase =
         Math.floor(
             subscriberCount / 100
         ) * 100;
 
 
     let nextMilestone =
-        previousMilestone + 100;
+        milestoneBase + 100;
 
 
     if (
@@ -1554,7 +1993,7 @@ function updateSubscriber() {
         (
             (
                 subscriberCount -
-                previousMilestone
+                milestoneBase
             ) / 100
         ) * 100;
 
@@ -1580,9 +2019,9 @@ function updateSubscriber() {
 }
 
 
-/* =========================
-   MESSAGES
-========================= */
+/* =========================================================
+   MOTIVATIONAL MESSAGES
+========================================================= */
 
 const messages = [
 
@@ -1625,17 +2064,22 @@ const messages = [
 ];
 
 
-/* =========================
+/* =========================================================
    DOTS
-========================= */
+========================================================= */
 
-for (let i = 0; i < 4; i++) {
+for (
+    let i = 0;
+    i < 4;
+    i++
+) {
 
     const dot =
         document.createElement("div");
 
     dot.className =
         "dot";
+
 
     if (i === 0) {
 
@@ -1644,15 +2088,16 @@ for (let i = 0; i < 4; i++) {
         );
     }
 
+
     dots.appendChild(
         dot
     );
 }
 
 
-/* =========================
+/* =========================================================
    SLIDES
-========================= */
+========================================================= */
 
 function renderSlide() {
 
@@ -1665,17 +2110,23 @@ function renderSlide() {
         () => {
 
 
-            /* SUBSCRIBERS */
+            /* ---------------------------------------------
+               SUBSCRIBERS
+            --------------------------------------------- */
 
-            if (slideIndex === 0) {
+            if (
+                slideIndex === 0
+            ) {
 
                 const previous =
                     Math.floor(
                         subscriberCount / 100
                     ) * 100;
 
+
                 const next =
                     previous + 100;
+
 
                 const progress =
                     (
@@ -1722,6 +2173,7 @@ function renderSlide() {
 
                         </div>
 
+
                         <div class="mini-progress">
 
                             <div
@@ -1746,18 +2198,25 @@ function renderSlide() {
             }
 
 
-            /* VIEWS */
+            /* ---------------------------------------------
+               VIEWS
+            --------------------------------------------- */
 
-            else if (slideIndex === 1) {
+            else if (
+                slideIndex === 1
+            ) {
 
                 slideTitle.innerText =
                     "👀 Total Views";
 
+
                 bigValue.innerText =
                     viewCount.toLocaleString();
 
+
                 smallInfo.innerText =
                     "Total channel views";
+
 
                 extra.innerHTML = `
 
@@ -1769,18 +2228,25 @@ function renderSlide() {
             }
 
 
-            /* VIDEOS */
+            /* ---------------------------------------------
+               VIDEOS
+            --------------------------------------------- */
 
-            else if (slideIndex === 2) {
+            else if (
+                slideIndex === 2
+            ) {
 
                 slideTitle.innerText =
                     "🎬 Videos";
 
+
                 bigValue.innerText =
                     videoCount.toLocaleString();
 
+
                 smallInfo.innerText =
                     "Videos uploaded";
+
 
                 extra.innerHTML = `
 
@@ -1792,7 +2258,9 @@ function renderSlide() {
             }
 
 
-            /* MESSAGE */
+            /* ---------------------------------------------
+               MESSAGE
+            --------------------------------------------- */
 
             else {
 
@@ -1835,7 +2303,9 @@ function renderSlide() {
             }
 
 
-            /* DOTS */
+            /* ---------------------------------------------
+               DOTS
+            --------------------------------------------- */
 
             for (
                 let i = 0;
@@ -1857,14 +2327,15 @@ function renderSlide() {
             );
 
         },
+
         400
     );
 }
 
 
-/* =========================
-   ROTATE
-========================= */
+/* =========================================================
+   ROTATE SLIDES
+========================================================= */
 
 setInterval(
     () => {
@@ -1877,13 +2348,14 @@ setInterval(
         renderSlide();
 
     },
+
     SLIDE_INTERVAL
 );
 
 
-/* =========================
+/* =========================================================
    START
-========================= */
+========================================================= */
 
 fetchChannelData();
 
