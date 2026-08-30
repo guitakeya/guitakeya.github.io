@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>GuiTakeya — Live Subscriber Count</title>
+    <title>GuiTakeya Dashboard</title>
 
     <style>
 
@@ -12,20 +12,18 @@
             box-sizing: border-box;
         }
 
-        html,
-        body {
+        html, body {
             width: 100%;
             height: 100%;
         }
 
         body {
             margin: 0;
+            overflow: hidden;
 
             display: flex;
             justify-content: center;
             align-items: center;
-
-            overflow: hidden;
 
             color: white;
 
@@ -38,18 +36,18 @@
 
             background:
                 radial-gradient(
-                    circle at 15% 20%,
-                    rgba(255, 20, 147, 0.28),
+                    circle at 10% 20%,
+                    rgba(255, 20, 147, 0.35),
                     transparent 35%
                 ),
                 radial-gradient(
-                    circle at 85% 80%,
-                    rgba(255, 0, 180, 0.22),
+                    circle at 90% 80%,
+                    rgba(255, 0, 200, 0.25),
                     transparent 35%
                 ),
                 radial-gradient(
                     circle at 50% 50%,
-                    rgba(180, 0, 255, 0.12),
+                    rgba(190, 0, 255, 0.15),
                     transparent 45%
                 ),
                 linear-gradient(
@@ -60,8 +58,7 @@
                     #050305
                 );
 
-            background-size:
-                200% 200%;
+            background-size: 200% 200%;
 
             animation:
                 backgroundMove 15s ease infinite;
@@ -75,175 +72,102 @@
         @keyframes backgroundMove {
 
             0% {
-                background-position:
-                    0% 50%;
+                background-position: 0% 50%;
             }
 
             50% {
-                background-position:
-                    100% 50%;
+                background-position: 100% 50%;
             }
 
             100% {
-                background-position:
-                    0% 50%;
+                background-position: 0% 50%;
             }
 
         }
 
 
         .background {
+            position: fixed;
+            inset: 0;
 
-            position:
-                fixed;
+            overflow: hidden;
 
-            inset:
-                0;
+            pointer-events: none;
 
-            overflow:
-                hidden;
-
-            pointer-events:
-                none;
-
-            z-index:
-                0;
-
+            z-index: 0;
         }
 
 
-        /* =====================================================
-           GLOWING ORBS
-        ===================================================== */
-
         .orb {
+            position: absolute;
 
-            position:
-                absolute;
+            border-radius: 50%;
 
-            border-radius:
-                50%;
+            filter: blur(90px);
 
-            filter:
-                blur(90px);
+            opacity: 0.4;
 
-            opacity:
-                0.4;
-
-            mix-blend-mode:
-                screen;
-
+            mix-blend-mode: screen;
         }
 
 
         .orb.one {
+            width: 380px;
+            height: 380px;
 
-            width:
-                380px;
-
-            height:
-                380px;
+            left: -120px;
+            top: 5%;
 
             background:
-                rgba(
-                    255,
-                    0,
-                    140,
-                    0.55
-                );
-
-            left:
-                -120px;
-
-            top:
-                5%;
+                rgba(255, 0, 140, 0.55);
 
             animation:
                 orbOne 20s ease-in-out infinite;
-
         }
 
 
         .orb.two {
+            width: 320px;
+            height: 320px;
 
-            width:
-                320px;
-
-            height:
-                320px;
+            right: -100px;
+            bottom: 0;
 
             background:
-                rgba(
-                    200,
-                    0,
-                    255,
-                    0.45
-                );
-
-            right:
-                -100px;
-
-            bottom:
-                0;
+                rgba(200, 0, 255, 0.45);
 
             animation:
                 orbTwo 23s ease-in-out infinite;
-
         }
 
 
         .orb.three {
+            width: 260px;
+            height: 260px;
 
-            width:
-                260px;
-
-            height:
-                260px;
+            left: 45%;
+            top: -130px;
 
             background:
-                rgba(
-                    255,
-                    60,
-                    190,
-                    0.35
-                );
-
-            left:
-                45%;
-
-            top:
-                -130px;
+                rgba(255, 60, 190, 0.35);
 
             animation:
                 orbThree 28s ease-in-out infinite;
-
         }
 
 
         @keyframes orbOne {
 
             0%, 100% {
-
                 transform:
-                    translate3d(
-                        0,
-                        0,
-                        0
-                    )
+                    translate3d(0, 0, 0)
                     scale(1);
-
             }
 
             50% {
-
                 transform:
-                    translate3d(
-                        220px,
-                        130px,
-                        0
-                    )
+                    translate3d(220px, 130px, 0)
                     scale(1.3);
-
             }
 
         }
@@ -252,27 +176,15 @@
         @keyframes orbTwo {
 
             0%, 100% {
-
                 transform:
-                    translate3d(
-                        0,
-                        0,
-                        0
-                    )
+                    translate3d(0, 0, 0)
                     scale(1);
-
             }
 
             50% {
-
                 transform:
-                    translate3d(
-                        -180px,
-                        -120px,
-                        0
-                    )
+                    translate3d(-180px, -120px, 0)
                     scale(1.25);
-
             }
 
         }
@@ -281,25 +193,13 @@
         @keyframes orbThree {
 
             0%, 100% {
-
                 transform:
-                    translate3d(
-                        0,
-                        0,
-                        0
-                    );
-
+                    translate3d(0, 0, 0);
             }
 
             50% {
-
                 transform:
-                    translate3d(
-                        -100px,
-                        180px,
-                        0
-                    );
-
+                    translate3d(-100px, 180px, 0);
             }
 
         }
@@ -310,170 +210,94 @@
         ===================================================== */
 
         .shape {
-
-            position:
-                absolute;
+            position: absolute;
 
             border:
                 1px solid
-                rgba(
-                    255,
-                    150,
-                    220,
-                    0.10
-                );
+                rgba(255, 150, 220, 0.10);
 
             background:
                 linear-gradient(
                     135deg,
-                    rgba(
-                        255,
-                        120,
-                        200,
-                        0.07
-                    ),
-                    rgba(
-                        255,
-                        255,
-                        255,
-                        0.01
-                    )
+                    rgba(255, 120, 200, 0.07),
+                    rgba(255, 255, 255, 0.01)
                 );
 
             backdrop-filter:
                 blur(12px);
 
-            box-shadow:
-                inset 0 0 30px
-                rgba(
-                    255,
-                    120,
-                    220,
-                    0.03
-                );
-
-            opacity:
-                0.45;
-
+            opacity: 0.45;
         }
 
 
         .shape.one {
+            width: 180px;
+            height: 180px;
 
-            width:
-                180px;
+            left: 4%;
+            top: 10%;
 
-            height:
-                180px;
-
-            left:
-                4%;
-
-            top:
-                10%;
-
-            border-radius:
-                40px;
+            border-radius: 40px;
 
             animation:
                 shapeOne 18s ease-in-out infinite;
-
         }
 
 
         .shape.two {
+            width: 130px;
+            height: 130px;
 
-            width:
-                130px;
+            right: 7%;
+            top: 12%;
 
-            height:
-                130px;
-
-            right:
-                7%;
-
-            top:
-                12%;
-
-            border-radius:
-                50%;
+            border-radius: 50%;
 
             animation:
                 shapeTwo 15s ease-in-out infinite;
-
         }
 
 
         .shape.three {
+            width: 210px;
+            height: 210px;
 
-            width:
-                210px;
+            right: 22%;
+            bottom: -90px;
 
-            height:
-                210px;
-
-            right:
-                22%;
-
-            bottom:
-                -90px;
-
-            border-radius:
-                45px;
+            border-radius: 45px;
 
             animation:
                 shapeThree 22s ease-in-out infinite;
-
         }
 
 
         .shape.four {
+            width: 100px;
+            height: 100px;
 
-            width:
-                100px;
+            left: 18%;
+            bottom: 8%;
 
-            height:
-                100px;
-
-            left:
-                18%;
-
-            bottom:
-                8%;
-
-            border-radius:
-                25px;
+            border-radius: 25px;
 
             animation:
                 shapeFour 17s ease-in-out infinite;
-
         }
 
 
         @keyframes shapeOne {
 
             0%, 100% {
-
                 transform:
-                    translate3d(
-                        0,
-                        0,
-                        0
-                    )
+                    translate3d(0, 0, 0)
                     rotate(25deg);
-
             }
 
             50% {
-
                 transform:
-                    translate3d(
-                        100px,
-                        70px,
-                        0
-                    )
+                    translate3d(100px, 70px, 0)
                     rotate(145deg);
-
             }
 
         }
@@ -482,27 +306,15 @@
         @keyframes shapeTwo {
 
             0%, 100% {
-
                 transform:
-                    translate3d(
-                        0,
-                        0,
-                        0
-                    )
+                    translate3d(0, 0, 0)
                     scale(1);
-
             }
 
             50% {
-
                 transform:
-                    translate3d(
-                        -90px,
-                        100px,
-                        0
-                    )
+                    translate3d(-90px, 100px, 0)
                     scale(1.4);
-
             }
 
         }
@@ -511,27 +323,15 @@
         @keyframes shapeThree {
 
             0%, 100% {
-
                 transform:
-                    translate3d(
-                        0,
-                        0,
-                        0
-                    )
+                    translate3d(0, 0, 0)
                     rotate(45deg);
-
             }
 
             50% {
-
                 transform:
-                    translate3d(
-                        -110px,
-                        -120px,
-                        0
-                    )
+                    translate3d(-110px, -120px, 0)
                     rotate(150deg);
-
             }
 
         }
@@ -540,177 +340,109 @@
         @keyframes shapeFour {
 
             0%, 100% {
-
                 transform:
-                    translate3d(
-                        0,
-                        0,
-                        0
-                    )
+                    translate3d(0, 0, 0)
                     rotate(20deg);
-
             }
 
             50% {
-
                 transform:
-                    translate3d(
-                        70px,
-                        -70px,
-                        0
-                    )
+                    translate3d(70px, -70px, 0)
                     rotate(150deg);
-
             }
 
         }
 
 
         /* =====================================================
-           MAIN CARD
+           DASHBOARD
         ===================================================== */
 
-        .container {
+        .dashboard {
+            position: relative;
 
-            position:
-                relative;
-
-            z-index:
-                10;
+            z-index: 10;
 
             width:
-                min(
-                    90vw,
-                    760px
-                );
+                min(92vw, 950px);
 
-            min-height:
-                380px;
+            height:
+                min(88vh, 620px);
 
             padding:
-                42px;
+                32px;
 
             display:
                 grid;
 
             grid-template-columns:
-                240px 1fr;
+                1fr 1fr;
 
             gap:
-                42px;
-
-            align-items:
-                center;
+                28px;
 
             background:
                 linear-gradient(
                     135deg,
-                    rgba(
-                        35,
-                        12,
-                        30,
-                        0.82
-                    ),
-                    rgba(
-                        12,
-                        5,
-                        12,
-                        0.74
-                    )
+                    rgba(35, 12, 30, 0.86),
+                    rgba(12, 5, 12, 0.78)
                 );
 
             border:
                 1px solid
-                rgba(
-                    255,
-                    120,
-                    210,
-                    0.14
-                );
+                rgba(255, 120, 210, 0.15);
 
             border-radius:
                 32px;
 
             backdrop-filter:
-                blur(28px);
+                blur(30px);
 
             -webkit-backdrop-filter:
-                blur(28px);
+                blur(30px);
 
             box-shadow:
 
                 0 30px 100px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.70
-                ),
+                rgba(0, 0, 0, 0.70),
 
-                0 0 80px
-                rgba(
-                    255,
-                    0,
-                    170,
-                    0.09
-                ),
+                0 0 90px
+                rgba(255, 0, 170, 0.10),
 
                 inset 0 1px 0
-                rgba(
-                    255,
-                    180,
-                    230,
-                    0.08
-                );
+                rgba(255, 180, 230, 0.08);
 
             animation:
-                cardAppear
-                0.8s ease-out;
-
+                dashboardAppear 0.8s ease-out;
         }
 
 
-        @keyframes cardAppear {
+        @keyframes dashboardAppear {
 
             from {
-
-                opacity:
-                    0;
+                opacity: 0;
 
                 transform:
-                    translateY(
-                        20px
-                    )
-                    scale(
-                        0.97
-                    );
-
+                    translateY(20px)
+                    scale(0.97);
             }
 
             to {
-
-                opacity:
-                    1;
+                opacity: 1;
 
                 transform:
-                    translateY(
-                        0
-                    )
-                    scale(
-                        1
-                    );
-
+                    translateY(0)
+                    scale(1);
             }
 
         }
 
 
         /* =====================================================
-           LEFT SIDE / PROFILE
+           LEFT SIDE
         ===================================================== */
 
-        .profile {
-
+        .left {
             display:
                 flex;
 
@@ -723,88 +455,62 @@
             justify-content:
                 center;
 
+            text-align:
+                center;
         }
 
 
         .pfp-wrapper {
-
             position:
                 relative;
-
-            display:
-                inline-block;
-
         }
 
 
         .pfp-glow {
-
             position:
                 absolute;
 
             inset:
-                -20px;
+                -25px;
 
             border-radius:
                 50%;
 
             background:
-                rgba(
-                    255,
-                    0,
-                    170,
-                    0.30
-                );
+                rgba(255, 0, 170, 0.30);
 
             filter:
                 blur(30px);
 
             animation:
-                pfpGlow
-                3s ease-in-out infinite;
-
+                pfpGlow 3s ease-in-out infinite;
         }
 
 
         @keyframes pfpGlow {
 
             0%, 100% {
-
-                opacity:
-                    0.45;
-
-                transform:
-                    scale(
-                        0.95
-                    );
-
+                opacity: 0.45;
+                transform: scale(0.95);
             }
 
             50% {
-
-                opacity:
-                    0.85;
-
-                transform:
-                    scale(
-                        1.08
-                    );
-
+                opacity: 0.85;
+                transform: scale(1.08);
             }
 
         }
 
 
         .pfp {
-
             position:
                 relative;
 
             width:
-                210px;
+                180px;
 
             height:
-                210px;
+                180px;
 
             border-radius:
                 50%;
@@ -813,40 +519,27 @@
                 cover;
 
             border:
-                5px solid
-                #ff4db8;
+                5px solid #ff4db8;
 
             box-shadow:
 
                 0 0 0 8px
-                rgba(
-                    255,
-                    0,
-                    170,
-                    0.08
-                ),
+                rgba(255, 0, 170, 0.08),
 
                 0 0 55px
-                rgba(
-                    255,
-                    0,
-                    170,
-                    0.45
-                );
-
+                rgba(255, 0, 170, 0.45);
         }
 
 
-        .profile-name {
-
+        .channel-name {
             margin-top:
-                22px;
+                18px;
 
             font-size:
-                1.45rem;
+                1.55rem;
 
             font-weight:
-                750;
+                800;
 
             background:
                 linear-gradient(
@@ -863,60 +556,118 @@
 
             color:
                 transparent;
-
         }
 
 
-        .profile-handle {
-
-            margin-top:
-                3px;
-
+        .handle {
             color:
                 #a86d91;
 
             font-size:
-                0.9rem;
-
+                0.85rem;
         }
 
 
         /* =====================================================
-           RIGHT SIDE
+           SUBSCRIBER BOX
         ===================================================== */
 
-        .stats {
+        .subscriber-box {
+            width:
+                100%;
 
-            position:
-                relative;
+            margin-top:
+                20px;
 
-            display:
-                flex;
+            padding:
+                18px;
 
-            flex-direction:
-                column;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 70, 180, 0.09),
+                    rgba(255, 255, 255, 0.015)
+                );
 
-            justify-content:
-                center;
+            border:
+                1px solid
+                rgba(255, 120, 210, 0.13);
 
+            border-radius:
+                20px;
+        }
+
+
+        .counter-label {
+            color:
+                #a86d91;
+
+            font-size:
+                0.7rem;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                3px;
+        }
+
+
+        .counter {
+            margin:
+                5px 0;
+
+            font-size:
+                clamp(4rem, 7vw, 5.4rem);
+
+            line-height:
+                1;
+
+            font-weight:
+                850;
+
+            letter-spacing:
+                -5px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ffffff,
+                    #ffd6ef,
+                    #d66aaa
+                );
+
+            -webkit-background-clip:
+                text;
+
+            background-clip:
+                text;
+
+            color:
+                transparent;
+
+            transition:
+                transform 0.25s ease;
+        }
+
+
+        .counter.bump {
+            transform:
+                scale(1.08);
+
+            filter:
+                drop-shadow(
+                    0 0 25px
+                    rgba(255, 20, 170, 0.55)
+                );
         }
 
 
         /* =====================================================
-           LIVE TOP RIGHT
+           LIVE
         ===================================================== */
 
         .live {
-
-            position:
-                absolute;
-
-            right:
-                0;
-
-            top:
-                0;
-
             display:
                 inline-flex;
 
@@ -927,45 +678,33 @@
                 8px;
 
             padding:
-                7px 13px;
+                6px 12px;
 
             border-radius:
                 999px;
 
             background:
-                rgba(
-                    255,
-                    0,
-                    170,
-                    0.10
-                );
+                rgba(255, 0, 170, 0.10);
 
             border:
                 1px solid
-                rgba(
-                    255,
-                    70,
-                    190,
-                    0.28
-                );
+                rgba(255, 70, 190, 0.28);
 
             color:
                 #ff70c8;
 
             font-size:
-                0.72rem;
+                0.68rem;
 
             font-weight:
                 800;
 
             letter-spacing:
                 1.5px;
-
         }
 
 
         .live-dot {
-
             width:
                 8px;
 
@@ -979,331 +718,112 @@
                 #ff209d;
 
             box-shadow:
-                0 0 12px
-                #ff209d;
+                0 0 12px #ff209d;
 
             animation:
-                pulse
-                1.4s infinite;
-
+                pulse 1.4s infinite;
         }
 
 
         @keyframes pulse {
 
             0%, 100% {
-
-                opacity:
-                    1;
-
-                transform:
-                    scale(1);
-
+                opacity: 1;
+                transform: scale(1);
             }
 
             50% {
-
-                opacity:
-                    0.3;
-
-                transform:
-                    scale(
-                        0.7
-                    );
-
+                opacity: 0.3;
+                transform: scale(0.7);
             }
 
         }
 
 
         /* =====================================================
-           SUBSCRIBER COUNT
-        ===================================================== */
-
-        .counter-label {
-
-            margin-top:
-                25px;
-
-            color:
-                #a86d91;
-
-            font-size:
-                0.8rem;
-
-            text-transform:
-                uppercase;
-
-            letter-spacing:
-                4px;
-
-        }
-
-
-        .counter {
-
-            margin:
-                5px 0 0;
-
-            font-size:
-                clamp(
-                    4rem,
-                    9vw,
-                    6.5rem
-                );
-
-            line-height:
-                1;
-
-            font-weight:
-                800;
-
-            letter-spacing:
-                -5px;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    #ffffff 0%,
-                    #ffd6ef 45%,
-                    #d66aaa 100%
-                );
-
-            -webkit-background-clip:
-                text;
-
-            background-clip:
-                text;
-
-            color:
-                transparent;
-
-            transition:
-                transform
-                0.25s ease,
-
-                filter
-                0.25s ease;
-
-        }
-
-
-        .counter.bump {
-
-            transform:
-                scale(
-                    1.08
-                );
-
-            filter:
-                drop-shadow(
-                    0 0 25px
-                    rgba(
-                        255,
-                        20,
-                        170,
-                        0.55
-                    )
-                );
-
-        }
-
-
-        /* =====================================================
-           GOAL BOX
+           MILESTONE
         ===================================================== */
 
         .goal-box {
-
-            position:
-                relative;
-
             margin-top:
-                30px;
+                13px;
 
             padding:
-                18px 20px;
+                13px 15px;
 
             background:
-                linear-gradient(
-                    135deg,
-                    rgba(
-                        255,
-                        80,
-                        190,
-                        0.09
-                    ),
-                    rgba(
-                        255,
-                        255,
-                        255,
-                        0.018
-                    )
-                );
+                rgba(255, 255, 255, 0.025);
 
             border:
                 1px solid
-                rgba(
-                    255,
-                    120,
-                    210,
-                    0.13
-                );
+                rgba(255, 120, 210, 0.10);
 
             border-radius:
-                18px;
+                14px;
 
-            box-shadow:
-
-                inset 0 1px 0
-                rgba(
-                    255,
-                    180,
-                    230,
-                    0.05
-                ),
-
-                0 10px 35px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.25
-                );
-
-            overflow:
-                hidden;
-
-        }
-
-
-        .goal-box::before {
-
-            content:
-                "";
-
-            position:
-                absolute;
-
-            left:
-                0;
-
-            top:
-                0;
-
-            bottom:
-                0;
-
-            width:
-                3px;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    #ff1493,
-                    #ff69c4,
-                    #c00078
-                );
-
-            box-shadow:
-                0 0 18px
-                rgba(
-                    255,
-                    20,
-                    160,
-                    0.7
-                );
-
+            text-align:
+                left;
         }
 
 
         .goal-header {
-
             display:
                 flex;
 
             justify-content:
                 space-between;
 
-            align-items:
-                center;
-
             margin-bottom:
-                11px;
-
+                8px;
         }
 
 
         .goal-title {
-
-            font-size:
-                0.8rem;
-
-            font-weight:
-                700;
-
             color:
                 #c28aaa;
+
+            font-size:
+                0.68rem;
 
             text-transform:
                 uppercase;
 
             letter-spacing:
                 1.5px;
-
         }
 
 
         .goal-number {
-
-            font-size:
-                0.9rem;
-
-            font-weight:
-                700;
-
             color:
                 #ff9ed8;
 
-            text-shadow:
-                0 0 10px
-                rgba(
-                    255,
-                    50,
-                    180,
-                    0.35
-                );
+            font-size:
+                0.8rem;
 
+            font-weight:
+                700;
         }
 
 
         .progress {
-
             width:
                 100%;
 
             height:
-                9px;
+                7px;
 
             background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.06
-                );
+                rgba(255, 255, 255, 0.06);
 
             border-radius:
                 999px;
 
             overflow:
                 hidden;
-
         }
 
 
         .progress-bar {
-
             height:
                 100%;
 
@@ -1323,28 +843,14 @@
 
             box-shadow:
                 0 0 18px
-                rgba(
-                    255,
-                    20,
-                    160,
-                    0.65
-                );
+                rgba(255, 20, 160, 0.65);
 
             transition:
-                width
-                0.8s
-                cubic-bezier(
-                    0.22,
-                    1,
-                    0.36,
-                    1
-                );
-
+                width 0.8s ease;
         }
 
 
         .goal-footer {
-
             display:
                 flex;
 
@@ -1352,14 +858,644 @@
                 space-between;
 
             margin-top:
-                8px;
-
-            font-size:
-                0.72rem;
+                7px;
 
             color:
                 #76516a;
 
+            font-size:
+                0.62rem;
+        }
+
+
+        /* =====================================================
+           RIGHT SIDE
+        ===================================================== */
+
+        .right {
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            gap:
+                18px;
+
+            min-width:
+                0;
+        }
+
+
+        /* =====================================================
+           GREETING
+        ===================================================== */
+
+        .greeting {
+            font-size:
+                1.15rem;
+
+            font-weight:
+                700;
+
+            color:
+                #ffb6e6;
+
+            padding-left:
+                4px;
+
+            text-shadow:
+                0 0 20px
+                rgba(255, 70, 190, 0.20);
+        }
+
+
+        /* =====================================================
+           CLOCK
+        ===================================================== */
+
+        .clock-box {
+            min-height:
+                105px;
+
+            padding:
+                18px 22px;
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            justify-content:
+                center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 80, 190, 0.10),
+                    rgba(255, 255, 255, 0.018)
+                );
+
+            border:
+                1px solid
+                rgba(255, 120, 210, 0.14);
+
+            border-radius:
+                20px;
+        }
+
+
+        .clock-title {
+            color:
+                #a86d91;
+
+            font-size:
+                0.65rem;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                2px;
+        }
+
+
+        .clock {
+            margin-top:
+                3px;
+
+            font-size:
+                clamp(2.2rem, 4vw, 3.2rem);
+
+            font-weight:
+                800;
+
+            letter-spacing:
+                -2px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #ff9ed8
+                );
+
+            -webkit-background-clip:
+                text;
+
+            background-clip:
+                text;
+
+            color:
+                transparent;
+        }
+
+
+        .date {
+            color:
+                #76516a;
+
+            font-size:
+                0.68rem;
+        }
+
+
+        /* =====================================================
+           CHANNEL DATA
+        ===================================================== */
+
+        .data-box {
+            position:
+                relative;
+
+            flex:
+                1;
+
+            min-height:
+                280px;
+
+            padding:
+                28px;
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            justify-content:
+                center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 80, 190, 0.07),
+                    rgba(255, 255, 255, 0.015)
+                );
+
+            border:
+                1px solid
+                rgba(255, 120, 210, 0.13);
+
+            border-radius:
+                20px;
+
+            overflow:
+                hidden;
+        }
+
+
+        .data-title {
+            position:
+                absolute;
+
+            top:
+                18px;
+
+            left:
+                22px;
+
+            color:
+                #a86d91;
+
+            font-size:
+                0.65rem;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                2px;
+        }
+
+
+        .slide {
+            position:
+                absolute;
+
+            inset:
+                50px 25px 35px;
+
+            opacity:
+                1;
+
+            transform:
+                translateY(0);
+
+            transition:
+                opacity 0.45s ease,
+                transform 0.45s ease;
+        }
+
+
+        .slide.fade {
+            opacity:
+                0;
+
+            transform:
+                translateY(12px);
+        }
+
+
+        .slide-title {
+            text-align:
+                center;
+
+            color:
+                #ff8dcc;
+
+            font-size:
+                0.75rem;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                2px;
+
+            margin-bottom:
+                12px;
+        }
+
+
+        .big-value {
+            text-align:
+                center;
+
+            font-size:
+                2.3rem;
+
+            font-weight:
+                850;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #ff9ed8
+                );
+
+            -webkit-background-clip:
+                text;
+
+            background-clip:
+                text;
+
+            color:
+                transparent;
+        }
+
+
+        .small-info {
+            text-align:
+                center;
+
+            margin-top:
+                5px;
+
+            color:
+                #987088;
+
+            font-size:
+                0.75rem;
+        }
+
+
+        /* =====================================================
+           SUBSCRIBER SLIDE
+        ===================================================== */
+
+        .mini-goal {
+            margin:
+                18px auto 0;
+
+            max-width:
+                280px;
+
+            padding:
+                12px 15px;
+
+            background:
+                rgba(255,255,255,0.025);
+
+            border:
+                1px solid
+                rgba(255,120,210,0.10);
+
+            border-radius:
+                14px;
+        }
+
+
+        .mini-goal-row {
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            color:
+                #9a6d89;
+
+            font-size:
+                0.7rem;
+
+            margin-bottom:
+                7px;
+        }
+
+
+        .mini-progress {
+            height:
+                6px;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            border-radius:
+                999px;
+
+            overflow:
+                hidden;
+        }
+
+
+        .mini-progress-bar {
+            height:
+                100%;
+
+            width:
+                0%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #c00078,
+                    #ff1493,
+                    #ff72c6
+                );
+
+            transition:
+                width 0.7s ease;
+        }
+
+
+        /* =====================================================
+           GRAPH
+        ===================================================== */
+
+        .graph {
+            width:
+                100%;
+
+            height:
+                105px;
+
+            margin-top:
+                10px;
+        }
+
+
+        .graph svg {
+            width:
+                100%;
+
+            height:
+                100%;
+
+            overflow:
+                visible;
+        }
+
+
+        .graph-line {
+            fill:
+                none;
+
+            stroke:
+                #ff55b8;
+
+            stroke-width:
+                3;
+
+            stroke-linecap:
+                round;
+
+            stroke-linejoin:
+                round;
+
+            filter:
+                drop-shadow(
+                    0 0 7px
+                    rgba(255, 40, 180, 0.5)
+                );
+        }
+
+
+        .graph-area {
+            fill:
+                url(#pinkGradient);
+
+            opacity:
+                0.22;
+        }
+
+
+        .graph-labels {
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            margin-top:
+                3px;
+
+            color:
+                #65485c;
+
+            font-size:
+                0.55rem;
+        }
+
+
+        /* =====================================================
+           ANALYTICS
+        ===================================================== */
+
+        .analytics-grid {
+            display:
+                grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap:
+                10px;
+
+            margin-top:
+                12px;
+        }
+
+
+        .analytics-card {
+            padding:
+                9px;
+
+            border-radius:
+                12px;
+
+            background:
+                rgba(255,255,255,0.025);
+
+            border:
+                1px solid
+                rgba(255,120,210,0.08);
+
+            text-align:
+                center;
+        }
+
+
+        .analytics-number {
+            font-size:
+                1.15rem;
+
+            font-weight:
+                800;
+
+            color:
+                #ffb0df;
+        }
+
+
+        .analytics-label {
+            color:
+                #76566c;
+
+            font-size:
+                0.55rem;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                1px;
+        }
+
+
+        /* =====================================================
+           ENCOURAGEMENT
+        ===================================================== */
+
+        .encouragement-icon {
+            text-align:
+                center;
+
+            font-size:
+                3rem;
+
+            margin-bottom:
+                15px;
+
+            filter:
+                drop-shadow(
+                    0 0 20px
+                    rgba(255, 50, 180, 0.4)
+                );
+        }
+
+
+        .encouragement {
+            text-align:
+                center;
+
+            font-size:
+                1.25rem;
+
+            line-height:
+                1.45;
+
+            font-weight:
+                700;
+
+            color:
+                #ffd6ef;
+        }
+
+
+        .encouragement-sub {
+            text-align:
+                center;
+
+            margin-top:
+                10px;
+
+            color:
+                #986d87;
+
+            font-size:
+                0.75rem;
+        }
+
+
+        /* =====================================================
+           DOTS
+        ===================================================== */
+
+        .dots {
+            position:
+                absolute;
+
+            bottom:
+                13px;
+
+            left:
+                50%;
+
+            transform:
+                translateX(-50%);
+
+            display:
+                flex;
+
+            gap:
+                6px;
+        }
+
+
+        .dot {
+            width:
+                6px;
+
+            height:
+                6px;
+
+            border-radius:
+                50%;
+
+            background:
+                rgba(255,120,210,0.20);
+
+            transition:
+                all 0.3s ease;
+        }
+
+
+        .dot.active {
+            width:
+                18px;
+
+            border-radius:
+                999px;
+
+            background:
+                #ff4db8;
+
+            box-shadow:
+                0 0 10px
+                rgba(255,50,180,0.60);
         }
 
 
@@ -1368,19 +1504,14 @@
         ===================================================== */
 
         .status {
-
-            margin-top:
-                15px;
+            text-align:
+                right;
 
             color:
                 #76566c;
 
             font-size:
-                0.7rem;
-
-            text-align:
-                right;
-
+                0.6rem;
         }
 
 
@@ -1388,86 +1519,40 @@
            MOBILE
         ===================================================== */
 
-        @media (
-            max-width: 700px
-        ) {
+        @media (max-width: 750px) {
 
-            .container {
+            body {
+                overflow:
+                    auto;
+            }
+
+
+            .dashboard {
 
                 width:
-                    92vw;
+                    94vw;
+
+                height:
+                    auto;
 
                 min-height:
                     auto;
 
-                padding:
-                    30px 25px;
-
                 grid-template-columns:
                     1fr;
 
-                gap:
+                padding:
                     25px;
 
             }
 
 
-            .pfp {
-
-                width:
-                    150px;
-
-                height:
-                    150px;
-
-            }
-
-
-            .stats {
-
-                text-align:
-                    center;
-
-            }
-
-
-            .live {
-
-                position:
-                    relative;
-
-                right:
-                    auto;
-
-                top:
-                    auto;
-
-                align-self:
-                    center;
-
-                margin-bottom:
-                    15px;
-
-            }
-
-
-            .counter-label {
-
-                margin-top:
-                    0;
-
-            }
-
-
-            .status {
-
-                text-align:
-                    center;
-
+            .right {
+                min-height:
+                    500px;
             }
 
         }
-
 
     </style>
 
@@ -1496,17 +1581,17 @@
 
 
     <!-- =====================================================
-         MAIN CARD
+         DASHBOARD
     ====================================================== -->
 
-    <div class="container">
+    <div class="dashboard">
 
 
         <!-- =================================================
-             LEFT — PROFILE
+             LEFT
         ================================================== -->
 
-        <div class="profile">
+        <div class="left">
 
             <div class="pfp-wrapper">
 
@@ -1515,107 +1600,188 @@
                 <img
                     class="pfp"
                     src="https://yt3.ggpht.com/ttAkTpY31wkOGnatdL3SG8reM98rZ2wVuG950Yno4ZCO9MMH1oyeIpT9ldBO-8KzAws6qeNT=s176-c-k-c0x00ffffff-no-rj"
-                    alt="GuiTakeya profile picture"
+                    alt="GuiTakeya"
                 >
 
             </div>
 
 
-            <div class="profile-name">
+            <div class="channel-name">
                 GuiTakeya
             </div>
 
 
-            <div class="profile-handle">
+            <div class="handle">
                 @GuiTakeya
+            </div>
+
+
+            <div class="subscriber-box">
+
+                <div class="counter-label">
+                    Subscribers
+                </div>
+
+
+                <div
+                    class="counter"
+                    id="subCount"
+                >
+                    —
+                </div>
+
+
+                <div class="live">
+
+                    <span class="live-dot"></span>
+
+                    LIVE
+
+                </div>
+
+
+                <div class="goal-box">
+
+                    <div class="goal-header">
+
+                        <div class="goal-title">
+                            Next milestone
+                        </div>
+
+                        <div
+                            class="goal-number"
+                            id="goalText"
+                        >
+                            100
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress">
+
+                        <div
+                            class="progress-bar"
+                            id="progressBar"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="goal-footer">
+
+                        <span id="currentGoalText">
+                            — / 100
+                        </span>
+
+                        <span>
+                            Keep going! ♡
+                        </span>
+
+                    </div>
+
+                </div>
+
             </div>
 
         </div>
 
 
         <!-- =================================================
-             RIGHT — STATS
+             RIGHT
         ================================================== -->
 
-        <div class="stats">
+        <div class="right">
 
 
-            <!-- LIVE -->
-
-            <div class="live">
-
-                <span class="live-dot"></span>
-
-                LIVE
-
-            </div>
-
-
-            <!-- COUNTER -->
-
-            <div class="counter-label">
-                Subscribers
-            </div>
-
+            <!-- GREETING -->
 
             <div
-                class="counter"
-                id="subCount"
+                class="greeting"
+                id="greeting"
             >
-                —
+                Hello, Takeya! 💗
             </div>
 
 
-            <!-- =================================================
-                 GOAL
-            ================================================== -->
+            <!-- CLOCK -->
 
-            <div class="goal-box">
+            <div class="clock-box">
 
-                <div class="goal-header">
+                <div class="clock-title">
+                    Current Time
+                </div>
 
-                    <div class="goal-title">
-                        Next milestone
-                    </div>
+                <div
+                    class="clock"
+                    id="clock"
+                >
+                    12:00:00 AM
+                </div>
 
-                    <div
-                        class="goal-number"
-                        id="goalText"
-                    >
-                        100
-                    </div>
+                <div
+                    class="date"
+                    id="date"
+                >
+                    Loading...
+                </div>
 
+            </div>
+
+
+            <!-- CHANNEL DATA -->
+
+            <div class="data-box">
+
+                <div class="data-title">
+                    Channel Data
                 </div>
 
 
-                <div class="progress">
+                <div
+                    class="slide"
+                    id="slide"
+                >
 
                     <div
-                        class="progress-bar"
-                        id="progressBar"
+                        class="slide-title"
+                        id="slideTitle"
+                    >
+                        Subscribers
+                    </div>
+
+
+                    <div
+                        class="big-value"
+                        id="bigValue"
+                    >
+                        —
+                    </div>
+
+
+                    <div
+                        class="small-info"
+                        id="smallInfo"
+                    >
+                        Loading...
+                    </div>
+
+
+                    <div
+                        class="extra"
+                        id="extra"
                     ></div>
 
                 </div>
 
 
-                <div class="goal-footer">
-
-                    <span
-                        id="currentGoalText"
-                    >
-                        0 / 100
-                    </span>
-
-                    <span>
-                        Keep going! ♡
-                    </span>
-
-                </div>
+                <div
+                    class="dots"
+                    id="dots"
+                ></div>
 
             </div>
 
-
-            <!-- STATUS -->
 
             <div
                 class="status"
@@ -1624,63 +1790,311 @@
                 Connecting...
             </div>
 
-
         </div>
-
 
     </div>
 
 
     <!-- =====================================================
-         SILK / KEEP-SILK-OPEN
+         SILK KEEP-ALIVE
     ====================================================== -->
 
     <script src="https://dagammla.gitlab.io/keep-silk-open/keep.js"></script>
 
 
     <!-- =====================================================
-         SUBSCRIBER COUNTER
+         JAVASCRIPT
     ====================================================== -->
 
     <script>
+
+
+        /* =====================================================
+           CONFIG
+        ===================================================== */
 
         const API_URL =
             "https://api.socialcounts.org/youtube-live-subscriber-count/UChg7UoXV1HEtoUgwu0y871w";
 
 
+        const UPDATE_INTERVAL =
+            30000;
+
+
+        const SLIDE_INTERVAL =
+            6000;
+
+
+        /* =====================================================
+           ELEMENTS
+        ===================================================== */
+
         const subCount =
-            document.getElementById(
-                "subCount"
-            );
-
-
-        const status =
-            document.getElementById(
-                "status"
-            );
-
-
-        const progressBar =
-            document.getElementById(
-                "progressBar"
-            );
-
+            document.getElementById("subCount");
 
         const goalText =
-            document.getElementById(
-                "goalText"
-            );
+            document.getElementById("goalText");
 
+        const progressBar =
+            document.getElementById("progressBar");
 
         const currentGoalText =
-            document.getElementById(
-                "currentGoalText"
-            );
+            document.getElementById("currentGoalText");
 
+        const status =
+            document.getElementById("status");
+
+        const greeting =
+            document.getElementById("greeting");
+
+        const clock =
+            document.getElementById("clock");
+
+        const date =
+            document.getElementById("date");
+
+        const slide =
+            document.getElementById("slide");
+
+        const slideTitle =
+            document.getElementById("slideTitle");
+
+        const bigValue =
+            document.getElementById("bigValue");
+
+        const smallInfo =
+            document.getElementById("smallInfo");
+
+        const extra =
+            document.getElementById("extra");
+
+        const dots =
+            document.getElementById("dots");
+
+
+        /* =====================================================
+           STATE
+        ===================================================== */
+
+        let currentCount =
+            0;
 
         let previousCount =
             null;
 
+        let currentViews =
+            null;
+
+        let slideIndex =
+            0;
+
+
+        /* =====================================================
+           GREETING
+        ===================================================== */
+
+        function updateGreeting() {
+
+            const hour =
+                new Date().getHours();
+
+
+            let text;
+
+
+            if (
+                hour >= 5 &&
+                hour < 12
+            ) {
+
+                text =
+                    "Good Morning, Takeya! ☀️";
+
+            }
+
+            else if (
+                hour >= 12 &&
+                hour < 18
+            ) {
+
+                text =
+                    "Good Afternoon, Takeya! 🌸";
+
+            }
+
+            else {
+
+                text =
+                    "Good Night, Takeya! 🌙";
+
+            }
+
+
+            greeting.innerText =
+                text;
+
+        }
+
+
+        /* =====================================================
+           CLOCK
+        ===================================================== */
+
+        function updateClock() {
+
+            const now =
+                new Date();
+
+
+            clock.innerText =
+                now.toLocaleTimeString(
+                    [],
+                    {
+                        hour:
+                            "numeric",
+
+                        minute:
+                            "2-digit",
+
+                        second:
+                            "2-digit"
+                    }
+                );
+
+
+            date.innerText =
+                now.toLocaleDateString(
+                    [],
+                    {
+                        weekday:
+                            "long",
+
+                        month:
+                            "long",
+
+                        day:
+                            "numeric",
+
+                        year:
+                            "numeric"
+                    }
+                );
+
+
+            updateGreeting();
+
+        }
+
+
+        updateClock();
+
+
+        setInterval(
+            updateClock,
+            1000
+        );
+
+
+        /* =====================================================
+           LOCAL STORAGE ANALYTICS
+        ===================================================== */
+
+        function getHistory() {
+
+            try {
+
+                return JSON.parse(
+                    localStorage.getItem(
+                        "guitakeya_history"
+                    )
+                ) || [];
+
+            }
+
+            catch {
+
+                return [];
+
+            }
+
+        }
+
+
+        function saveSnapshot(
+            subscribers,
+            views
+        ) {
+
+            const history =
+                getHistory();
+
+
+            const today =
+                new Date()
+                    .toISOString()
+                    .split("T")[0];
+
+
+            const existing =
+                history.find(
+                    item =>
+                        item.date === today
+                );
+
+
+            if (existing) {
+
+                existing.subscribers =
+                    subscribers;
+
+                if (
+                    views !== null
+                ) {
+
+                    existing.views =
+                        views;
+
+                }
+
+            }
+
+            else {
+
+                history.push({
+
+                    date:
+                        today,
+
+                    subscribers:
+                        subscribers,
+
+                    views:
+                        views
+
+                });
+
+            }
+
+
+            /*
+             * Keep only the last 30 days.
+             */
+
+            const trimmed =
+                history.slice(-30);
+
+
+            localStorage.setItem(
+                "guitakeya_history",
+                JSON.stringify(trimmed)
+            );
+
+        }
+
+
+        /* =====================================================
+           API
+        ===================================================== */
 
         async function fetchSubCount() {
 
@@ -1709,20 +2123,28 @@
                     await response.json();
 
 
+                console.log(
+                    "SocialCounts:",
+                    data
+                );
+
+
+                /*
+                 * Try several possible
+                 * SocialCounts structures.
+                 */
+
                 const count =
                     data?.counters?.api?.subscriberCount ??
-                    data?.counters?.estimation?.subscriberCount;
+                    data?.counters?.estimation?.subscriberCount ??
+                    data?.subscriberCount ??
+                    data?.subCount;
 
 
                 if (
-                    typeof count !==
-                    "number"
+                    count === undefined ||
+                    count === null
                 ) {
-
-                    console.log(
-                        "API response:",
-                        data
-                    );
 
                     throw new Error(
                         "Subscriber count not found."
@@ -1731,8 +2153,40 @@
                 }
 
 
+                const numericCount =
+                    Number(count);
+
+
                 updateCounter(
-                    count
+                    numericCount
+                );
+
+
+                /*
+                 * Try to find views too.
+                 */
+
+                const views =
+                    data?.counters?.api?.viewCount ??
+                    data?.counters?.api?.views ??
+                    data?.viewCount ??
+                    data?.views;
+
+
+                if (
+                    views !== undefined &&
+                    views !== null
+                ) {
+
+                    currentViews =
+                        Number(views);
+
+                }
+
+
+                saveSnapshot(
+                    numericCount,
+                    currentViews
                 );
 
 
@@ -1747,7 +2201,7 @@
             catch (error) {
 
                 console.error(
-                    "Error fetching subscriber count:",
+                    "API error:",
                     error
                 );
 
@@ -1760,20 +2214,17 @@
         }
 
 
+        /* =====================================================
+           COUNTER
+        ===================================================== */
+
         function updateCounter(
             count
         ) {
 
-            /*
-             * Animate the number
-             * when it changes.
-             */
-
             if (
-                previousCount !==
-                null &&
-                previousCount !==
-                count
+                previousCount !== null &&
+                previousCount !== count
             ) {
 
                 subCount.classList.add(
@@ -1795,23 +2246,25 @@
             }
 
 
-            subCount.innerText =
-                count.toLocaleString();
+            currentCount =
+                count;
 
 
             previousCount =
                 count;
 
 
+            subCount.innerText =
+                count.toLocaleString();
+
+
             /*
-             * Find next 100-subscriber
-             * milestone.
+             * Milestone.
              */
 
             const goal =
                 Math.ceil(
-                    (count + 1) /
-                    100
+                    (count + 1) / 100
                 ) * 100;
 
 
@@ -1822,17 +2275,17 @@
             let progress =
                 (
                     (count - previousGoal) /
-                    (goal - previousGoal)
+                    100
                 ) * 100;
 
 
             progress =
-                Math.min(
-                    Math.max(
-                        progress,
-                        0
-                    ),
-                    100
+                Math.max(
+                    0,
+                    Math.min(
+                        100,
+                        progress
+                    )
                 );
 
 
@@ -1852,33 +2305,823 @@
         }
 
 
-        /*
-         * Initial request.
-         */
+        /* =====================================================
+           GRAPH DATA
+        ===================================================== */
+
+        function getLastSevenDays() {
+
+            const history =
+                getHistory();
+
+
+            const result =
+                [];
+
+
+            for (
+                let i = 6;
+                i >= 0;
+                i--
+            ) {
+
+                const date =
+                    new Date();
+
+
+                date.setDate(
+                    date.getDate() - i
+                );
+
+
+                const key =
+                    date
+                        .toISOString()
+                        .split("T")[0];
+
+
+                const found =
+                    history.find(
+                        item =>
+                            item.date === key
+                    );
+
+
+                result.push({
+
+                    date:
+                        key,
+
+                    subscribers:
+                        found
+                            ?.subscribers ??
+                        null,
+
+                    views:
+                        found
+                            ?.views ??
+                        null
+
+                });
+
+            }
+
+
+            return result;
+
+        }
+
+
+        /* =====================================================
+           GRAPH GENERATOR
+        ===================================================== */
+
+        function createGraph(
+            values
+        ) {
+
+            const width =
+                500;
+
+            const height =
+                105;
+
+            const padding =
+                8;
+
+
+            const valid =
+                values.filter(
+                    value =>
+                        value !== null &&
+                        !isNaN(value)
+                );
+
+
+            if (
+                valid.length < 2
+            ) {
+
+                return `
+                    <svg
+                        viewBox="0 0 500 105"
+                        preserveAspectRatio="none"
+                    >
+                        <text
+                            x="250"
+                            y="58"
+                            text-anchor="middle"
+                            fill="#76566c"
+                            font-size="12"
+                        >
+                            Collecting data...
+                        </text>
+                    </svg>
+                `;
+
+            }
+
+
+            const min =
+                Math.min(...valid);
+
+            const max =
+                Math.max(...valid);
+
+
+            const range =
+                max - min || 1;
+
+
+            const points =
+                values.map(
+                    (value, index) => {
+
+                        if (
+                            value === null ||
+                            isNaN(value)
+                        ) {
+
+                            return null;
+
+                        }
+
+
+                        const x =
+                            padding +
+                            (
+                                index /
+                                (values.length - 1)
+                            ) *
+                            (
+                                width -
+                                padding * 2
+                            );
+
+
+                        const y =
+                            height -
+                            padding -
+                            (
+                                (
+                                    value - min
+                                ) /
+                                range
+                            ) *
+                            (
+                                height -
+                                padding * 2
+                            );
+
+
+                        return {
+                            x,
+                            y
+                        };
+
+                    }
+                );
+
+
+            const validPoints =
+                points.filter(
+                    point =>
+                        point !== null
+                );
+
+
+            const line =
+                validPoints
+                    .map(
+                        (
+                            point,
+                            index
+                        ) =>
+                            (
+                                index === 0
+                                    ? "M"
+                                    : "L"
+                            ) +
+                            ` ${point.x} ${point.y}`
+                    )
+                    .join(" ");
+
+
+            const first =
+                validPoints[0];
+
+
+            const last =
+                validPoints[
+                    validPoints.length - 1
+                ];
+
+
+            const area =
+                line +
+                ` L ${last.x} ${height} L ${first.x} ${height} Z`;
+
+
+            return `
+                <svg
+                    viewBox="0 0 ${width} ${height}"
+                    preserveAspectRatio="none"
+                >
+
+                    <defs>
+
+                        <linearGradient
+                            id="pinkGradient"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                        >
+
+                            <stop
+                                offset="0%"
+                                stop-color="#ff4db8"
+                                stop-opacity="0.8"
+                            />
+
+                            <stop
+                                offset="100%"
+                                stop-color="#ff4db8"
+                                stop-opacity="0"
+                            />
+
+                        </linearGradient>
+
+                    </defs>
+
+
+                    <path
+                        class="graph-area"
+                        d="${area}"
+                    ></path>
+
+
+                    <path
+                        class="graph-line"
+                        d="${line}"
+                    ></path>
+
+                </svg>
+            `;
+
+        }
+
+
+        /* =====================================================
+           SLIDE CONTENT
+        ===================================================== */
+
+        const encouragingMessages = [
+
+            [
+                "💗",
+                "Keep going, Takeya!",
+                "Every subscriber gets you one step closer."
+            ],
+
+            [
+                "🔥",
+                "You're doing great!",
+                "76 today. Who knows where you'll be tomorrow?"
+            ],
+
+            [
+                "🌸",
+                "Keep creating!",
+                "Your channel is growing because you keep showing up."
+            ],
+
+            [
+                "🚀",
+                "Next stop: 100K!",
+                "One subscriber at a time."
+            ],
+
+            [
+                "⭐",
+                "You've got this!",
+                "Don't stop now."
+            ],
+
+            [
+                "💖",
+                "Someone out there is watching.",
+                "Keep making things worth watching."
+            ]
+
+        ];
+
+
+        function renderSlide() {
+
+            slide.classList.add(
+                "fade"
+            );
+
+
+            setTimeout(
+                () => {
+
+                    const history =
+                        getLastSevenDays();
+
+
+                    /*
+                     * 0 = Subscribers
+                     */
+
+                    if (
+                        slideIndex === 0
+                    ) {
+
+                        const goal =
+                            Math.ceil(
+                                (currentCount + 1) /
+                                100
+                            ) * 100;
+
+
+                        const previousGoal =
+                            goal - 100;
+
+
+                        let progress =
+                            (
+                                (
+                                    currentCount -
+                                    previousGoal
+                                ) / 100
+                            ) * 100;
+
+
+                        progress =
+                            Math.max(
+                                0,
+                                Math.min(
+                                    100,
+                                    progress
+                                )
+                            );
+
+
+                        slideTitle.innerText =
+                            "👥 Subscribers";
+
+
+                        bigValue.innerText =
+                            currentCount
+                                .toLocaleString();
+
+
+                        smallInfo.innerText =
+                            "Next milestone: " +
+                            goal.toLocaleString();
+
+
+                        extra.innerHTML = `
+
+                            <div class="mini-goal">
+
+                                <div class="mini-goal-row">
+
+                                    <span>
+                                        Progress
+                                    </span>
+
+                                    <span>
+                                        ${progress.toFixed(1)}%
+                                    </span>
+
+                                </div>
+
+
+                                <div class="mini-progress">
+
+                                    <div
+                                        class="mini-progress-bar"
+                                        style="width:${progress}%"
+                                    ></div>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+
+
+                    /*
+                     * 1 = Views
+                     */
+
+                    else if (
+                        slideIndex === 1
+                    ) {
+
+                        const views =
+                            history.map(
+                                day =>
+                                    day.views
+                            );
+
+
+                        const first =
+                            views.find(
+                                value =>
+                                    value !== null
+                            );
+
+
+                        const last =
+                            [...views]
+                                .reverse()
+                                .find(
+                                    value =>
+                                        value !== null
+                                );
+
+
+                        let weeklyViews =
+                            "—";
+
+
+                        if (
+                            first !== undefined &&
+                            last !== undefined
+                        ) {
+
+                            weeklyViews =
+                                Math.max(
+                                    0,
+                                    last - first
+                                )
+                                .toLocaleString();
+
+                        }
+
+
+                        slideTitle.innerText =
+                            "👀 Views This Week";
+
+
+                        bigValue.innerText =
+                            weeklyViews;
+
+
+                        smallInfo.innerText =
+                            "7-day channel view activity";
+
+
+                        extra.innerHTML = `
+
+                            <div class="graph">
+
+                                ${createGraph(
+                                    views
+                                )}
+
+                            </div>
+
+
+                            <div class="graph-labels">
+
+                                <span>
+                                    6 days ago
+                                </span>
+
+                                <span>
+                                    Today
+                                </span>
+
+                            </div>
+
+                        `;
+
+                    }
+
+
+                    /*
+                     * 2 = Overall Analytics
+                     */
+
+                    else if (
+                        slideIndex === 2
+                    ) {
+
+                        const subs =
+                            history.map(
+                                day =>
+                                    day.subscribers
+                            );
+
+
+                        const views =
+                            history.map(
+                                day =>
+                                    day.views
+                            );
+
+
+                        const firstSub =
+                            subs.find(
+                                value =>
+                                    value !== null
+                            );
+
+
+                        const lastSub =
+                            [...subs]
+                                .reverse()
+                                .find(
+                                    value =>
+                                        value !== null
+                                );
+
+
+                        const subGrowth =
+                            firstSub !== undefined &&
+                            lastSub !== undefined
+                                ? lastSub - firstSub
+                                : null;
+
+
+                        const firstViews =
+                            views.find(
+                                value =>
+                                    value !== null
+                            );
+
+
+                        const lastViews =
+                            [...views]
+                                .reverse()
+                                .find(
+                                    value =>
+                                        value !== null
+                                );
+
+
+                        const viewGrowth =
+                            firstViews !== undefined &&
+                            lastViews !== undefined
+                                ? Math.max(
+                                    0,
+                                    lastViews -
+                                    firstViews
+                                )
+                                : null;
+
+
+                        slideTitle.innerText =
+                            "📊 Overall Analytics";
+
+
+                        bigValue.innerText =
+                            "This Week";
+
+
+                        smallInfo.innerText =
+                            "Channel growth over the last 7 days";
+
+
+                        extra.innerHTML = `
+
+                            <div class="analytics-grid">
+
+                                <div class="analytics-card">
+
+                                    <div class="analytics-number">
+
+                                        ${
+                                            subGrowth === null
+                                                ? "—"
+                                                : (
+                                                    subGrowth >= 0
+                                                        ? "+"
+                                                        : ""
+                                                ) +
+                                                subGrowth
+                                        }
+
+                                    </div>
+
+                                    <div class="analytics-label">
+                                        Subscribers
+                                    </div>
+
+                                </div>
+
+
+                                <div class="analytics-card">
+
+                                    <div class="analytics-number">
+
+                                        ${
+                                            viewGrowth === null
+                                                ? "—"
+                                                : viewGrowth
+                                                    .toLocaleString()
+                                        }
+
+                                    </div>
+
+                                    <div class="analytics-label">
+                                        Views
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="graph">
+
+                                ${createGraph(
+                                    subs
+                                )}
+
+                            </div>
+
+                            <div class="graph-labels">
+
+                                <span>
+                                    Subscriber trend
+                                </span>
+
+                                <span>
+                                    7 days
+                                </span>
+
+                            </div>
+
+                        `;
+
+                    }
+
+
+                    /*
+                     * 3 = Encouragement
+                     */
+
+                    else {
+
+                        const message =
+                            encouragingMessages[
+                                Math.floor(
+                                    Math.random() *
+                                    encouragingMessages.length
+                                )
+                            ];
+
+
+                        slideTitle.innerText =
+                            "💌 A Little Message";
+
+
+                        bigValue.innerText =
+                            "";
+
+
+                        smallInfo.innerText =
+                            "";
+
+
+                        extra.innerHTML = `
+
+                            <div class="encouragement-icon">
+                                ${message[0]}
+                            </div>
+
+
+                            <div class="encouragement">
+                                ${message[1]}
+                            </div>
+
+
+                            <div class="encouragement-sub">
+                                ${message[2]}
+                            </div>
+
+                        `;
+
+                    }
+
+
+                    /*
+                     * Activate correct dot.
+                     */
+
+                    const allDots =
+                        dots.children;
+
+
+                    for (
+                        let i = 0;
+                        i < allDots.length;
+                        i++
+                    ) {
+
+                        allDots[i]
+                            .classList
+                            .toggle(
+                                "active",
+                                i === slideIndex
+                            );
+
+                    }
+
+
+                    slide.classList.remove(
+                        "fade"
+                    );
+
+                },
+                450
+            );
+
+        }
+
+
+        /* =====================================================
+           SLIDE DOTS
+        ===================================================== */
+
+        for (
+            let i = 0;
+            i < 4;
+            i++
+        ) {
+
+            const dot =
+                document.createElement(
+                    "div"
+                );
+
+
+            dot.className =
+                "dot";
+
+
+            if (
+                i === 0
+            ) {
+
+                dot.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            dots.appendChild(
+                dot
+            );
+
+        }
+
+
+        /* =====================================================
+           ROTATE SLIDES
+        ===================================================== */
+
+        setInterval(
+            () => {
+
+                slideIndex =
+                    (
+                        slideIndex + 1
+                    ) % 4;
+
+
+                renderSlide();
+
+            },
+            SLIDE_INTERVAL
+        );
+
+
+        /* =====================================================
+           START
+        ===================================================== */
 
         fetchSubCount();
 
 
-        /*
-         * Update every 30 seconds.
-         *
-         * IMPORTANT:
-         *
-         * This does NOT reload
-         * the webpage.
-         *
-         * It only fetches the
-         * newest subscriber count
-         * and updates the elements.
-         */
-
         setInterval(
             fetchSubCount,
-            30000
+            UPDATE_INTERVAL
         );
 
-    </script>
 
+        renderSlide();
+
+    </script>
 
 </body>
 </html>
