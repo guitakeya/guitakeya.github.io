@@ -1,9 +1,9 @@
 {
     "channel": "GuiTakeya",
-    "updatedAt": "2026-11-06T13:40:15.995103+00:00",
+    "updatedAt": "2026-11-06T22:39:32.920939+00:00",
     "current": {
         "subscribers": 691,
-        "views": 199699,
+        "views": 199933,
         "videos": 49
     },
     "history": [
@@ -833,6 +833,12 @@
             "timestamp": "2026-11-06T13:40:15.995103+00:00",
             "subscribers": 691,
             "views": 199699,
+            "videos": 49
+        },
+        {
+            "timestamp": "2026-11-06T22:39:32.920939+00:00",
+            "subscribers": 691,
+            "views": 199933,
             "videos": 49
         }
     ]
